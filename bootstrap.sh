@@ -92,10 +92,9 @@ pour_formulae newt
 # Initialization dialog - https://ubuntuforums.org/showthread.php?t=2099509
 ######################################################################
 
-if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation?" 11 78); then
-
+if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation?" 12 78); then
 	whiptail --title "Modifiers" --checklist --separate-output \
-		"Select installation modifiers" 22 78 6 \
+		"Select installation modifiers" 22 78 8 \
 		"PERSONAL" "Personal Computer" OFF \
 		"UPDATE" "Update Homebrew casks & formulae, and global npm modules" ON \
 		"LPKEYS" "Download RSA keys from lastpass" OFF \
@@ -113,6 +112,7 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 		"CHANGEDOCK") CHANGEDOCK=y ;;
 		"GIT") GIT=y ;;
 		"DEFAULTS") DEFAULTS=y ;;
+		0) exit 0 ;;
 		esac
 	done <results
 
