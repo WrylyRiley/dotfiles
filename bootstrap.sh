@@ -60,18 +60,6 @@ pour_formulae() {
 }
 
 ######################################################################
-# Initialize
-######################################################################
-sudo -v
-
-# Keep-alive: update existing sudo time stamp until bootstrap has finished
-while true; do
-	sudo -n true
-	sleep 60
-	kill -0 "$$" || exit
-done 2>/dev/null &
-
-######################################################################
 # Install Homebrew and Whiptail
 ######################################################################
 inform "Installing homebrew and whiptail"
@@ -93,6 +81,22 @@ pour_formulae newt
 ######################################################################
 
 if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation?" 12 78); then
+
+	# Password request
+	PASSWORD=$(whiptail --passwordbox "Please enter your system password" 8 78 --title "password dialog" 3>&1 1>&2 2>&3)
+	# Exit check
+	exitstatus=$?
+	if [ ! $exitstatus = 0 ]; then exit 0; fi
+
+	# Elevate and keep-alive
+	sudo -v -S $PASSWORD
+	while true; do
+		sudo -n true
+		sleep 60
+		kill -0 "$$" || exit
+	done 2>/dev/null &
+
+	# Modifiers
 	whiptail --title "Modifiers" --checklist --separate-output \
 		"Select installation modifiers" 22 78 8 \
 		"PERSONAL" "Personal Computer" OFF \
@@ -101,7 +105,11 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 		"MACSTORE" "Download Mac store apps" OFF \
 		"CHANGEDOCK" "Change dock icons" OFF \
 		"GIT" "Update git user name and email?" OFF \
-		"DEFAULTS" "Change system preferences" OFF 2>results
+		"DEFAULTS" "Change system preferences" OFF 2>modifiers
+
+	# Exit check
+	exitstatus=$?
+	if [ ! $exitstatus = 0 ]; then exit 0; fi
 
 	while read choice; do
 		case $choice in
@@ -112,9 +120,9 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 		"CHANGEDOCK") CHANGEDOCK=y ;;
 		"GIT") GIT=y ;;
 		"DEFAULTS") DEFAULTS=y ;;
-		0) exit 0 ;;
 		esac
-	done <results
+	done <modifiers
+	rm ./modifiers
 
 	######################################################################
 	# Terminal developer tools
@@ -146,31 +154,9 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	# This will be necessary for the script to pull from secret gists
 	######################################################################
 	if [[ $LPKEYS == y ]]; then
-		# Add folders and files
-		mkdir $HOME/.ssh
-		touch $HOME/.ssh/personal.pub
-		touch $HOME/.ssh/personal
-		# Start ssh agent
-		eval "$(ssh-agent -s)"
-		# Get keys
-		lpass login --trust zbauer91@gmail.com # Sign in to LastPass CLI
-		inform "Retrieving public key"
-		lpass show -c --field="Public Key" personal_rsa_key
-		pbpaste >$HOME/.ssh/personal.pub
-		inform "Retrieving private key"
-		lpass show -c --field="Private Key" personal_rsa_key
-		pbpaste >$HOME/.ssh/personal
-		# Set permissions
-		chmod 400 $HOME/.ssh/personal.pub $HOME/.ssh/personal
-		# Set config for Sierra+
-		echo "Host *
-    AddKeysToAgent yes
-    UseKeychain yes
-    IdentityFile ~/.ssh/personal" >$HOME/.ssh/config
-		# Add new key to ssh agent
-		ssh-add -K $HOME/.ssh/personal
+		source "./scripts/rsa.sh"
 		# Set flag for Lastpass signin
-		$LPSIGNIN=1
+		LPSIGNIN=1
 	else
 		inform "No RSA keys will be entered or changed"
 	fi
@@ -196,7 +182,7 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	######################################################################
 	inform "Configuring iTerm2"
 	iterm_plist=$HOME/Library/Application\ Support/iTerm2/DynamicProfiles/profiles.plist
-	cp "./itermProfiles.json" $iterm_plist
+	cp "./config/itermProfiles.json" $iterm_plist
 	inform "Make sure you change your default profile in iTerm"
 
 	######################################################################
@@ -211,7 +197,7 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	######################################################################
 	inform "Backing up zshrc to ~/.zshrc.bak"
 	cp $HOME/.zshrc $HOME/.zshrc.bak
-	cp "./.zshrc" $HOME/.zshrc
+	cp "./config/.zshrc" $HOME/.zshrc
 
 	######################################################################
 	# Change default shell to zsh
@@ -228,7 +214,7 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	######################################################################
 	# Miscellaneous config files
 	######################################################################
-	cp "./.hushlogin" "$HOME/.hushlogin"
+	cp "./config/.hushlogin" "$HOME/.hushlogin"
 
 	######################################################################
 	# Git Settings
@@ -272,155 +258,17 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	######################################################################
 	if [[ $CHANGEDOCK == y ]]; then
 		inform "Modifying Dock"
-		dockutil --remove all
-		dockutil --add '~/Downloads'
-		dockutil --add '~/programming'
-		dockutil --add '/Applications/Vivaldi.app'
-		dockutil --add '/Applications/Brave Browser.app'
-		dockutil --add '/Applications/iTerm.app'
-		dockutil --add '/Applications/Slack.app'
-		dockutil --add '/Applications/Spotify.app'
-		dockutil --add '/Applications/TIDAL.app'
-		dockutil --add '/Applications/Postman.app'
-		dockutil --add '/Applications/Visual Studio Code.app'
-		dockutil --add '/System/Applications/System Preferences.app'
-		if [[ $PERSONAL == y ]]; then
-			inform " Adding personal shortcuts"
-			dockutil --add '/Applications/Telegram.app'
-			dockutil --add '/Applications/Steam.app'
-		fi
+		source './scripts/dock-settings.sh'
 	else
 		inform "Not Modifying Dock"
 	fi
 	######################################################################
 	# Apple configuration
 	######################################################################
-	#Shamelessly stolen from https://github.com/mathiasbynens/dotfiles
 
 	if [[ $DEFAULTS == y ]]; then
 		inform "Setting a handful of defaults settings"
-
-		# Close any open System Preferences panes, to prevent them from overriding
-		# settings we’re about to change
-		osascript -e 'tell application "System Preferences" to quit'
-
-		# Set highlight color to purple
-		defaults write NSGlobalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000"
-
-		# Set system-wide dark mode
-		defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
-
-		# Set sidebar icon size to medium
-		defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
-
-		# Show all extensions
-		defaults write NSGlobalDomain AppleShowAllExtensions -int 1
-
-		# Disable automatic capitalization as it’s annoying when typing code
-		defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-
-		# Disable smart dashes as they’re annoying when typing code
-		defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-
-		# Disable automatic period substitution as it’s annoying when typing code
-		defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-
-		# Disable smart quotes as they’re annoying when typing code
-		defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-
-		# Disable press-and-hold for keys in favor of key repeat
-		defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-
-		# Set a blazingly fast keyboard repeat rate
-		defaults write NSGlobalDomain InitialKeyRepeat -int 15
-		defaults write NSGlobalDomain KeyRepeat -int 4
-
-		# Disable Notification Center and remove the menu bar icon
-		# launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null
-
-		# Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
-		# all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
-		#curl -o $HOME/desktop.jpg http://rileyrabbit.com/desktop.jpg
-		#sqlite3 $HOME/Library/Application\ Support/Dock/desktoppicture.db <<EOF
-		#UPDATE data SET value = "$HOME/desktop.jpg";
-		#.quit
-		#EOF
-
-		# Require password immediately after sleep or screen saver begins
-		# defaults write com.apple.screensaver askForPassword -int 1
-		# defaults write com.apple.screensaver askForPasswordDelay -int 0
-
-		# Show icons for hard drives, servers, and removable media on the desktop
-		defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-		defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-		defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-		defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
-
-		# Finder: show hidden files by default
-		defaults write com.apple.finder AppleShowAllFiles -bool true
-
-		# Finder: show all filename extensions
-		defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-
-		# Finder: show status bar
-		defaults write com.apple.finder ShowStatusBar -bool true
-
-		# Finder: show path bar
-		defaults write com.apple.finder ShowPathbar -bool true
-
-		# Display full POSIX path as Finder window title
-		defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
-
-		# Keep folders on top when sorting by name
-		defaults write com.apple.finder _FXSortFoldersFirst -bool true
-
-		# Disable the warning when changing a file extension
-		defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-		# Use list view in all Finder windows by default
-		# Four-letter codes for the other view modes: `icnv`, `clmv`, `glyv`
-		defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-
-		# Show the ~/Library folder
-		chflags nohidden ~/Library
-
-		# Show the /Volumes folder
-		# sudo chflags nohidden /Volumes
-
-		# Disable Dashboard
-		# defaults write com.apple.dashboard mcx-disabled -bool true
-
-		# Automatically hide and show the Dock
-		defaults write com.apple.dock autohide -bool true
-
-		# Disable the Launchpad gesture (pinch with thumb and three fingers)
-		# defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
-
-		# Set the icon size of Dock items to 54 pixels
-		defaults write com.apple.dock tilesize -int 54
-
-		# Enable the Develop menu and the Web Inspector in Safari
-		defaults write com.apple.Safari IncludeDevelopMenu -bool true
-		defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-		defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-
-		# Enable the automatic mac store update check
-		defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-
-		# Download newly available updates in background
-		defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-
-		# Kill affected applications
-		for app in "Activity Monitor" \
-			"cfprefsd" \
-			"Dock" \
-			"Finder" \
-			"Safari" \
-			"SystemUIServer"; do
-
-			killall "${app}" &>/dev/null
-		done
-
+		source "./scripts/mac-defaults.sh"
 	fi
 
 	######################################################################
