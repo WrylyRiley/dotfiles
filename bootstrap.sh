@@ -1,13 +1,11 @@
-#!/bin/bash
-
 ######################################################################
 # Collections
 ######################################################################
-formulae=(cask wget python@3 node lastpass-cli shfmt p7zip mas dockutil)
+formulae=(cask wget python@3 node lastpass-cli shfmt p7zip mas dockutil kubectl gradle rabbitmq)
 common_casks=(spotify tidal vivaldi brave-browser iterm2 docker postman visual-studio-code homebrew/cask-fonts/font-fira-code flux slack gimp caffeine)
 personal_casks=(google-backup-and-sync malwarebytes avast-security telegram veracrypt steam discord)
-# Magnet, Amphetamine, Giphy, Speedtest by Ookla, Pages
-mac_store_apps=(937984704 441258766 668208984 1153157709 409201541)
+# Magnet, Amphetamine, Giphy, Speedtest by Ookla, Pages, XCode
+mac_store_apps=(937984704 441258766 668208984 1153157709 409201541 497799835)
 PERSONAL=n
 UPDATE=n
 LPKEYS=n

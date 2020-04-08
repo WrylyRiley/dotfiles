@@ -2,7 +2,7 @@
 # zsh setup
 ######################################################################
 # path
-export PATH=$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
 
 # zsh
 export ZSH=$HOME/.oh-my-zsh
@@ -31,28 +31,24 @@ export BULLETTRAIN_CUSTOM_BG="cyan"
 export BULLETTRAIN_CUSTOM_MSG=🐇
 export BULLETTRAIN_CONTEXT_HOSTNAME="%m"
 # export BULLETTRAIN_PROMPT_CHAR="\\u2021" # double-dagger
-export BULLETTRAIN_PROMPT_CHAR="\\u21dd" # cool arrow
+# export BULLETTRAIN_PROMPT_CHAR="\\u21dd" # cool arrow
 # export BULLETTRAIN_PROMPT_CHAR="\\u26a7" # trans symbol
-# export BULLETTRAIN_PROMPT_CHAR="\\u2386" # APL enter symbol
+export BULLETTRAIN_PROMPT_CHAR="\\u2386" # APL enter symbol
 export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
 # Plugins
-plugins=(git last-working-dir ng vscode)
+plugins=(git last-working-dir ng vscode zsh-nvm)
 source $ZSH/oh-my-zsh.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"                                       # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 ######################################################################
-# Deloitte - VectorXD
+# Upside
 ######################################################################
-alias v="cd ~/programming/vector-xd"
-alias wreck="npm run docker:down:destroy"
-alias stor="npm run standup-dev"
-alias testc="lerna run test --scope @vector/core --stream"
-alias testa="lerna run test --scope @vector/api --stream"
-alias testw="lerna run test --scope @vector/web-app --stream"
-alias testv="lerna run test --stream"
-alias testi="lerna run test:integration --stream"
-alias jenk="ssh -L 8080:localhost:8080 vec-apps"
-alias killskope="sudo launchctl unload /Library/LaunchDaemons/com.netskope.stagentsvc.plist"
+alias y="yarn | pino-pretty"
+alias s="yarn start | pino-pretty"
+alias d="yarn debug | pino-pretty"
 
 ######################################################################
 # General Development
@@ -89,6 +85,26 @@ alias gcm="git checkout master"
 alias gcd="git checkout development"
 alias gb="git branch"
 alias gbD="git branch -D"
+pushit() {
+	git add --all
+	git commit -m "$1"
+	git push
+}
 gcbp() {
 	git checkout -B "$1" && git push --set-upstream origin "$1"
 }
+
+######################################################################
+# Heartbeat Health
+######################################################################
+
+# Because someone didn't think to put the shebang on their bash scripts...
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+alias java11='export JAVA_HOME=$JAVA_11_HOME'
+
+# default to Java 11
+java11
+
+export LIQUIBASE_HOME=/usr/local/opt/liquibase/libexec
