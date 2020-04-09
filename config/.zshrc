@@ -97,6 +97,7 @@ gcbp() {
 ######################################################################
 # Heartbeat Health
 ######################################################################
+alias hh="./hh1 & ./hh2 & ./hh3 & ./hh4 & ./hh5"
 
 # Because someone didn't think to put the shebang on their bash scripts...
 export BASH_SILENCE_DEPRECATION_WARNING=1
