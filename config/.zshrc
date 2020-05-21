@@ -2,13 +2,13 @@
 # zsh setup
 ######################################################################
 # path
-export PATH=$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
+export PATH=$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
 
 # zsh
 export ZSH=$HOME/.oh-my-zsh
 
 # default editor
-export EDITOR=/usr/local/bin/micro
+# export EDITOR=/usr/local/bin/micro
 
 # Theme
 ZSH_THEME="bullet-train"
@@ -76,6 +76,7 @@ alias gcl="git clone"
 alias gl="git pull"
 alias gp="git push"
 alias gf="git fetch"
+alias gs="git status"
 alias gmm="git merge origin master"
 alias gcmsg="git commit -m"
 alias gaa="git add --all"
@@ -93,13 +94,17 @@ pushit() {
 gcbp() {
 	git checkout -B "$1" && git push --set-upstream origin "$1"
 }
+alias mrebase="git rebase origin/master"
+alias con="git rebase --continue"
 
 ######################################################################
 # Heartbeat Health
 ######################################################################
-alias heart="hh1 & hh2 & hh3 & hh4 & hh5"
+alias heart="hh1 & hh2 & hh3 & hh5"
+alias hc="cd $HOME/programming/heartbeat/heartbeat-card"
+alias ha="cd $HOME/programming/heartbeat/heartbeat-app"
+alias localenv="export LOCAL_TEST_MODE=true"
 
-# Because someone didn't think to put the shebang on their bash scripts...
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
@@ -109,3 +114,25 @@ alias java11='export JAVA_HOME=$JAVA_11_HOME'
 java11
 
 export LIQUIBASE_HOME=/usr/local/opt/liquibase/libexec
+
+jdk() {
+	version=$1
+	export JAVA_HOME=$(/usr/libexec/java_home -v"$version")
+	java -version
+}
+
+source ~/.okta/bash_functions
+
+hbhdev() {
+	#OktaAWSCLI sign-in
+	if [[ -f "$HOME/.okta/bash_functions" ]]; then
+		. "$HOME/.okta/bash_functions"
+	fi
+
+	if [[ -d "$HOME/.okta/bin" && ":$PATH:" != *":$HOME/.okta/bin:"* ]]; then
+		PATH="$HOME/.okta/bin:$PATH"
+	fi
+	
+	okta-aws hbh-iam-manager sts get-caller-identity
+	eval $(assume-role hbh-dev)
+}
