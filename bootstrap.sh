@@ -150,14 +150,16 @@ if (whiptail --title "Riley's Bootstrap Script" --yesno "Is this an installation
 	######################################################################
 	# Request personal rsa keys for ssh access to github
 	# This will be necessary for the script to pull from secret gists
+	#
+	# Deprecated. no longer using lastpass
 	######################################################################
-	if [[ $LPKEYS == y ]]; then
-		source "./scripts/rsa.sh"
-		# Set flag for Lastpass signin
-		LPSIGNIN=1
-	else
-		inform "No RSA keys will be entered or changed"
-	fi
+	# if [[ $LPKEYS == y ]]; then
+	# 	source "./scripts/rsa.sh"
+	# Set flag for Lastpass signin
+	LPSIGNIN=0
+	# else
+	# 	inform "No RSA keys will be entered or changed"
+	# fi
 
 	######################################################################
 	# Mac store apps

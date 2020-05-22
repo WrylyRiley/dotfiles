@@ -7,33 +7,82 @@ export PATH=$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studi
 # zsh
 export ZSH=$HOME/.oh-my-zsh
 
-# default editor
-# export EDITOR=/usr/local/bin/micro
-
 # Theme
 ZSH_THEME="bullet-train"
-export BULLETTRAIN_PROMPT_ORDER=(
-	custom
-	dir
-	status
-	git
-	nvm
-	screen
-	virtualenv
-	aws
-	go
-	rust
-	elixir
-	context
-	time
-)
-export BULLETTRAIN_CUSTOM_BG="cyan"
-export BULLETTRAIN_CUSTOM_MSG=🐇
-export BULLETTRAIN_CONTEXT_HOSTNAME="%m"
-# export BULLETTRAIN_PROMPT_CHAR="\\u2021" # double-dagger
-# export BULLETTRAIN_PROMPT_CHAR="\\u21dd" # cool arrow
-# export BULLETTRAIN_PROMPT_CHAR="\\u26a7" # trans symbol
-export BULLETTRAIN_PROMPT_CHAR="\\u2386" # APL enter symbol
+export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm virtualenv aws go rust elixir time)
+
+# Logic for random color selection
+COLOR_OPTION=$(awk 'BEGIN{srand(); print int(4+rand()*4)}')
+
+export BULLETTRAIN_CUSTOM_FG="white"
+export BULLETTRAIN_DIR_FG="white"
+export BULLETTRAIN_GIT_FG="white"
+export BULLETTRAIN_NVM_FG="white"
+export BULLETTRAIN_TIME_FG="white"
+export BULLETTRAIN_STATUS_ERROR_BG="#9D4EDD"
+
+if [[ $COLOR_OPTION < 2 ]]; then
+	# Greens
+	export BULLETTRAIN_CUSTOM_BG="#1B4332"
+	export BULLETTRAIN_DIR_BG="#2D6A4F"
+	export BULLETTRAIN_GIT_BG="#40916C"
+	export BULLETTRAIN_NVM_BG="#52B788"
+	export BULLETTRAIN_TIME_BG="#95D5B2"
+	export BULLETTRAIN_TIME_FG="black"
+elif [[ $COLOR_OPTION < 4 ]]; then
+	# Blues
+	export BULLETTRAIN_CUSTOM_BG="#05131B"
+	export BULLETTRAIN_DIR_BG="#113540"
+	export BULLETTRAIN_GIT_BG="#1E5667"
+	export BULLETTRAIN_NVM_BG="#2B768B"
+	export BULLETTRAIN_TIME_BG="#3997B0"
+elif [[ $COLOR_OPTION < 6 ]]; then
+	# Reds
+	export BULLETTRAIN_CUSTOM_BG="#6A040F"
+	export BULLETTRAIN_DIR_BG="#9D0208"
+	export BULLETTRAIN_GIT_BG="#D00000"
+	export BULLETTRAIN_NVM_BG="#DC2F02"
+	export BULLETTRAIN_TIME_BG="#E85D04"
+elif [[ $COLOR_OPTION < 8 ]]; then
+	# Gold
+	export BULLETTRAIN_CUSTOM_BG="#805B10"
+	export BULLETTRAIN_DIR_BG="#926C15"
+	export BULLETTRAIN_GIT_BG="#A47E1B"
+	export BULLETTRAIN_NVM_BG="#B69121"
+	export BULLETTRAIN_TIME_BG="#C9A227"
+else
+	# Monochrome
+	export BULLETTRAIN_CUSTOM_BG="#212529"
+	export BULLETTRAIN_DIR_BG="#343A40"
+	export BULLETTRAIN_GIT_BG="#495057"
+	export BULLETTRAIN_NVM_BG="#6C757D"
+	export BULLETTRAIN_TIME_BG="#ADB5BD"
+	export BULLETTRAIN_TIME_FG="black"
+
+fi
+
+# export BULLETTRAIN_CUSTOM_MSG=🐇
+export BULLETTRAIN_CUSTOM_MSG=𖤐
+export BULLETTRAIN_TIME_12HR=true
+
+export BULLETTRAIN_GIT_PROMPT_CMD="\$(custom_git_prompt)"
+custom_git_prompt() {
+	prompt=$(git_prompt_info)
+	prompt=${prompt//\//\ \ }
+	prompt=${prompt//_/\ }
+	echo ${prompt}
+}
+export BULLETTRAIN_GIT_MODIFIED=" %F{white}\\u002B%F{black}"
+export BULLETTRAIN_GIT_ADDED=" %F{white}\\u229E%F{black}"
+export BULLETTRAIN_GIT_UNTRACKED=" %F{white}\\u2A2E%F{black}"
+export BULLETTRAIN_GIT_CLEAN=" %F{white}\\u2713%F{black}"
+export BULLETTRAIN_GIT_DIRTY=" %F{white}\\u0078%F{black}"
+
+# export BULLETTRAIN_PROMPT_CHAR="\\u2021"    # double-dagger
+export BULLETTRAIN_PROMPT_CHAR="\\u21dd" # cool arrow
+# export BULLETTRAIN_PROMPT_CHAR="\\u26a7"    # trans symbol
+# export BULLETTRAIN_PROMPT_CHAR="\\u2386"    # APL enter symbol
+
 export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
 # Plugins
@@ -60,7 +109,6 @@ alias lockdock="defaults write com.apple.dock contents-immutable -bool true && k
 alias unlockdock="defaults write com.apple.dock contents-immutable -bool false && killall Dock"
 alias prog="cd $HOME/programming"
 alias zshrc="code $HOME/.zshrc"
-alias reload="source $HOME/.zshrc"
 alias ll="ls -lhaG"
 alias ..="cd .."
 alias ...="cd ../.."
@@ -77,7 +125,7 @@ alias gl="git pull"
 alias gp="git push"
 alias gf="git fetch"
 alias gs="git status"
-alias gmm="git merge origin master"
+alias gmm="git merge master"
 alias gcmsg="git commit -m"
 alias gaa="git add --all"
 alias gco="git checkout"
@@ -100,19 +148,12 @@ alias con="git rebase --continue"
 ######################################################################
 # Heartbeat Health
 ######################################################################
-alias heart="hh1 & hh2 & hh3 & hh5"
 alias hc="cd $HOME/programming/heartbeat/heartbeat-card"
 alias ha="cd $HOME/programming/heartbeat/heartbeat-app"
 alias localenv="export LOCAL_TEST_MODE=true"
 
-export BASH_SILENCE_DEPRECATION_WARNING=1
-
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-
-# default to Java 11
-java11
-
+export JAVA_HOME=$JAVA_11_HOME
 export LIQUIBASE_HOME=/usr/local/opt/liquibase/libexec
 
 jdk() {
@@ -132,7 +173,7 @@ hbhdev() {
 	if [[ -d "$HOME/.okta/bin" && ":$PATH:" != *":$HOME/.okta/bin:"* ]]; then
 		PATH="$HOME/.okta/bin:$PATH"
 	fi
-	
+
 	okta-aws hbh-iam-manager sts get-caller-identity
 	eval $(assume-role hbh-dev)
 }
