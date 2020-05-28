@@ -2,7 +2,7 @@
 # zsh setup
 ######################################################################
 # path
-export PATH=$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
+export PATH=/usr/local/opt/tcl-tk/bin:$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
 
 # zsh
 export ZSH=$HOME/.oh-my-zsh
@@ -12,7 +12,8 @@ ZSH_THEME="bullet-train"
 export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm virtualenv aws go rust elixir time)
 
 # Logic for random color selection
-COLOR_OPTION=$(awk 'BEGIN{srand(); print int(4+rand()*4)}')
+
+COLOR_OPTION=$(python -S -c "import random; print random.randrange(0,4)")
 
 export BULLETTRAIN_CUSTOM_FG="white"
 export BULLETTRAIN_DIR_FG="white"
@@ -21,7 +22,7 @@ export BULLETTRAIN_NVM_FG="white"
 export BULLETTRAIN_TIME_FG="white"
 export BULLETTRAIN_STATUS_ERROR_BG="#9D4EDD"
 
-if [[ $COLOR_OPTION < 2 ]]; then
+if (( $COLOR_OPTION == 0 )); then
 	# Greens
 	export BULLETTRAIN_CUSTOM_BG="#1B4332"
 	export BULLETTRAIN_DIR_BG="#2D6A4F"
@@ -29,21 +30,21 @@ if [[ $COLOR_OPTION < 2 ]]; then
 	export BULLETTRAIN_NVM_BG="#52B788"
 	export BULLETTRAIN_TIME_BG="#95D5B2"
 	export BULLETTRAIN_TIME_FG="black"
-elif [[ $COLOR_OPTION < 4 ]]; then
+elif (( $COLOR_OPTION == 1 )); then
 	# Blues
 	export BULLETTRAIN_CUSTOM_BG="#05131B"
 	export BULLETTRAIN_DIR_BG="#113540"
 	export BULLETTRAIN_GIT_BG="#1E5667"
 	export BULLETTRAIN_NVM_BG="#2B768B"
 	export BULLETTRAIN_TIME_BG="#3997B0"
-elif [[ $COLOR_OPTION < 6 ]]; then
+elif (( $COLOR_OPTION == 2 )); then
 	# Reds
 	export BULLETTRAIN_CUSTOM_BG="#6A040F"
 	export BULLETTRAIN_DIR_BG="#9D0208"
 	export BULLETTRAIN_GIT_BG="#D00000"
 	export BULLETTRAIN_NVM_BG="#DC2F02"
 	export BULLETTRAIN_TIME_BG="#E85D04"
-elif [[ $COLOR_OPTION < 8 ]]; then
+elif (( $COLOR_OPTION == 3 )); then
 	# Gold
 	export BULLETTRAIN_CUSTOM_BG="#805B10"
 	export BULLETTRAIN_DIR_BG="#926C15"
@@ -58,13 +59,11 @@ else
 	export BULLETTRAIN_NVM_BG="#6C757D"
 	export BULLETTRAIN_TIME_BG="#ADB5BD"
 	export BULLETTRAIN_TIME_FG="black"
-
 fi
 
 # export BULLETTRAIN_CUSTOM_MSG=🐇
 export BULLETTRAIN_CUSTOM_MSG=𖤐
 export BULLETTRAIN_TIME_12HR=true
-
 export BULLETTRAIN_GIT_PROMPT_CMD="\$(custom_git_prompt)"
 custom_git_prompt() {
 	prompt=$(git_prompt_info)
@@ -77,12 +76,7 @@ export BULLETTRAIN_GIT_ADDED=" %F{white}\\u229E%F{black}"
 export BULLETTRAIN_GIT_UNTRACKED=" %F{white}\\u2A2E%F{black}"
 export BULLETTRAIN_GIT_CLEAN=" %F{white}\\u2713%F{black}"
 export BULLETTRAIN_GIT_DIRTY=" %F{white}\\u0078%F{black}"
-
-# export BULLETTRAIN_PROMPT_CHAR="\\u2021"    # double-dagger
-export BULLETTRAIN_PROMPT_CHAR="\\u21dd" # cool arrow
-# export BULLETTRAIN_PROMPT_CHAR="\\u26a7"    # trans symbol
-# export BULLETTRAIN_PROMPT_CHAR="\\u2386"    # APL enter symbol
-
+export BULLETTRAIN_PROMPT_CHAR="\\u21dd"
 export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
 # Plugins
@@ -135,6 +129,10 @@ alias gcd="git checkout development"
 alias gb="git branch"
 alias gbD="git branch -D"
 pushit() {
+	git commit -m "$1"
+	git push
+}
+pushall() {
 	git add --all
 	git commit -m "$1"
 	git push
@@ -150,7 +148,14 @@ alias con="git rebase --continue"
 ######################################################################
 alias hc="cd $HOME/programming/heartbeat/heartbeat-card"
 alias ha="cd $HOME/programming/heartbeat/heartbeat-app"
+alias lhh4="LOCAL_TEST_MODE=true hh4"
 alias localenv="export LOCAL_TEST_MODE=true"
+alias i11="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone 11 Pro Max\""
+alias i8="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone 8 Plus\""
+alias ise="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone SE (2nd generation)\""
+
+export GH_USERNAME=""
+export GH_TOKEN=""
 
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 export JAVA_HOME=$JAVA_11_HOME

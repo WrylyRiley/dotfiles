@@ -6,7 +6,6 @@ dockutil --remove all
 dockutil --add '~/Downloads'
 dockutil --add '~/programming'
 dockutil --add '/Applications/Vivaldi.app'
-dockutil --add '/Applications/Brave Browser.app'
 dockutil --add '/Applications/iTerm.app'
 dockutil --add '/Applications/Slack.app'
 dockutil --add '/Applications/Spotify.app'

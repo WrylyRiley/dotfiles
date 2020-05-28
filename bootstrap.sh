@@ -1,9 +1,9 @@
 ######################################################################
 # Collections
 ######################################################################
-formulae=(cask wget python@3 node lastpass-cli shfmt p7zip mas dockutil kubectl gradle rabbitmq)
-common_casks=(spotify tidal vivaldi brave-browser iterm2 docker postman visual-studio-code homebrew/cask-fonts/font-fira-code flux slack gimp caffeine)
-personal_casks=(google-backup-and-sync malwarebytes avast-security telegram veracrypt steam discord)
+formulae=(cask wget python3 node 1password-cli shfmt p7zip mas dockutil kubectl gradle rabbitmq)
+common_casks=(spotify tidal vivaldi iterm2 docker postman visual-studio-code homebrew/cask-fonts/font-fira-code flux slack gimp caffeine telegram)
+personal_casks=(google-backup-and-sync malwarebytes avast-security veracrypt steam discord)
 # Magnet, Amphetamine, Giphy, Speedtest by Ookla, Pages, XCode
 mac_store_apps=(937984704 441258766 668208984 1153157709 409201541 497799835)
 PERSONAL=n
@@ -24,7 +24,7 @@ brew_update() {
 	if [[ $UPDATE == y ]]; then
 		inform "Updating all formulae"
 		brew upgrade
-		inform "Updating all instlaled casks"
+		inform "Updating all installed casks"
 		brew cask upgrade
 	fi
 }
@@ -312,7 +312,6 @@ else
 		sudo rm -rf /Users/rileybauer/Library/Application Support/iTerm2
 		sudo rm -rf /Users/rileybauer/Library/Application Support/Spotify
 		sudo rm -rf /Users/rileybauer/Library/Application Support/GIMP
-		sudo rm -rf /Users/rileybauer/Library/Application Support/BraveSoftware
 		sudo rm -rf /Users/rileybauer/Library/Application Support/Postman
 	else
 		exit 0
