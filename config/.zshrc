@@ -22,7 +22,7 @@ export BULLETTRAIN_NVM_FG="white"
 export BULLETTRAIN_TIME_FG="white"
 export BULLETTRAIN_STATUS_ERROR_BG="#9D4EDD"
 
-if (( $COLOR_OPTION == 0 )); then
+if (($COLOR_OPTION == 0)); then
 	# Greens
 	export BULLETTRAIN_CUSTOM_BG="#1B4332"
 	export BULLETTRAIN_DIR_BG="#2D6A4F"
@@ -30,21 +30,21 @@ if (( $COLOR_OPTION == 0 )); then
 	export BULLETTRAIN_NVM_BG="#52B788"
 	export BULLETTRAIN_TIME_BG="#95D5B2"
 	export BULLETTRAIN_TIME_FG="black"
-elif (( $COLOR_OPTION == 1 )); then
+elif (($COLOR_OPTION == 1)); then
 	# Blues
 	export BULLETTRAIN_CUSTOM_BG="#05131B"
 	export BULLETTRAIN_DIR_BG="#113540"
 	export BULLETTRAIN_GIT_BG="#1E5667"
 	export BULLETTRAIN_NVM_BG="#2B768B"
 	export BULLETTRAIN_TIME_BG="#3997B0"
-elif (( $COLOR_OPTION == 2 )); then
+elif (($COLOR_OPTION == 2)); then
 	# Reds
 	export BULLETTRAIN_CUSTOM_BG="#6A040F"
 	export BULLETTRAIN_DIR_BG="#9D0208"
 	export BULLETTRAIN_GIT_BG="#D00000"
 	export BULLETTRAIN_NVM_BG="#DC2F02"
 	export BULLETTRAIN_TIME_BG="#E85D04"
-elif (( $COLOR_OPTION == 3 )); then
+elif (($COLOR_OPTION == 3)); then
 	# Gold
 	export BULLETTRAIN_CUSTOM_BG="#805B10"
 	export BULLETTRAIN_DIR_BG="#926C15"
@@ -140,7 +140,10 @@ pushall() {
 gcbp() {
 	git checkout -B "$1" && git push --set-upstream origin "$1"
 }
-alias mrebase="git rebase origin/master"
+mrb() {
+	branch=$(git symbolic-ref --short HEAD)
+	gcm; gl ; gco $branch; git rebase master 
+}
 alias con="git rebase --continue"
 
 ######################################################################
@@ -148,12 +151,29 @@ alias con="git rebase --continue"
 ######################################################################
 alias hc="cd $HOME/programming/heartbeat/heartbeat-card"
 alias ha="cd $HOME/programming/heartbeat/heartbeat-app"
+alias hhu="ha; npm i; cd ios; pod install --repo-update; ..; hha"
 alias lhh4="LOCAL_TEST_MODE=true hh4"
 alias localenv="export LOCAL_TEST_MODE=true"
 alias i11="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone 11 Pro Max\""
 alias i8="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone 8 Plus\""
 alias ise="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --simulator=\"iPhone SE (2nd generation)\""
-
+alias ip2="i11; ise"
+health() {
+		osascript &>/dev/null <<EOF
+			set scriptList to {"hh1", "hh2", "hh3", "lhh4", "hh5", "hh6", "hh7"}
+			tell application "iTerm2"
+  			tell current window
+					repeat with currentScript in scriptList
+    				set currentTab to (create tab with default profile)
+						tell current session of currentTab
+							write text currentScript
+						end tell
+					end repeat
+  			end tell
+			end tell
+EOF
+}
+alias cleanKeyval="psql -d keyvalpiidb -c \"delete from attribute_value; delete from attribute_history_value; delete from databasechangelog; delete from databasechangeloglock\""
 export GH_USERNAME=""
 export GH_TOKEN=""
 
