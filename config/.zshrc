@@ -2,7 +2,7 @@
 # zsh setup
 ######################################################################
 # path
-export PATH=/usr/local/opt/tcl-tk/bin:$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
+export PATH=$HOME/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
 
 # zsh
 export ZSH=$HOME/.oh-my-zsh
@@ -160,7 +160,7 @@ alias ise="cd $HOME/programming/heartbeat/heartbeat-app; react-native run-ios --
 alias ip2="i11; ise"
 health() {
 		osascript &>/dev/null <<EOF
-			set scriptList to {"hh1", "hh2", "hh3", "lhh4", "hh5", "hh6", "hh7"}
+			set scriptList to {"hh1", "hh2", "hh3", "lhh4", "hh5", "hh6", "hh7", "hh0", "hha", "ip2"}
 			tell application "iTerm2"
   			tell current window
 					repeat with currentScript in scriptList
@@ -174,8 +174,8 @@ health() {
 EOF
 }
 alias cleanKeyval="psql -d keyvalpiidb -c \"delete from attribute_value; delete from attribute_history_value; delete from databasechangelog; delete from databasechangeloglock\""
-export GH_USERNAME=""
 export GH_TOKEN=""
+export GH_USERNAME=""
 
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 export JAVA_HOME=$JAVA_11_HOME
