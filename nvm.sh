@@ -4,7 +4,7 @@
 ######################################################################
 # Global Node Modules
 ######################################################################
-MODULES="@vue/cli @angular/cli create-react-app fkill nodemon typescript lerna expo-cli"
+MODULES="@vue/cli @angular/cli create-react-app yarn fkill nodemon typescript lerna expo-cli"
 
 which nvm >/dev/null || wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
