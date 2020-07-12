@@ -27,7 +27,7 @@ common_casks=(
     iterm2
     postman
     slack
-    telegram
+    telegram-desktop
     tidal
     visual-studio-code
 )
