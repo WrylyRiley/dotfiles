@@ -1,0 +1,16 @@
+unset formulae
+unset common_casks
+unset personal_casks
+unset mac_store_apps
+unset INSTALL
+unset PERSONAL
+unset HOMEBREW
+unset NODEMOD
+unset UPDATE
+unset MACSTORE
+unset CHANGEDOCK
+unset ITERM
+unset RSA
+unset GIT
+unset DEFAULTS
+unset PASSWORD

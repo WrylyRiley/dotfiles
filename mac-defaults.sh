@@ -1,7 +1,8 @@
+#!/usr/bin/env bash
+
 ######################################################################
 # Apple configuration - github.com/pawelgrzybek - github.com/mathiasbynens/
 ######################################################################
-
 # System Preferences > General > Appearance
 defaults write -globalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
 
@@ -13,9 +14,6 @@ defaults write -globalDomain NSTableViewDefaultSizeMode -int 2
 
 # System Preferences > General > Set highlight color to purple
 defaults write -globalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000"
-
-# System Preferences > General > Set system-wide dark mode
-defaults write -globalDomain AppleInterfaceStyle -string "Dark"
 
 # System Preferences > General > Auto-capitalize off
 defaults write -globalDomain NSAutomaticCapitalizationEnabled -int 0
@@ -71,7 +69,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool true
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
 
-# Finder > Preferences > Show wraning before changing an extension
+# Finder > Preferences > Show warning before changing an extension
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 # Finder > Preferences > Show warning before removing from iCloud Drive
@@ -89,7 +87,37 @@ defaults write com.apple.dashboard mcx-disabled -bool true
 # Show the ~/Library folder
 chflags nohidden ~/Library
 
+# Enable font smoothing
+defaults write -g CGFontRenderingFontSmoothingDisabled -bool false
+
+# Enable subpixel antialiasing
+defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -bool false &&
+	defaults write com.microsoft.VSCode.helper CGFontRenderingFontSmoothingDisabled -bool false &&
+	defaults write com.microsoft.VSCode.helper.EH CGFontRenderingFontSmoothingDisabled -bool false &&
+	defaults write com.microsoft.VSCode.helper.NP CGFontRenderingFontSmoothingDisabled -bool false
+
+# Show hidden dock icons
+defaults write com.apple.dock showhidden -bool true
+
+# Show HDD and SSD on desktop
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+
+# Show posix path in finder
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+# Time preference - Thu 18 Aug 11:46:18 pm
+sudo defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM h:mm:ss a"
+
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+# Disable notification center
+launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null
+
+# Enable app auto-update
+defaults write com.apple.commerce AutoUpdate -bool true
+
 # Kill affected apps
-for app in "Dock" "Finder"; do
+for app in "Dock" "Finder" "SystemUIServer"; do
 	killall "${app}" >/dev/null 2>&1
 done
