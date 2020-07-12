@@ -21,42 +21,23 @@ brew_update() {
         brew cask upgrade
     fi
 }
-
+# [[ $UPDATE == n ]] && warn "Cask $i already installed, skipping..."
 tap_casks() {
     local arr=("$@")
-    for i in "${arr[@]}"; do
-        if brew cask ls --versions "$i" >/dev/null; then
-            if [[ $UPDATE == n ]]; then
-                warn "Cask "$i" already installed, skipping..."
-            fi
-        else
-            brew cask install "$i"
-        fi
-    done
+    for i in "${arr[@]}"; do { brew cask ls --versions $i >/dev/null && warn "$i already brewed..."; } || brew cask install $i; done
 }
 
 pour_formulae() {
     local arr=("$@")
-    for i in "${arr[@]}"; do
-        if brew ls --versions "$i" >/dev/null; then
-            if [[ $UPDATE == n ]]; then
-                warn "Formula "$i" already installed, skipping..."
-            fi
-        else
-            brew install "$i"
-        fi
-    done
+    for i in "${arr[@]}"; do { brew ls --versions $i >/dev/null && warn "$i already brewed..."; } || brew install $i; done
 }
 
 install_homebrew() {
     if which brew >/dev/null; then
-        if [[ $UPDATE == y ]]; then
-            inform "Homebrew already installed, updating..."
-            brew update
-        fi
-        inform "Homebrew already installed, skipping update..."
+        [[ $UPDATE == y ]] && inform "Homebrew already installed, updating..." && brew update
     else
         inform "Installing homebrew"
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        echo | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        if [ $? -eq 0 ]; then inform 'Install successful'; else error "Install failed"; fi
     fi
 }

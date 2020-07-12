@@ -117,6 +117,9 @@ launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.
 # Enable app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
 
+# Hide recent apps in dock
+defaults write com.apple.dock show-recents -bool FALSE
+
 # Kill affected apps
 for app in "Dock" "Finder" "SystemUIServer"; do
 	killall "${app}" >/dev/null 2>&1

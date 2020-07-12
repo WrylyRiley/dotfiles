@@ -2,18 +2,17 @@
 # zsh setup
 ######################################################################
 # path
-export PATH=$HOME/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:$HOME/.okta/bin:$HOME/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$HOME/Library/Python/3.7/bin:$PATH
+export PATH=~/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:~/.okta/bin:~/bin:/usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:~/Library/Python/3.7/bin:$PATH
 
 # zsh
-export ZSH=$HOME/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Theme
 ZSH_THEME="bullet-train"
 export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm virtualenv aws go rust elixir time)
 
 # Logic for random color selection
-
-COLOR_OPTION=$(python -S -c "import random; print random.randrange(0,4)")
+COLOR_OPTION=$(python -S -c "import random; print random.randint(0,5)")
 
 export BULLETTRAIN_CUSTOM_FG="white"
 export BULLETTRAIN_DIR_FG="white"
@@ -81,7 +80,7 @@ export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
 # Plugins
 plugins=(git last-working-dir ng vscode zsh-nvm)
-source $ZSH/oh-my-zsh.sh
+. $ZSH/oh-my-zsh.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"                                       # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
@@ -101,8 +100,8 @@ alias brewup="brew update; brew upgrade; brew prune; brew cleanup; brew doctor"
 alias ns="npm start"
 alias lockdock="defaults write com.apple.dock contents-immutable -bool true && killall Dock"
 alias unlockdock="defaults write com.apple.dock contents-immutable -bool false && killall Dock"
-alias prog="cd $HOME/programming"
-alias zshrc="code $HOME/.zshrc"
+alias prog="cd ~/programming"
+alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias ..="cd .."
 alias ...="cd ../.."
@@ -142,6 +141,9 @@ gcbp() {
 }
 mrb() {
 	branch=$(git symbolic-ref --short HEAD)
-	gcm; gl ; gco $branch; git rebase master 
+	gcm
+	gl
+	gco $branch
+	git rebase master
 }
 alias con="git rebase --continue"

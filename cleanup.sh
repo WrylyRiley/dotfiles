@@ -1,7 +1,5 @@
-unset formulae
-unset common_casks
-unset personal_casks
-unset mac_store_apps
+#!/usr/bin/env bash
+
 unset INSTALL
 unset PERSONAL
 unset HOMEBREW
