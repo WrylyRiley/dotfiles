@@ -16,7 +16,7 @@ dockutil --add '/Applications/1Password 7.app'
 dockutil --add '/System/Applications/System Preferences.app'
 if [[ $PERSONAL == y ]]; then
 	inform "Adding personal shortcuts"
-	dockutil --add '/Applications/Telegram.app' --after Slack
+	dockutil --add '/Applications/Telegram Desktop.app' --after Slack
 	dockutil --add '/Applications/Steam.app' --after "1Password 7"
 	dockutil --add '/Applications/Discord.app' --after Steam
 fi
