@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-
-######################################################################
-# Apple configuration - github.com/pawelgrzybek - github.com/mathiasbynens/
-######################################################################
+# Apple configuration
 # System Preferences > General > Appearance
 defaults write -globalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
 
@@ -121,6 +118,4 @@ defaults write com.apple.commerce AutoUpdate -bool true
 defaults write com.apple.dock show-recents -bool FALSE
 
 # Kill affected apps
-for app in "Dock" "Finder" "SystemUIServer"; do
-	killall "${app}" >/dev/null 2>&1
-done
+for app in "Dock" "Finder" "SystemUIServer"; do killall "${app}" >/dev/null 2>&1; done

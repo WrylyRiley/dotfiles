@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 . helpers.sh
-
-######################################################################
 # Formulae and casks
-######################################################################
 formulae=(
     cask
     dockutil
@@ -36,15 +33,9 @@ personal_casks=(
     steam
     discord
 )
-
-######################################################################
 # Homebrew
-######################################################################
-
 inform "Installing formulae"
 pour_formulae "${formulae[@]}"
-
 inform "Installing casks"
 tap_casks "${common_casks[@]}"
-
 [[ $PERSONAL == y ]] && inform "Installing personal casks" && tap_casks "${personal_casks[@]}"

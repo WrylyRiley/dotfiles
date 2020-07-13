@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 . helpers.sh
-
-######################################################################
 # Mac apps
-######################################################################
 apps=(
     937984704  # Magnet
     441258766  # Amphetamine
@@ -13,5 +10,5 @@ apps=(
     497799835  # XCode
 )
 warn "Please sign into the Mac store before continuing"
-read -n 1 -r -s CON
+read -n 1 -r -s con
 for i in "${apps[@]}"; do mas install "$i"; done

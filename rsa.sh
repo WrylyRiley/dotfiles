@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 . helpers.sh
-
-######################################################################
-# 1Password RSA
-######################################################################
+# RSA
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh
 inform "Please ensure your RSA keys are located in ~/.ssh before continung..."
 read -n 1 -r -s CON
