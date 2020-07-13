@@ -12,6 +12,7 @@ formulae=(
     rabbitmq
     shfmt
     wget
+    thefuck
 )
 common_casks=(
     1password
