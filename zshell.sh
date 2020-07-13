@@ -12,22 +12,22 @@ else
 fi
 
 FILE=$HOME/.oh-my-zsh/themes/bullet-train.zsh-theme
-if [[ ! -f $FILE ]]; then
+[[ ! -f $FILE ]] && {
     inform "Installing bullet-train"
     curl -L -o $FILE http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
-fi
+}
 
 FILE=$HOME/.oh-my-zsh/custom/plugins/zsh-nvm
-if [[ ! -d $FILE ]]; then
+[[ ! -d $FILE ]] && {
     inform "Installing zsh-nvm"
     git clone https://github.com/lukechilds/zsh-nvm $FILE
-fi
+}
 
 FILE=$HOME/.oh-my-zsh/custom/plugins/autoupdate
-if [[ ! -d $FILE ]]; then
+[[ ! -d $FILE ]] && {
     inform "Installing autoupdate"
     git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $FILE
-fi
+}
 
 ######################################################################
 # zsh settings

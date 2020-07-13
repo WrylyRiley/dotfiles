@@ -4,7 +4,6 @@ unset INSTALL
 unset PERSONAL
 unset HOMEBREW
 unset NODEMOD
-unset UPDATE
 unset MACSTORE
 unset CHANGEDOCK
 unset ITERM

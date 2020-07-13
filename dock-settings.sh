@@ -11,12 +11,12 @@ dockutil --add '/Applications/Visual Studio Code.app'
 dockutil --add '/Applications/iTerm.app'
 dockutil --add '/Applications/Firefox Developer Edition.app'
 dockutil --add '/Applications/Slack.app'
+dockutil --add '/Applications/Telegram Desktop.app'
 dockutil --add '/Applications/TIDAL.app'
 dockutil --add '/Applications/1Password 7.app'
 dockutil --add '/System/Applications/System Preferences.app'
-if [[ $PERSONAL == y ]]; then
+[[ $PERSONAL == y ]] && {
 	inform "Adding personal shortcuts"
-	dockutil --add '/Applications/Telegram Desktop.app' --after Slack
 	dockutil --add '/Applications/Steam.app' --after "1Password 7"
 	dockutil --add '/Applications/Discord.app' --after Steam
-fi
+}

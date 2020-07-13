@@ -7,8 +7,7 @@
 . helpers.sh
 
 clear
-inform "Welcome to the Mac bootstrap script"
-
+UPDATEinform "Welcome to the Mac bootstrap script"
 # Modifiers
 inform "Is this your personal Mac?  y/n"
 read -n 1 PERSONAL
@@ -16,8 +15,6 @@ inform "Install Homebrew casks & formulae?  y/n"
 read -n 1 HOMEBREW
 inform "Install global npm modules?  y/n"
 read -n 1 NODEMOD
-inform "Update (instead of install) Homebrew casks & formulae, and global npm modules?  y/n"
-read -n 1 UPDATE
 inform "Download Mac store apps?  y/n"
 read -n 1 MACSTORE
 inform "Change dock icons?  y/n"
@@ -32,121 +29,43 @@ inform "Update git user name and email?  y/n"
 read -n 1 GIT
 inform "Change system preferences?  y/n"
 read -n 1 DEFAULTS
-if [[ ! -d $HOME/programming ]]; then
-	mkdir $HOME/programming
-fi
-
+[[ ! -d $HOME/programming ]] && mkdir $HOME/programming
 clear
 
-######################################################################
+# Terminal developer tools
+{ which xcode-select >/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && xcode-select --install; }
+
 # Install Homebrew
-######################################################################
 install_homebrew
 
-######################################################################
-# Terminal developer tools
-######################################################################
-if which xcode-select >/dev/null; then
-	error "xcode developer tools already installed"
-else
-	inform "Installing xcode developer tools"
-	xcode-select --install
-fi
-
-######################################################################
 # Install homebrew formulae and casks
-######################################################################
-if [[ $HOMEBREW == y && $UPDATE == n ]]; then
-	inform "Installing homebrew applications"
-	sh ./homebrew-apps.sh
-elif [[ $UPDATE == y ]]; then
-	inform "Updating homebrew applications"
-	brew_update
-else
-	error "No changes made to homebrew"
-fi
+{ [[ $HOMEBREW == y ]] && inform "Installing homebrew applications" && sh ./homebrew-apps.sh; } || error "No changes made to homebrew"
 
-######################################################################
 # RSA Keys
-######################################################################
-if [[ $RSA == y ]]; then
-	inform "Installing RSA keys"
-	sh ./rsa.sh
-else
-	error "Not installing RSA keys"
-fi
+{ [[ $RSA == y ]] && inform && "Installing RSA keys" && sh ./rsa.sh; } || error "Not installing RSA keys"
 
-######################################################################
 # Mac store apps
-######################################################################
-if [[ $MACSTORE == y ]]; then
-	inform "Installing Mac store apps"
-	sh ./mac-apps.sh
-else
-	error "Not installing Mac store apps"
-fi
+{ [[ $MACSTORE == y ]] && inform && "Installing Mac store apps" && sh ./mac-apps.sh; } || error "Not installing Mac store apps"
 
-######################################################################
 # iTerm2 Preferences
-######################################################################
-if [[ $ITERM == y ]]; then
-	inform "Updating iTerm preferences"
-	sh ./iterm.sh
-else
-	error "Not updating iTerm preferences"
-fi
+{ [[ $ITERM == y ]] && inform && "Updating iTerm preferences" && sh ./iterm.sh; } || error "Not updating iTerm preferences"
 
-######################################################################
 # Git Settings
-######################################################################
-if [[ $GIT == y ]]; then
-	inform "Updating git settings"
-	sh ./git-settings.sh
-else
-	error "Not updating git settings"
-fi
-######################################################################
+{ [[ $GIT == y ]] && inform && "Updating git settings" && sh ./git-settings.sh; } || error "Not updating git settings"
+
 # Adding only the shortcuts I want to the dock
-######################################################################
-if [[ $CHANGEDOCK == y ]]; then
-	inform "Modifying Dock"
-	sh ./dock-settings.sh
-else
-	error "Not modifying dock"
-fi
-######################################################################
+{ [[ $CHANGEDOCK == y ]] && inform && "Modifying Dock" && sh ./dock-settings.sh; } || error "Not modifying dock"
+
 # Apple configuration
-######################################################################
-if [[ $DEFAULTS == y ]]; then
-	inform "Setting Mac preferences"
-	sh ./mac-defaults.sh
-else
-	error "Not changing system preferences"
-fi
+{ [[ $DEFAULTS == y ]] && inform && "Setting Mac preferences" && sh ./mac-defaults.sh; } || error "Not changing system preferences"
 
-######################################################################
 # Global Node Modules
-######################################################################
-if [[ $NODEMOD == y ]]; then
-	inform "Installing nvm and global node modules"
-	sh ./nvm.sh
-else
-	error "Not installing nvm or global node modules"
-fi
+{ [[ $NODEMOD == y ]] && inform && "Installing nvm and global node modules" && sh ./nvm.sh; } || error "Not installing nvm or global node modules"
 
-######################################################################
 # oh-my-zsh
-######################################################################
-if [[ $CHANGEDOCK == y ]]; then
-	inform "Configuring zsh"
-	sh ./zshell.sh
-else
-	error "Not configuring zsh"
-fi
+{ [[ $CHANGEDOCK == y ]] && inform && "Configuring zsh" && sh ./zshell.sh; } || error "Not configuring zsh"
 
-######################################################################
 # Finish
-######################################################################
 cp "./config/.hushlogin" "$HOME/.hushlogin"
 sh ./cleanup.sh
 inform "You're done! Congratulations! You'll need to sign out to see some changes take effect. Please do that now :)"
