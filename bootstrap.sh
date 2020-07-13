@@ -37,7 +37,7 @@ install_homebrew
 # Global Node Modules
 { [[ $NODEMOD == y ]] && inform "Installing nvm and global node modules" && sh ./nvm.sh; } || error "Not installing nvm or global node modules"
 # oh-my-zsh
-{ [[ $CHANGEDOCK == y ]] && inform "Configuring zsh" && sh ./zshell.sh; } || error "Not configuring zsh"
+{ [[ $ZSHELL == y ]] && inform "Configuring zsh" && sh ./zshell.sh; } || error "Not configuring zsh"
 # Finish
 cp "./config/.hushlogin" "$HOME/.hushlogin"
 sh ./cleanup.sh
