@@ -80,6 +80,8 @@ export BULLETTRAIN_GIT_ADDED=" %F{white}\\u229E%F{black}"
 export BULLETTRAIN_GIT_UNTRACKED=" %F{white}\\u2A2E%F{black}"
 export BULLETTRAIN_GIT_CLEAN=" %F{white}\\u2713%F{black}"
 export BULLETTRAIN_GIT_DIRTY=" %F{white}\\u0078%F{black}"
+export BULLETTRAIN_GIT_AHEAD=" %F{white}\\u21e7%F{black}"
+export BULLETTRAIN_GIT_BEHIND=" %F{white}\\u21e9%F{black}"
 export BULLETTRAIN_PROMPT_CHAR="\\u21dd"
 export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
@@ -94,6 +96,12 @@ export NVM_DIR="$HOME/.nvm"
 alias y="yarn | pino-pretty"
 alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
+
+# Upside
+alias tfe="cd $HOME/programming/upside/traveler-frontend"
+alias hfe="cd $HOME/programming/upside/horizon-frontend"
+alias fro="cd $HOME/programming/upside/frontdoor-ssr-service"
+alias v="osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"upside\"" -e "end tell""
 
 # General Development
 alias please="sudo" # Wholesome
