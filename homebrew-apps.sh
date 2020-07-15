@@ -23,6 +23,7 @@ common_casks=(
     homebrew/cask-fonts/font-fira-code
     homebrew/cask-versions/firefox-developer-edition
     iterm2
+    nordvpn
     postman
     slack
     telegram-desktop

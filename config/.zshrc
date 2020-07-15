@@ -101,7 +101,13 @@ alias d="yarn debug | pino-pretty"
 alias tfe="cd $HOME/programming/upside/traveler-frontend"
 alias hfe="cd $HOME/programming/upside/horizon-frontend"
 alias fro="cd $HOME/programming/upside/frontdoor-ssr-service"
-alias v="osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"upside\"" -e "end tell""
+v() {
+	osascript &>/dev/null <<EOF
+			tell application "Tunnelblick"
+  			connect "upside"
+			end tell
+EOF
+}
 
 # General Development
 alias please="sudo" # Wholesome
