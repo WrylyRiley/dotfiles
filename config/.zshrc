@@ -122,6 +122,7 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias c="clear"
 alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias gayagenda="npx github:mgwalker/raaainbow -m fullscreen"
 
 # git
 alias gmm="git merge master"
