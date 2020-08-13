@@ -13,6 +13,7 @@ formulae=(
     shfmt
     wget
     thefuck
+    redis
 )
 common_casks=(
     1password

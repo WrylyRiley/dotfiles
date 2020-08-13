@@ -85,6 +85,13 @@ export BULLETTRAIN_GIT_BEHIND=" %F{white}\\u21e9%F{black}"
 export BULLETTRAIN_PROMPT_CHAR="\\u21dd"
 export BULLETTRAIN_STATUS_EXIT_SHOW=true
 
+# Shell Specific
+export DISABLE_AUTO_TITLE="true"
+precmd() {
+	window_title="\033]0;${PWD##*/}\007"
+	echo -ne "$window_title"
+}
+
 # Plugins
 plugins=(git ng vscode zsh-nvm colored-man-pages yarn thefuck)
 . $ZSH/oh-my-zsh.sh
@@ -96,6 +103,7 @@ export NVM_DIR="$HOME/.nvm"
 alias y="yarn | pino-pretty"
 alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
+alias t="yarn test | pino-pretty"
 
 # Upside
 alias tfe="cd $HOME/programming/upside/traveler-frontend"
