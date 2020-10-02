@@ -6,7 +6,7 @@ export ZSH=~/.oh-my-zsh
 
 # Theme
 ZSH_THEME="bullet-train"
-export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm virtualenv aws go rust elixir time)
+export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm aws time)
 
 # Logic for random color selection
 color_option=$(python -S -c "import random; print random.randint(0,5)")
@@ -15,54 +15,69 @@ export BULLETTRAIN_CUSTOM_FG="white"
 export BULLETTRAIN_DIR_FG="white"
 export BULLETTRAIN_GIT_FG="white"
 export BULLETTRAIN_NVM_FG="white"
+export BULLETTRAIN_AWS_FG="white"
 export BULLETTRAIN_TIME_FG="white"
-export BULLETTRAIN_STATUS_ERROR_BG="#9D4EDD"
+export BULLETTRAIN_STATUS_ERROR_BG="#ff6f00"
+export BULLETTRAIN_AWS_PREFIX="aws"
 
 (($color_option == 0)) && {
 	# Greens
-	export BULLETTRAIN_CUSTOM_BG="#1B4332"
-	export BULLETTRAIN_DIR_BG="#2D6A4F"
-	export BULLETTRAIN_GIT_BG="#40916C"
-	export BULLETTRAIN_NVM_BG="#52B788"
-	export BULLETTRAIN_TIME_BG="#95D5B2"
-	export BULLETTRAIN_TIME_FG="black"
+	export BULLETTRAIN_CUSTOM_BG="#00695c"
+	export BULLETTRAIN_DIR_BG="#008878"
+	export BULLETTRAIN_GIT_BG="#00A591"
+	export BULLETTRAIN_NVM_BG="#00C1AB"
+	export BULLETTRAIN_AWS_BG="#00DEC4"
+	export BULLETTRAIN_TIME_BG="#00FBDE"
 }
 
 (($color_option == 1)) && {
-	# Blues
-	export BULLETTRAIN_CUSTOM_BG="#05131B"
-	export BULLETTRAIN_DIR_BG="#113540"
-	export BULLETTRAIN_GIT_BG="#1E5667"
-	export BULLETTRAIN_NVM_BG="#2B768B"
-	export BULLETTRAIN_TIME_BG="#3997B0"
+	# Ocean
+	export BULLETTRAIN_CUSTOM_BG="#7400b8"
+	export BULLETTRAIN_DIR_BG="#6930c3"
+	export BULLETTRAIN_GIT_BG="#5e60ce"
+	export BULLETTRAIN_NVM_BG="#5390d9"
+	export BULLETTRAIN_AWS_BG="#4ea8de"
+	export BULLETTRAIN_TIME_BG="#48bfe3"
 }
 
 (($color_option == 2)) && {
-	# Reds
-	export BULLETTRAIN_CUSTOM_BG="#6A040F"
-	export BULLETTRAIN_DIR_BG="#9D0208"
-	export BULLETTRAIN_GIT_BG="#D00000"
-	export BULLETTRAIN_NVM_BG="#DC2F02"
-	export BULLETTRAIN_TIME_BG="#E85D04"
+	# Fire
+	export BULLETTRAIN_CUSTOM_BG="#9d0208"
+	export BULLETTRAIN_DIR_BG="#d00000"
+	export BULLETTRAIN_GIT_BG="#dc2f02"
+	export BULLETTRAIN_NVM_BG="#e85d04"
+	export BULLETTRAIN_AWS_BG="#f48c06"
+	export BULLETTRAIN_TIME_BG="#faa307"
 }
 
 (($color_option == 3)) && {
 	# Gold
 	export BULLETTRAIN_CUSTOM_BG="#805B10"
-	export BULLETTRAIN_DIR_BG="#926C15"
-	export BULLETTRAIN_GIT_BG="#A47E1B"
-	export BULLETTRAIN_NVM_BG="#B69121"
-	export BULLETTRAIN_TIME_BG="#C9A227"
+	export BULLETTRAIN_DIR_BG="#966A13"
+	export BULLETTRAIN_GIT_BG="#AE7B15"
+	export BULLETTRAIN_NVM_BG="#C58C18"
+	export BULLETTRAIN_AWS_BG="#DC9C1B"
+	export BULLETTRAIN_TIME_BG="#E5A82D"
 }
 
 (($color_option == 4)) && {
-	# Monochrome
+	# mono
 	export BULLETTRAIN_CUSTOM_BG="#212529"
-	export BULLETTRAIN_DIR_BG="#343A40"
+	export BULLETTRAIN_DIR_BG="#343a40"
 	export BULLETTRAIN_GIT_BG="#495057"
-	export BULLETTRAIN_NVM_BG="#6C757D"
-	export BULLETTRAIN_TIME_BG="#ADB5BD"
-	export BULLETTRAIN_TIME_FG="black"
+	export BULLETTRAIN_NVM_BG="#6c757d"
+	export BULLETTRAIN_AWS_BG="#8e99a4"
+	export BULLETTRAIN_TIME_BG="#a2adb9"
+}
+
+(($color_option == 5)) && {
+	# Purple
+	export BULLETTRAIN_CUSTOM_BG="#240046"
+	export BULLETTRAIN_DIR_BG="#3c096c"
+	export BULLETTRAIN_GIT_BG="#5a189a"
+	export BULLETTRAIN_NVM_BG="#7b2cbf"
+	export BULLETTRAIN_AWS_BG="#9d4edd"
+	export BULLETTRAIN_TIME_BG="#c77dff"
 }
 
 # export BULLETTRAIN_CUSTOM_MSG=🐇
@@ -116,6 +131,7 @@ v() {
 			end tell
 EOF
 }
+export AWS_PROFILE="upside-dev"
 
 # General Development
 alias please="sudo" # Wholesome
@@ -130,7 +146,6 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias c="clear"
 alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
-alias gayagenda="npx github:mgwalker/raaainbow -m fullscreen"
 
 # git
 alias gmm="git merge master"
@@ -138,5 +153,6 @@ alias gcd="git checkout development"
 alias con="git rebase --continue"
 pushit() { gcmsg "$1" && gp; }
 pushall() { gaa && gcmsg "$1" && gp; }
+com() { gaa && gcmsg "$1"; }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
 mrb() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git rebase master; }
