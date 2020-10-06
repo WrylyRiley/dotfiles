@@ -4,12 +4,10 @@
 formulae=(
     cask
     dockutil
-    gradle
     kubectl
     mas
     p7zip
     python3
-    rabbitmq
     shfmt
     wget
     thefuck
@@ -23,9 +21,8 @@ common_casks=(
     gimp
     homebrew/cask-fonts/font-fira-code
     homebrew/cask-versions/firefox-developer-edition
+    insomnia
     iterm2
-    nordvpn
-    postman
     slack
     telegram-desktop
     tidal

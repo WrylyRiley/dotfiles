@@ -10,6 +10,7 @@ dockutil --add '~/programming' --view grid --display folder
 dockutil --add '/Applications/Visual Studio Code.app'
 dockutil --add '/Applications/iTerm.app'
 dockutil --add '/Applications/Firefox Developer Edition.app'
+dockutil --add '/Applications/Insomnia.app'
 dockutil --add '/Applications/Slack.app'
 dockutil --add '/Applications/Telegram Desktop.app'
 dockutil --add '/Applications/TIDAL.app'

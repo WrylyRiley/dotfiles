@@ -155,4 +155,4 @@ pushit() { gcmsg "$1" && gp; }
 pushall() { gaa && gcmsg "$1" && gp; }
 com() { gaa && gcmsg "$1"; }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
-mrb() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git rebase master; }
+gbmm() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && gmm; }
