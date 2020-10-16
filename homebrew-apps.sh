@@ -8,10 +8,11 @@ formulae=(
     mas
     p7zip
     python3
-    shfmt
-    wget
-    thefuck
     redis
+    shfmt
+    thefuck
+    wget
+    xcv
 )
 common_casks=(
     1password
