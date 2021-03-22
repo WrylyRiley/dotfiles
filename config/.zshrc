@@ -11,13 +11,14 @@ export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm aws time)
 # Logic for random color selection
 color_option=$(python -S -c "import random; print random.randint(0,5)")
 
-export BULLETTRAIN_CUSTOM_FG="white"
-export BULLETTRAIN_DIR_FG="white"
-export BULLETTRAIN_GIT_FG="white"
-export BULLETTRAIN_NVM_FG="white"
-export BULLETTRAIN_AWS_FG="white"
-export BULLETTRAIN_TIME_FG="white"
-export BULLETTRAIN_STATUS_ERROR_BG="#ff6f00"
+export BULLETTRAIN_CUSTOM_FG="black"
+export BULLETTRAIN_DIR_FG="black"
+export BULLETTRAIN_GIT_FG="black"
+export BULLETTRAIN_NVM_FG="black"
+export BULLETTRAIN_AWS_FG="black"
+export BULLETTRAIN_TIME_FG="black"
+export BULLETTRAIN_STATUS_ERROR_BG="#ff0000"
+export BULLETTRAIN_STATUS_ERROR_FG="#ffffff"
 export BULLETTRAIN_AWS_PREFIX="aws"
 
 (($color_option == 0)) && {
@@ -32,52 +33,42 @@ export BULLETTRAIN_AWS_PREFIX="aws"
 
 (($color_option == 1)) && {
 	# Ocean
-	export BULLETTRAIN_CUSTOM_BG="#7400b8"
-	export BULLETTRAIN_DIR_BG="#6930c3"
-	export BULLETTRAIN_GIT_BG="#5e60ce"
-	export BULLETTRAIN_NVM_BG="#5390d9"
-	export BULLETTRAIN_AWS_BG="#4ea8de"
-	export BULLETTRAIN_TIME_BG="#48bfe3"
+	export BULLETTRAIN_CUSTOM_BG="#5e60ce"
+	export BULLETTRAIN_DIR_BG="#5390d9"
+	export BULLETTRAIN_GIT_BG="#4ea8de"
+	export BULLETTRAIN_NVM_BG="#48bfe3"
+	export BULLETTRAIN_AWS_BG="#56cfe1"
+	export BULLETTRAIN_TIME_BG="#64dfdf"
 }
 
 (($color_option == 2)) && {
-	# Fire
-	export BULLETTRAIN_CUSTOM_BG="#9d0208"
-	export BULLETTRAIN_DIR_BG="#d00000"
-	export BULLETTRAIN_GIT_BG="#dc2f02"
-	export BULLETTRAIN_NVM_BG="#e85d04"
-	export BULLETTRAIN_AWS_BG="#f48c06"
-	export BULLETTRAIN_TIME_BG="#faa307"
+	# Fall Yellow
+	export BULLETTRAIN_CUSTOM_BG="#ff7900"
+	export BULLETTRAIN_DIR_BG="#ff8500"
+	export BULLETTRAIN_GIT_BG="#ff9100"
+	export BULLETTRAIN_NVM_BG="#ff9e00"
+	export BULLETTRAIN_AWS_BG="#ffaa00"
+	export BULLETTRAIN_TIME_BG="#ffb600"
 }
 
 (($color_option == 3)) && {
-	# Gold
-	export BULLETTRAIN_CUSTOM_BG="#805B10"
-	export BULLETTRAIN_DIR_BG="#966A13"
-	export BULLETTRAIN_GIT_BG="#AE7B15"
-	export BULLETTRAIN_NVM_BG="#C58C18"
-	export BULLETTRAIN_AWS_BG="#DC9C1B"
-	export BULLETTRAIN_TIME_BG="#E5A82D"
+	# mono
+	export BULLETTRAIN_CUSTOM_BG="#aaaaaa"
+	export BULLETTRAIN_DIR_BG="#bbbbbb"
+	export BULLETTRAIN_GIT_BG="#cccccc"
+	export BULLETTRAIN_NVM_BG="#dddddd"
+	export BULLETTRAIN_AWS_BG="#eeeeee"
+	export BULLETTRAIN_TIME_BG="#ffffff"
 }
 
 (($color_option == 4)) && {
-	# mono
-	export BULLETTRAIN_CUSTOM_BG="#212529"
-	export BULLETTRAIN_DIR_BG="#343a40"
-	export BULLETTRAIN_GIT_BG="#495057"
-	export BULLETTRAIN_NVM_BG="#6c757d"
-	export BULLETTRAIN_AWS_BG="#8e99a4"
-	export BULLETTRAIN_TIME_BG="#a2adb9"
-}
-
-(($color_option == 5)) && {
 	# Purple
-	export BULLETTRAIN_CUSTOM_BG="#240046"
-	export BULLETTRAIN_DIR_BG="#3c096c"
-	export BULLETTRAIN_GIT_BG="#5a189a"
-	export BULLETTRAIN_NVM_BG="#7b2cbf"
-	export BULLETTRAIN_AWS_BG="#9d4edd"
-	export BULLETTRAIN_TIME_BG="#c77dff"
+	export BULLETTRAIN_CUSTOM_BG="#8643ff"
+	export BULLETTRAIN_DIR_BG="#9a63ff"
+	export BULLETTRAIN_GIT_BG="#ae82ff"
+	export BULLETTRAIN_NVM_BG="#c2a1ff"
+	export BULLETTRAIN_AWS_BG="#ccb1ff"
+	export BULLETTRAIN_TIME_BG="#d6c0ff"
 }
 
 # export BULLETTRAIN_CUSTOM_MSG=🐇
