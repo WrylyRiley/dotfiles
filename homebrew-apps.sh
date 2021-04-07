@@ -21,6 +21,7 @@ common_casks=(
     flux
     gimp
     homebrew/cask-fonts/font-fira-code
+    homebrew/cask-fonts/font-jetbrains-mono
     homebrew/cask-versions/firefox-developer-edition
     insomnia
     iterm2
