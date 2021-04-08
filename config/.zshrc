@@ -28,8 +28,8 @@ red="#b00000"   # status BG
   pastels=("#C09CFA" "#BFACFB" "#BEBCFC" "#BCCBFD" "#BBDBFE" "#BAEBFF" $black)
 eggplants=("#4C2F34" "#59363C" "#653E45" "#72464E" "#72464E" "#8B555E" $white)
 
-color_choice=void
-# color_choice=$(python3 -c 'import random; print(random.choice(["fire","eggplants","greens","greys","pastels","void"]))')
+# color_choice=void
+color_choice=$(python3 -c 'import random; print(random.choice(["fire","eggplants","greens","greys","pastels","void"]))')
 
 export BULLETTRAIN_CUSTOM_FG=${${(P)color_choice}[7]}
 export BULLETTRAIN_CUSTOM_BG=${${(P)color_choice}[1]}
@@ -118,4 +118,5 @@ pushall() {
 	fi
 }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
-mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge master; 
+mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge master; }
+ 
