@@ -20,7 +20,7 @@ export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm aws time)
 # color_key=(custom dir git nvm aws time font_color)
 black="#000000" # font FG
 white="#ffffff" # font FG
-red="#ff0000"   # status BG
+red="#b00000"   # status BG
      void=("#180303" "#310904" "#4A0F04" "#621405" "#7B1A05" "#942006" $white)
      fire=("#6A040F" "#9D0208" "#D00000" "#DC2F02" "#E85D04" "#F48C06" $black)
     greys=("#808080" "#C0C0C0" "#E0E0E0" "#F0F0F0" "#F8F8F8" "#FFFFFF" $black)
@@ -43,7 +43,7 @@ export BULLETTRAIN_AWS_FG=${${(P)color_choice}[7]}
 export BULLETTRAIN_AWS_BG=${${(P)color_choice}[5]}
 export BULLETTRAIN_TIME_FG=${${(P)color_choice}[7]}
 export BULLETTRAIN_TIME_BG=${${(P)color_choice}[6]}
-export BULLETTRAIN_STATUS_ERROR_FG=$white
+export BULLETTRAIN_STATUS_FG=$white
 export BULLETTRAIN_STATUS_ERROR_BG=$red
 
 export BULLETTRAIN_CUSTOM_MSG=𖤐
@@ -84,7 +84,7 @@ alias fro="code $HOME/programming/upside/frontdoor-ssr-service"
 alias ees="code $HOME/programming/upside/email-experience-service"
 alias tes="code $HOME/programming/upside/trips-experience-service"
 ben() {
-	open "https://upside.zoom.us/my/turboprop?pwd=VkFNRWUveGIzb08rekNPV3YvbENoZz09"
+	open ""
 }
 dockcore() {
 	docker kill $(docker ps | grep "upsidetravel-docker.jfrog.io/core-db-schema:latest" | awk '{print $1}')
@@ -92,8 +92,8 @@ dockcore() {
 	docker pull upsidetravel-docker.jfrog.io/core-db-schema:latest
 	docker run -d -p 3306:3306 --name coredb --rm upsidetravel-docker.jfrog.io/core-db-schema:latest
 }
-export AWS_PROFILE="upside-dev"
-export TRAVELPORT_CREDS_P7142022="VW5pdmVyc2FsIEFQSS91QVBJNTM5MDU5ODI3NS00YWY2OTJkNDpXX2syOWRBJWp7"
+export AWS_PROFILE=""
+export TRAVELPORT_CREDS_P7142022=""
 
 #################################
 # General development shortcuts #
