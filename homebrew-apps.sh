@@ -13,6 +13,7 @@ formulae=(
     thefuck
     wget
     xcv
+    swiftbar
 )
 common_casks=(
     1password

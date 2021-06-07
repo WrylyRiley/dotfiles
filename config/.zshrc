@@ -83,17 +83,20 @@ alias hfe="code $HOME/programming/upside/horizon-frontend"
 alias fro="code $HOME/programming/upside/frontdoor-ssr-service"
 alias ees="code $HOME/programming/upside/email-experience-service"
 alias tes="code $HOME/programming/upside/trips-experience-service"
-ben() {
-	open ""
-}
+alias uui="code $HOME/programming/upside/upside-ui"
+# ben() {
+# 	open "https://upside.zoom.us/my/turboprop?pwd=VkFNRWUveGIzb08rekNPV3YvbENoZz09"
+# }
+alias rise="open \"https://upside.zoom.us/j/99469979976\""
+
 dockcore() {
 	docker kill $(docker ps | grep "upsidetravel-docker.jfrog.io/core-db-schema:latest" | awk '{print $1}')
 	docker images rm $(docker ps | grep "upsidetravel-docker.jfrog.io/core-db-schema:latest" | awk '{print $1}')
 	docker pull upsidetravel-docker.jfrog.io/core-db-schema:latest
 	docker run -d -p 3306:3306 --name coredb --rm upsidetravel-docker.jfrog.io/core-db-schema:latest
 }
-export AWS_PROFILE=""
-export TRAVELPORT_CREDS_P7142022=""
+export AWS_PROFILE="upside-dev"
+export TRAVELPORT_CREDS_P7142022="VW5pdmVyc2FsIEFQSS91QVBJNTM5MDU5ODI3NS00YWY2OTJkNDpXX2syOWRBJWp7"
 
 #################################
 # General development shortcuts #
@@ -103,14 +106,17 @@ alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias bojo="code ~/programming/daily-journal"
 
 # git
+# overwriting zsh alias since we're using main instead of master
+alias gcm="git checkout main"
 alias sgpm="gsta;gcm;gl;gstp"
 pushit() { gcmsg "$1" && gp; }
 pushall() {
 	branch=$(git symbolic-ref --short HEAD)
-	if [ $branch = master ]; then
-		echo "You cannot commit to master"
+	if [ $branch = main ]; then
+		echo "You cannot commit to main"
 	else
 		# This is very Upside specific
 		cut_branch=$([[ $branch = no* ]] && echo $branch | cut -c1-6 || echo $branch | cut -c1-9)
@@ -118,5 +124,5 @@ pushall() {
 	fi
 }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
-mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge master; }
+mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge main; }
  
