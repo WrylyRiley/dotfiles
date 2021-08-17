@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 # Global Variables
 export INSTALL=n
 export PERSONAL=n

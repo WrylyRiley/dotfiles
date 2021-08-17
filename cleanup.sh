@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 
 unset INSTALL
 unset PERSONAL

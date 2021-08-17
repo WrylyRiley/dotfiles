@@ -1,38 +1,36 @@
-#!/usr/bin/env bash
-. helpers.sh
+
+. ./helpers.sh
 # Formulae and casks
 formulae=(
-    cask
     dockutil
-    kubectl
     mas
     p7zip
     python3
-    redis
     shfmt
     thefuck
     wget
     xcv
-    swiftbar
+    
 )
 common_casks=(
     1password
     1password-cli
-    docker
-    flux
+    homebrew/cask/docker
+    homebrew/cask/flux
     gimp
     homebrew/cask-fonts/font-fira-code
     homebrew/cask-fonts/font-jetbrains-mono
     homebrew/cask-versions/firefox-developer-edition
+    vivaldi
     insomnia
     iterm2
     slack
+    swiftbar
     telegram-desktop
     tidal
     visual-studio-code
 )
 personal_casks=(
-    veracrypt
     steam
     discord
 )

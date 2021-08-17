@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-. helpers.sh
+
+. ./helpers.sh
 # RSA
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh
 inform "Please ensure your RSA keys are located in ~/.ssh before continung..."

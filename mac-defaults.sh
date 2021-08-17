@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+
 # Apple configuration
 # System Preferences > General > Appearance
 defaults write -globalDomain AppleInterfaceStyleSwitchesAutomatically -bool true

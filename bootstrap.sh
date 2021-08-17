@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
 # Initialization
-. global-vars.sh
-. helpers.sh
+. ./global-vars.sh
+. ./helpers.sh
 clear
 # Modifiers
 read -n 1 -p "$(echo $C"\nIs this your personal Mac?  y/n  ")" PERSONAL

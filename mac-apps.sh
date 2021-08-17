@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-. helpers.sh
+
+. ./helpers.sh
 # Mac apps
 apps=(
     937984704  # Magnet

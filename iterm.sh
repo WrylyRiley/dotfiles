@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-. helpers.sh
+
+. ./helpers.sh
 # iTerm2 Preferences
 plistdir=~/Library/Application\ Support/iTerm2/DynamicProfiles
 [[ ! -d $plistdir ]] && mkdir $plistdir

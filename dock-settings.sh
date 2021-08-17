@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-. helpers.sh
+
+. ./helpers.sh
 
 ######################################################################
 # Adding only the shortcuts I want to the dock
@@ -9,6 +9,7 @@ dockutil --add '~/Downloads' --view grid --display folder
 dockutil --add '~/programming' --view grid --display folder
 dockutil --add '/Applications/Visual Studio Code.app'
 dockutil --add '/Applications/iTerm.app'
+dockutil --add '/Applications/Vivaldi.app'
 dockutil --add '/Applications/Firefox Developer Edition.app'
 dockutil --add '/Applications/Insomnia.app'
 dockutil --add '/Applications/Slack.app'
@@ -19,5 +20,5 @@ dockutil --add '/System/Applications/System Preferences.app'
 [[ $PERSONAL == y ]] && {
 	inform "Adding personal shortcuts"
 	dockutil --add '/Applications/Steam.app' --after "1Password 7"
-	dockutil --add '/Applications/Discord.app' --after Steam
+	dockutil --add '/Applications/Discord.app' --after Slack
 }
