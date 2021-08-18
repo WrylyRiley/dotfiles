@@ -32,7 +32,7 @@ install_homebrew
 # Change dock shortcuts
 { [[ $CHANGEDOCK == y ]] && inform "Modifying Dock" && sh ./dock-settings.sh; } || error "Not modifying dock"
 # Apple configuration
-{ [[ $DEFAULTS == y ]] && inform "Setting Mac preferences" && sh ./mac-defaults.sh; } || error "Not changing system preferences"
+{ [[ $DEFAULTS == y ]] && inform "Setting Mac preferences" && sh ./system.sh; } || error "Not changing system preferences"
 # Global Node Modules
 { [[ $NODEMOD == y ]] && inform "Installing nvm and global node modules" && sh ./nvm.sh; } || error "Not installing nvm or global node modules"
 # oh-my-zsh

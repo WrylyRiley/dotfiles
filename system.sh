@@ -1,4 +1,3 @@
-
 # Apple configuration
 # System Preferences > General > Appearance
 defaults write -globalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
@@ -119,3 +118,14 @@ defaults write com.apple.dock show-recents -bool FALSE
 
 # Kill affected apps
 for app in "Dock" "Finder" "SystemUIServer"; do killall "${app}" >/dev/null 2>&1; done
+
+# Karabiner configuration
+
+mkdir ~/.config/Karabiner
+cp ./config/Karabiner ~/.config/Karabiner
+
+# Vivaldi configuration
+# Native Messaging needs to be enabled to allow 1Password to find Vivaldi
+# While chrome does this automatically, Vivaldy does not. This is the fix
+
+mkdir -p ~/Library/Application\ Support/Google/Chrome

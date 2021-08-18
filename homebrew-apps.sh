@@ -20,6 +20,7 @@ common_casks=(
     homebrew/cask-fonts/font-fira-code
     homebrew/cask-fonts/font-jetbrains-mono
     homebrew/cask-versions/firefox-developer-edition
+    meetingbar
     insomnia
     iterm2
     slack
