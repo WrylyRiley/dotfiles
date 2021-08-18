@@ -1,4 +1,3 @@
-
 . ./helpers.sh
 # Formulae and casks
 formulae=(
@@ -10,25 +9,24 @@ formulae=(
     thefuck
     wget
     xcv
-    
+
 )
 common_casks=(
     1password
     1password-cli
+    gimp
     homebrew/cask/docker
     homebrew/cask/flux
-    gimp
     homebrew/cask-fonts/font-fira-code
     homebrew/cask-fonts/font-jetbrains-mono
     homebrew/cask-versions/firefox-developer-edition
-    vivaldi
     insomnia
     iterm2
     slack
-    swiftbar
     telegram-desktop
     tidal
     visual-studio-code
+    vivaldi
 )
 personal_casks=(
     steam

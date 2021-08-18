@@ -1,4 +1,3 @@
-
 . ./helpers.sh
 
 ######################################################################
@@ -16,6 +15,7 @@ dockutil --add '/Applications/Slack.app'
 dockutil --add '/Applications/Telegram Desktop.app'
 dockutil --add '/Applications/TIDAL.app'
 dockutil --add '/Applications/1Password 7.app'
+dockutil --add '/Applications/zoom.us.app'
 dockutil --add '/System/Applications/System Preferences.app'
 [[ $PERSONAL == y ]] && {
 	inform "Adding personal shortcuts"
