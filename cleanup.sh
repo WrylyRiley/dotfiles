@@ -1,5 +1,3 @@
-
-
 unset INSTALL
 unset PERSONAL
 unset HOMEBREW
