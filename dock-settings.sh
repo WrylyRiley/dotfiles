@@ -1,7 +1,7 @@
 . ./helpers.sh
 
 ######################################################################
-# Adding only the shortcuts I want to the dock
+# Adding the shortcuts I want to the dock
 ######################################################################
 dockutil --remove all
 dockutil --add '~/Downloads' --view grid --display folder

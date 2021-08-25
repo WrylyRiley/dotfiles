@@ -1,123 +1,135 @@
-# Apple configuration
-# System Preferences > General > Appearance
-defaults write -globalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+# These are confirmed to work in Big Sur
 
-# System Preferences > General > Click in the scrollbar to: Jump to the spot that's clicked
-defaults write -globalDomain AppleScrollerPagingBehavior -bool true
-
-# System Preferences > General > Sidebar icon size: Medium
-defaults write -globalDomain NSTableViewDefaultSizeMode -int 2
-
-# System Preferences > General > Set highlight color to purple
-defaults write -globalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000"
-
-# System Preferences > General > Auto-capitalize off
-defaults write -globalDomain NSAutomaticCapitalizationEnabled -int 0
-
-# System Preferences > General > Period Substitution off
-defaults write -globalDomain NSAutomaticPeriodSubstitutionEnabled -int 1
-
-# System Preferences > Keyboard > key repeat speed
-defaults write -globalDomain KeyRepeat -int 2
-
-# System Preferences > Keyboard > Initial key repeat delay
-defaults write -globalDomain InitialKeyRepeat -int 15
-
-# Disable press-and-hold for keys in favor of key repeat
-defaults write -globalDomain ApplePressAndHoldEnabled -bool false
-
-# System Preferences > Dock > Size:
-defaults write com.apple.dock tilesize -int 36
-
-# System Preferences > Dock > Magnification:
-defaults write com.apple.dock magnification -bool true
-
-# System Preferences > Dock > Size (magnified):
-defaults write com.apple.dock largesize -int 54
-
-# System Preferences > Dock > Minimize windows using: Scale effect
-defaults write com.apple.dock mineffect -string "scale"
-
-# System Preferences > Dock > Minimize windows into application icon
-defaults write com.apple.dock minimize-to-application -bool true
-
-# System Preferences > Dock > Automatically hide and show the Dock:
-defaults write com.apple.dock autohide -bool true
-
-# System Preferences > Dock > Automatically hide and show the Dock (duration)
+# Dock Settings
+defaults write com.apple.dock autohide -int 1
 defaults write com.apple.dock autohide-time-modifier -float 0.5
-
-# System Preferences > Dock > Automatically hide and show the Dock (delay)
 defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock magnification -int 0
+defaults write com.apple.dock mineffect -string scale
+defaults write com.apple.dock minimize-to-application -int 1
+defaults write com.apple.dock mru-spaces -int 0
+defaults write com.apple.dock showDesktopGestureEnabled -int 1
+defaults write com.apple.dock showhidden -int 1
+defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
+defaults write com.apple.dock showMissionControlGestureEnabled -int 1
+defaults write com.apple.dock show-process-indicators -int 1
+defaults write com.apple.dock show-recents -int 0
+defaults write com.apple.dock tilesize -int 50
 
-# System Preferences > Dock > Show indicators for open applications
-defaults write com.apple.dock show-process-indicators -bool true
+# Mouse Settings
+defaults write com.apple.AppleMultitouchTrackpad showLaunchpadGestureEnabled -int 0
+defaults write com.apple.AppleMultitouchTrackpad ActuateDetents -int 1
+defaults write com.apple.AppleMultitouchTrackpad Clicking -int 0
+defaults write com.apple.AppleMultitouchTrackpad DragLock -int 0
+defaults write com.apple.AppleMultitouchTrackpad Dragging -int 0
+defaults write com.apple.AppleMultitouchTrackpad FirstClickThreshold -int 1
+defaults write com.apple.AppleMultitouchTrackpad ForceSuppressed -int 0
+defaults write com.apple.AppleMultitouchTrackpad SecondClickThreshold -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadCornerSecondaryClick -int 0
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFiveFingerPinchGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerHorizSwipeGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerPinchGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerVertSwipeGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadHandResting -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadHorizScroll -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadMomentumScroll -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadPinch -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadRotate -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadScroll -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -int 0
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerTapGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 2
+defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerDoubleTapGesture -int 1
+defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 0
+defaults write com.apple.AppleMultitouchTrackpad USBMouseStopsTrackpad -int 0
 
-# System Preferences > Trackpad > Tap to click
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+# Global Settings
+defaults write -g AppleEnableSwipeNavigateWithScrolls -int 1
+defaults write -g AppleHighlightColor -string "0.968627 0.831373 1.000000"
+defaults write -g AppleInterfaceStyleSwitchesAutomatically -int 1
+defaults write -g ApplePressAndHoldEnabled -int 0
+defaults write -g AppleScrollerPagingBehavior -int 1
+defaults write -g AppleShowAllExtensions -int 1
+defaults write -g CGFontRenderingFontSmoothingDisabled -int 0
+defaults write -g com.apple.trackpad.scaling -int 1
+defaults write -g com.apple.sound.beep.feedback -float 0
+defaults write -g com.apple.swipescrolldirection -int 1
+defaults write -g ContextMenuGesture -int 1
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
+defaults write -g NSAutomaticCapitalizationEnabled -int 0
+defaults write -g NSAutomaticPeriodSubstitutionEnabled -int 1
+defaults write -g NSNavPanelExpandedStateForSaveMode -int 1
+defaults write -g NSTableViewDefaultSizeMode -int 2
 
-# Finder > Preferences > Show all filename extensions
-defaults write -globalDomain AppleShowAllExtensions -bool true
+# Finder Settings
+defaults write com.apple.finder AppleShowAllFiles -int 1
+defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -int 0
+defaults write com.apple.finder FXEnableExtensionChangeWarning -int 0
+defaults write com.apple.finder FXICloudDriveDesktop -int 0
+defaults write com.apple.finder FXICloudDriveDocuments -int 0
+defaults write com.apple.finder FXICloudDriveEnabled -int 1
+defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+defaults write com.apple.finder _FXShowPosixPathInTitle -int 1
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -int 1
+defaults write com.apple.finder ShowHardDrivesOnDesktop -int 1
+defaults write com.apple.finder ShowPathbar -int 1
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -int 1
+defaults write com.apple.finder ShowSidebar -int 1
+defaults write com.apple.finder ShowStatusBar -int 1
+defaults write com.apple.finder SidebarWidth -int 220
 
-# Finder: show hidden files by default
-defaults write com.apple.finder AppleShowAllFiles -bool true
-
-# Finder: show status bar
-defaults write com.apple.finder ShowStatusBar -bool true
-
-# Finder > Preferences > Show warning before changing an extension
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-# Finder > Preferences > Show warning before removing from iCloud Drive
-defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -bool false
-
-# Finder > View > As List
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-
-# Finder > View > Show Path Bar
-defaults write com.apple.finder ShowPathbar -bool true
-
-# Completely Disable Dashboard
-defaults write com.apple.dashboard mcx-disabled -bool true
+# Control Center Settings
+defaults write com.apple.controlcenter "NSStatusItem Visible DoNotDisturb" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible AirDrop" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible DoNotDisturb" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -int 0
+defaults write com.apple.Spotlight "NSStatusItem Visible Item-0" -int 0
 
 # Show the ~/Library folder
 chflags nohidden ~/Library
 
-# Enable font smoothing
-defaults write -g CGFontRenderingFontSmoothingDisabled -bool false
-
-# Enable subpixel antialiasing
-defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -bool false &&
-	defaults write com.microsoft.VSCode.helper CGFontRenderingFontSmoothingDisabled -bool false &&
-	defaults write com.microsoft.VSCode.helper.EH CGFontRenderingFontSmoothingDisabled -bool false &&
-	defaults write com.microsoft.VSCode.helper.NP CGFontRenderingFontSmoothingDisabled -bool false
-
-# Show hidden dock icons
-defaults write com.apple.dock showhidden -bool true
-
-# Show HDD and SSD on desktop
-defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-
-# Show posix path in finder
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
-
-# Time preference - Thu 18 Aug 11:46:18 pm
-sudo defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM h:mm:ss a"
-
-# Expand save panel by default
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-
-# Disable notification center
-launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null
-
 # Enable app auto-update
-defaults write com.apple.commerce AutoUpdate -bool true
+defaults write com.apple.commerce AutoUpdate -int 1
 
-# Hide recent apps in dock
-defaults write com.apple.dock show-recents -bool FALSE
+# Enable subpixel antialiasing in VSCode
+defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
+
+# Set Vivaldi as the default browser
+debfro com.vivaldi.Vivaldi
+
+# Set a new location for screenshots
+mkdir -p ~/Screen\ Shots
+defaults write com.apple.screencapture location ~/Screen\ Shots
+
+# Change the setting on the touchbar
+defaults write ~/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.screen-lock, com.apple.system.mute, com.apple.system.volume, com.apple.system.brightness )'
+defaults write ~/Library/Preferences/com.apple.controlstrip FullCustomized '(com.apple.system.airplay, com.apple.system.group.keyboard-brightness, com.apple.system.group.brightness, com.apple.system.group.media, com.apple.system.group.volume, com.apple.system.sleep )'
+
+# Change File Associations
+duti -s com.microsoft.VSCode .sh all
+duti -s com.microsoft.VSCode .html all
+duti -s com.microsoft.VSCode .htm all
+duti -s com.microsoft.VSCode .css all
+duti -s com.microsoft.VSCode .js all
+duti -s com.microsoft.VSCode .jsx all
+duti -s com.microsoft.VSCode .ts all
+duti -s com.microsoft.VSCode .tsx all
+duti -s com.microsoft.VSCode .xml all
+duti -s com.microsoft.VSCode .yaml all
+duti -s com.microsoft.VSCode .json all
+duti -s com.microsoft.VSCode .md all
+duti -s com.microsoft.VSCode .py all
+duti -s com.microsoft.VSCode .txt all
 
 # Kill affected apps
-for app in "Dock" "Finder" "SystemUIServer"; do killall "${app}" >/dev/null 2>&1; done
+for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done
 
 # Karabiner configuration
 

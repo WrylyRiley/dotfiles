@@ -9,7 +9,7 @@ formulae=(
     thefuck
     wget
     xcv
-
+    duti
 )
 common_casks=(
     1password

@@ -17,6 +17,8 @@ read -n 1 -p "$(echo "\nChange system preferences?  y/n  "$R)" DEFAULTS
 clear
 # Terminal developer tools
 { which xcode-select >/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && xcode-select --install; }
+# Activate xcode terminal tools
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 # Install Homebrew
 install_homebrew
 # Install homebrew formulae and casks
@@ -40,6 +42,10 @@ install_homebrew
 # Finish
 cp "./config/.hushlogin" "$HOME/.hushlogin"
 sh ./cleanup.sh
-inform "You're done! Congratulations! You'll need to sign out to see some changes take effect. Please do that now :)"
+
+read -n 1 -p "$(echo "\nReboot now?  y/n  "$R)" REBOOT
+{ [[ $REBOOT == y ]] && inform "Rebooting now..." && sudo reboot; }
+
+inform "You're done! Congratulations! You'll need to reboot to see some changes take effect. Please do that now :)"
 . $HOME/.zshrc
 exit 0
