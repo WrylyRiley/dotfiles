@@ -1,4 +1,5 @@
-# Global Variables
+. ./helpers.sh
+inform "Setting global setup variables"
 export INSTALL=n
 export PERSONAL=n
 export HOMEBREW=n

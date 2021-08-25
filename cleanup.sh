@@ -1,3 +1,5 @@
+. ./helpers.sh
+inform "unsetting global setup variables"
 unset INSTALL
 unset PERSONAL
 unset HOMEBREW

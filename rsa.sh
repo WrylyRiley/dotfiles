@@ -1,7 +1,8 @@
 . ./helpers.sh
 # RSA
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh
-inform "Please ensure your RSA keys are located in ~/.ssh before continung..."
+warn "Please ensure your RSA keys are located in ~/.ssh before continung..."
+inform "Adding keys to ssh-agent"
 read -n 1 -r -s CON
 eval "$(ssh-agent -s)"
 touch ~/.ssh/config

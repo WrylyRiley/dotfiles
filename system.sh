@@ -1,6 +1,9 @@
+. ./helpers.sh
+
 # These are confirmed to work in Big Sur
 
 # Dock Settings
+inform "Updating dock settings"
 defaults write com.apple.dock autohide -int 1
 defaults write com.apple.dock autohide-time-modifier -float 0.5
 defaults write com.apple.dock autohide-delay -float 0
@@ -17,6 +20,7 @@ defaults write com.apple.dock show-recents -int 0
 defaults write com.apple.dock tilesize -int 50
 
 # Mouse Settings
+inform "Updating trackpad settings"
 defaults write com.apple.AppleMultitouchTrackpad showLaunchpadGestureEnabled -int 0
 defaults write com.apple.AppleMultitouchTrackpad ActuateDetents -int 1
 defaults write com.apple.AppleMultitouchTrackpad Clicking -int 0
@@ -46,6 +50,7 @@ defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerFromRightEdgeS
 defaults write com.apple.AppleMultitouchTrackpad USBMouseStopsTrackpad -int 0
 
 # Global Settings
+inform "Updating global mac settings"
 defaults write -g AppleEnableSwipeNavigateWithScrolls -int 1
 defaults write -g AppleHighlightColor -string "0.968627 0.831373 1.000000"
 defaults write -g AppleInterfaceStyleSwitchesAutomatically -int 1
@@ -65,6 +70,7 @@ defaults write -g NSNavPanelExpandedStateForSaveMode -int 1
 defaults write -g NSTableViewDefaultSizeMode -int 2
 
 # Finder Settings
+inform "Updating finder settings"
 defaults write com.apple.finder AppleShowAllFiles -int 1
 defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -int 0
 defaults write com.apple.finder FXEnableExtensionChangeWarning -int 0
@@ -82,6 +88,7 @@ defaults write com.apple.finder ShowStatusBar -int 1
 defaults write com.apple.finder SidebarWidth -int 220
 
 # Control Center Settings
+inform "Updating menu bar settings"
 defaults write com.apple.controlcenter "NSStatusItem Visible DoNotDisturb" -int 0
 defaults write com.apple.controlcenter "NSStatusItem Visible AirDrop" -int 0
 defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -int 0
@@ -93,29 +100,33 @@ defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -int 0
 defaults write com.apple.Spotlight "NSStatusItem Visible Item-0" -int 0
 
 # Show the ~/Library folder
+inform "Unhiding ~/Library"
 chflags nohidden ~/Library
 
 # Enable app auto-update
+inform "Enable app store auto-updates"
 defaults write com.apple.commerce AutoUpdate -int 1
 
 # Enable subpixel antialiasing in VSCode
+inform "ENable subpixel antialiasing in VSCode"
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 
 # Set Vivaldi as the default browser
+inform "Setting Vivaldi as default browser"
 defbro com.vivaldi.Vivaldi
 
 # Set a new location for screenshots
+inform "Setting screnshot directory"
 mkdir -p ~/Screen\ Shots
 defaults write com.apple.screencapture location ~/Screen\ Shots
 
-# Disable internet app quarantine dialog
-defaults write com.apple.LaunchServices LSQuarantine -bool false
-
 # Change the setting on the touchbar
+inform "Setting touchbar preferences"
 defaults write ~/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.screen-lock, com.apple.system.mute, com.apple.system.volume, com.apple.system.brightness )'
 defaults write ~/Library/Preferences/com.apple.controlstrip FullCustomized '(com.apple.system.airplay, com.apple.system.group.keyboard-brightness, com.apple.system.group.brightness, com.apple.system.group.media, com.apple.system.group.volume, com.apple.system.sleep )'
 
 # Change File Associations
+inform "Setting file associations for VSCode"
 duti -s com.microsoft.VSCode .sh all
 duti -s com.microsoft.VSCode .html all
 duti -s com.microsoft.VSCode .htm all
@@ -132,6 +143,7 @@ duti -s com.microsoft.VSCode .py all
 duti -s com.microsoft.VSCode .txt all
 
 # Karabiner configuration
+inform "Configuring Karabiner"
 mkdir -p ~/.config/Karabiner
 cp ./config/karabiner.json ~/.config/karabiner
 
@@ -142,4 +154,5 @@ cp ./config/karabiner.json ~/.config/karabiner
 mkdir -p ~/Library/Application\ Support/Google/Chrome
 
 # Kill affected apps
+inform "Resetting affected processes"
 for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done

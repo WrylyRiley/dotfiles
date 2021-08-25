@@ -1,32 +1,33 @@
-
 . ./helpers.sh
-# oh-my-zsh
-if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    warn "oh-my-zsh already installed"
-else 
-    inform "Installing oh-my-zsh"; $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
+
+{ [[ -d "$HOME/.oh-my-zsh" ]] && warn "oh-my-zsh already installed"; } || {
+    inform "Installing oh-my-zsh"
+    $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+}
+
+dir="$HOME/.oh-my-zsh/custom/plugins/autoupdate"
+{ [[ -d $dir ]] && warn "autoupdate already installed"; } || {
+    inform "Installing autoupdate"
+    git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $dir
+}
 
 file="$HOME/.oh-my-zsh/themes/bullet-train.zsh-theme"
-if [[ -a $file ]]; then
-    warn "bullet-train already installed"
-else 
-    inform "Installing bullet-train\n"; curl -L -o $file http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
-fi
+{ [[ -e $file ]] && warn "bullet-train already installed"; } || {
+    inform "Installing bullet-train"
+    curl -L -o $file http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
+}
 
-file="$HOME/.oh-my-zsh/custom/plugins/zsh-nvm"
-if [[ -d $file ]]; then
-    warn "zsh-nvm already installed"
-else 
-    inform "Installing zsh-nvm\n"; git clone https://github.com/lukechilds/zsh-nvm $file
-fi
+dir="$HOME/.oh-my-zsh/custom/plugins/zsh-nvm"
+{ [[ -d $dir ]] && warn "zsh-nvm already installed"; } || {
+    inform "Installing zsh-nvm"
+    git clone https://github.com/lukechilds/zsh-nvm $dir
+}
 
-file="$HOME/.oh-my-zsh/custom/plugins/autoupdate"
-if [[ -d $file ]]; then
-    warn "autoupdate already installed"
-else
-    inform "Installing autoupdate\n"; git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $file
-fi
+dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+{ [[ -d $dir ]] && warn "zsh-syntax-highlighting already installed"; } || {
+    inform "Installing zsh-syntax-highlighting"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $dir
+}
 
 # zsh settings
 inform "Backing up zshrc to ~/.zshrc.bak"

@@ -1,8 +1,5 @@
 . ./helpers.sh
-
-######################################################################
-# Adding the shortcuts I want to the dock
-######################################################################
+inform "Setting dock shortcuts"
 dockutil --remove all
 dockutil --add '~/Downloads' --view list --display folder
 dockutil --add '~/programming' --view list --display folder

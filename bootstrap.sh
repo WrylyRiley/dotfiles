@@ -3,7 +3,7 @@
 . ./helpers.sh
 clear
 # Modifiers
-read -n 1 -p $C"$(echo "\nIs this your personal Mac?  y/n  ")" PERSONAL
+read -n 1 -p "$(echo $C"\nIs this your personal Mac?  y/n  ")" PERSONAL
 read -n 1 -p "$(echo "\nInstall Homebrew casks & formulae?  y/n  ")" HOMEBREW
 read -n 1 -p "$(echo "\nInstall global node modules?  y/n  ")" NODEMOD
 read -n 1 -p "$(echo "\nDownload Mac store apps?  y/n  ")" MACSTORE
@@ -14,35 +14,27 @@ read -n 1 -p "$(echo "\nInstall RSA keys?  y/n  ")" RSA
 read -n 1 -p "$(echo "\nUpdate git user name and email?  y/n  ")" GIT
 read -n 1 -p "$(echo "\nChange system preferences?  y/n  "$R)" DEFAULTS
 [[ ! -d $HOME/programming ]] && mkdir $HOME/programming
+
 clear
 # Terminal developer tools
-{ which xcode-select >/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && xcode-select --install; }
+{ which xcode-select &>/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && xcode-select --install; }
 # Activate xcode terminal tools
+inform "Enabling xcode-select tooling"
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-# Install Homebrew
 install_homebrew
-# Install homebrew formulae and casks
-{ [[ $HOMEBREW == y ]] && inform "Installing homebrew applications" && sh ./homebrew-apps.sh; } || error "No changes made to homebrew"
-# RSA Keys
-{ [[ $RSA == y ]] && inform "Installing RSA keys" && sh ./rsa.sh; } || error "Not installing RSA keys"
-# Mac store apps
-{ [[ $MACSTORE == y ]] && inform "Installing Mac store apps" && sh ./mac-apps.sh; } || error "Not installing Mac store apps"
-# iTerm2 Preferences
-{ [[ $ITERM == y ]] && inform "Updating iTerm preferences" && sh ./iterm.sh; } || error "Not updating iTerm preferences"
-# Git Settings
-{ [[ $GIT == y ]] && inform "Updating git settings" && sh ./git-settings.sh; } || error "Not updating git settings"
-# Change dock shortcuts
-{ [[ $CHANGEDOCK == y ]] && inform "Modifying Dock" && sh ./dock-settings.sh; } || error "Not modifying dock"
-# Apple configuration
-{ [[ $DEFAULTS == y ]] && inform "Setting Mac preferences" && sh ./system.sh; } || error "Not changing system preferences"
-# Global Node Modules
-{ [[ $NODEMOD == y ]] && inform "Installing nvm and global node modules" && sh ./nvm.sh; } || error "Not installing nvm or global node modules"
-# oh-my-zsh
-{ [[ $ZSHELL == y ]] && inform "Configuring zsh" && sh ./zshell.sh; } || error "Not configuring zsh"
-# Finish
+{ [[ $HOMEBREW == y ]] && sh ./homebrew-apps.sh; } || error "No changes made to homebrew"
+{ [[ $RSA == y ]] && sh ./rsa.sh; } || error "Not installing RSA keys"
+{ [[ $MACSTORE == y ]] && sh ./mac-apps.sh; } || error "Not installing Mac store apps"
+{ [[ $ITERM == y ]] && sh ./iterm.sh; } || error "Not updating iTerm preferences"
+{ [[ $GIT == y ]] && sh ./git-settings.sh; } || error "Not updating git settings"
+{ [[ $CHANGEDOCK == y ]] && sh ./dock-settings.sh; } || error "Not modifying dock"
+{ [[ $DEFAULTS == y ]] && sh ./system.sh; } || error "Not changing system preferences"
+{ [[ $NODEMOD == y ]] && sh ./nvm.sh; } || error "Not installing nvm or global node modules"
+{ [[ $ZSHELL == y ]] && sh ./zshell.sh; } || error "Not configuring zsh"
+
 cp "./config/.hushlogin" "$HOME/.hushlogin"
 
-read -n 1 -p "$(echo "\nReboot now?  y/n  "$R)" REBOOT
+read -n 1 -p "$(echo $C"\nReboot now?  y/n  "$R)" REBOOT
 { [[ $REBOOT == y ]] && inform "Rebooting now..." && sudo reboot; }
 
 sh ./cleanup.sh

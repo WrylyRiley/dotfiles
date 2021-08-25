@@ -57,11 +57,13 @@ custom_git_prompt() {
 #################################
 # oh-my-zsh plugins             #
 #################################
-plugins=(git zsh-nvm colored-man-pages colored-man-pages yarn)
+plugins=(git zsh-nvm colored-man-pages yarn zsh-syntax-highlighting)
 . $ZSH/oh-my-zsh.sh
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"                                       # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+nvm="$NVM_DIR/nvm.sh"
+nvmbash="$NVM_DIR/bash_completion"
+[[ -s $nvm ]] && . $nvm
+[[ -s $nvmbash ]] && . $nvmbash
 
 #################################
 # Yarn / NPM                    #
@@ -78,7 +80,7 @@ alias prog="cd ~/programming"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias afk="pmset sleepnow"
 
 # git
 # overwriting zsh alias since we're using main instead of master
