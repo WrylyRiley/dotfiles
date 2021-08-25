@@ -3,7 +3,7 @@
 . ./helpers.sh
 clear
 # Modifiers
-read -n 1 -p "$(echo "\nIs this your personal Mac?  y/n  ")" PERSONAL
+read -n 1 -p $C"$(echo "\nIs this your personal Mac?  y/n  ")" PERSONAL
 read -n 1 -p "$(echo "\nInstall Homebrew casks & formulae?  y/n  ")" HOMEBREW
 read -n 1 -p "$(echo "\nInstall global node modules?  y/n  ")" NODEMOD
 read -n 1 -p "$(echo "\nDownload Mac store apps?  y/n  ")" MACSTORE
@@ -41,11 +41,11 @@ install_homebrew
 { [[ $ZSHELL == y ]] && inform "Configuring zsh" && sh ./zshell.sh; } || error "Not configuring zsh"
 # Finish
 cp "./config/.hushlogin" "$HOME/.hushlogin"
-sh ./cleanup.sh
 
 read -n 1 -p "$(echo "\nReboot now?  y/n  "$R)" REBOOT
 { [[ $REBOOT == y ]] && inform "Rebooting now..." && sudo reboot; }
 
+sh ./cleanup.sh
 inform "You're done! Congratulations! You'll need to reboot to see some changes take effect. Please do that now :)"
 . $HOME/.zshrc
 exit 0

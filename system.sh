@@ -102,11 +102,14 @@ defaults write com.apple.commerce AutoUpdate -int 1
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 
 # Set Vivaldi as the default browser
-debfro com.vivaldi.Vivaldi
+defbro com.vivaldi.Vivaldi
 
 # Set a new location for screenshots
 mkdir -p ~/Screen\ Shots
 defaults write com.apple.screencapture location ~/Screen\ Shots
+
+# Disable internet app quarantine dialog
+defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 # Change the setting on the touchbar
 defaults write ~/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.screen-lock, com.apple.system.mute, com.apple.system.volume, com.apple.system.brightness )'
@@ -128,16 +131,15 @@ duti -s com.microsoft.VSCode .md all
 duti -s com.microsoft.VSCode .py all
 duti -s com.microsoft.VSCode .txt all
 
-# Kill affected apps
-for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done
-
 # Karabiner configuration
-
-mkdir ~/.config/Karabiner
-cp ./config/Karabiner ~/.config/Karabiner
+mkdir -p ~/.config/Karabiner
+cp ./config/karabiner.json ~/.config/karabiner
 
 # Vivaldi configuration
 # Native Messaging needs to be enabled to allow 1Password to find Vivaldi
 # While chrome does this automatically, Vivaldy does not. This is the fix
 
 mkdir -p ~/Library/Application\ Support/Google/Chrome
+
+# Kill affected apps
+for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done

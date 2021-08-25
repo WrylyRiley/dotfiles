@@ -9,3 +9,4 @@ unset RSA
 unset GIT
 unset DEFAULTS
 unset PASSWORD
+unset REBOOT

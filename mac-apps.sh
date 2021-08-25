@@ -1,4 +1,3 @@
-
 . ./helpers.sh
 # Mac apps
 apps=(
@@ -9,6 +8,6 @@ apps=(
     409201541  # Pages
     497799835  # XCode
 )
-warn "Please sign into the Mac store before continuing"
-read -n 1 -r -s con
-for i in "${apps[@]}"; do mas install "$i"; done
+# warn "Please sign into the Mac store before continuing"
+# read -n 1 -r -s con
+mas install ${apps[@]}

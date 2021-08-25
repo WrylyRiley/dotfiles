@@ -1,4 +1,3 @@
-
 # Global Variables
 export INSTALL=n
 export PERSONAL=n
@@ -11,3 +10,4 @@ export RSA=n
 export GIT=n
 export DEFAULTS=n
 export PASSWORD=n
+export REBOOT=n

@@ -4,8 +4,8 @@
 # Adding the shortcuts I want to the dock
 ######################################################################
 dockutil --remove all
-dockutil --add '~/Downloads' --view grid --display folder
-dockutil --add '~/programming' --view grid --display folder
+dockutil --add '~/Downloads' --view list --display folder
+dockutil --add '~/programming' --view list --display folder
 dockutil --add '/Applications/Visual Studio Code.app'
 dockutil --add '/Applications/iTerm.app'
 dockutil --add '/Applications/Vivaldi.app'

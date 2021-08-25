@@ -15,11 +15,11 @@ common_casks=(
     1password
     1password-cli
     gimp
-    homebrew/cask/docker
-    homebrew/cask/flux
-    homebrew/cask-fonts/font-fira-code
-    homebrew/cask-fonts/font-jetbrains-mono
-    homebrew/cask-versions/firefox-developer-edition
+    docker
+    flux
+    font-fira-code
+    font-jetbrains-mono
+    firefox-developer-edition
     meetingbar
     insomnia
     iterm2
@@ -34,6 +34,9 @@ personal_casks=(
     discord
 )
 # Homebrew
+brew tap homebrew/cask
+brew tap homebrew/cask-fonts
+brew tap homebrew/cask-versions
 inform "Installing formulae"
 pour_formulae "${formulae[@]}"
 inform "Installing casks"
