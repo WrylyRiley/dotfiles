@@ -3,7 +3,7 @@
 . ./helpers.sh
 clear
 # Modifiers
-read -n 1 -p "$(echo $C"\nIs this your personal Mac?  y/n  ")" PERSONAL
+read -n 1 -p "$(echo "\nIs this your personal Mac?  y/n  ")" PERSONAL
 read -n 1 -p "$(echo "\nInstall Homebrew casks & formulae?  y/n  ")" HOMEBREW
 read -n 1 -p "$(echo "\nInstall global node modules?  y/n  ")" NODEMOD
 read -n 1 -p "$(echo "\nDownload Mac store apps?  y/n  ")" MACSTORE
