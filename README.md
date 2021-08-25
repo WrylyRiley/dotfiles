@@ -3,7 +3,7 @@
 ## Various configuration files and scripts I use to bootstrap my Mac
 
 ### What is has
-- installs homebrew
+- Installs homebrew
   - Installs casks and formulae I use frequently
 - Activates RSA keys with `ssh-agent`
   - They have to already be in `~/.ssh`
