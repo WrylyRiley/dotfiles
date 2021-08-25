@@ -10,6 +10,7 @@ formulae=(
     wget
     xcv
     duti
+    tldr
 )
 common_casks=(
     1password
@@ -20,14 +21,18 @@ common_casks=(
     font-fira-code
     font-jetbrains-mono
     firefox-developer-edition
+    karabiner-elements
     meetingbar
     insomnia
     iterm2
+    sequel-ace
     slack
     telegram-desktop
     tidal
+    tunnelblick
     visual-studio-code
     vivaldi
+    zoom
 )
 personal_casks=(
     steam
