@@ -1,3 +1,4 @@
+#!/bin/zsh 
 #################################
 # Path variables                #
 #################################
@@ -26,19 +27,20 @@ red="#b00000"   # status BG
   pastels=("#BFACFB" "#BEBCFC" "#BCCBFD" "#BBDBFE" "#BAEBFF" $black)
 eggplants=("#59363C" "#653E45" "#72464E" "#72464E" "#8B555E" $white)
 
-# color_choice=void
-color_choice=$(python3 -c 'import random; print(random.choice(["fire","eggplants","greens","greys","pastels","void"]))')
+colors=(void fire greys greens pastels eggplants)
+index=$(($RANDOM % ${#colors[@]}))
+color=${colors[$index]}
 
-export BULLETTRAIN_CUSTOM_FG=${${(P)color_choice}[6]}
-export BULLETTRAIN_CUSTOM_BG=${${(P)color_choice}[1]}
-export BULLETTRAIN_DIR_FG=${${(P)color_choice}[6]}
-export BULLETTRAIN_DIR_BG=${${(P)color_choice}[2]}
-export BULLETTRAIN_GIT_FG=${${(P)color_choice}[6]}
-export BULLETTRAIN_GIT_BG=${${(P)color_choice}[3]}
-export BULLETTRAIN_NVM_FG=${${(P)color_choice}[6]}
-export BULLETTRAIN_NVM_BG=${${(P)color_choice}[4]}
-export BULLETTRAIN_TIME_FG=${${(P)color_choice}[6]}
-export BULLETTRAIN_TIME_BG=${${(P)color_choice}[5]}
+export BULLETTRAIN_CUSTOM_FG=${${(P)color}[6]}
+export BULLETTRAIN_CUSTOM_BG=${${(P)color}[1]}
+export BULLETTRAIN_DIR_FG=${${(P)color}[6]}
+export BULLETTRAIN_DIR_BG=${${(P)color}[2]}
+export BULLETTRAIN_GIT_FG=${${(P)color}[6]}
+export BULLETTRAIN_GIT_BG=${${(P)color}[3]}
+export BULLETTRAIN_NVM_FG=${${(P)color}[6]}
+export BULLETTRAIN_NVM_BG=${${(P)color}[4]}
+export BULLETTRAIN_TIME_FG=${${(P)color}[6]}
+export BULLETTRAIN_TIME_BG=${${(P)color}[5]}
 export BULLETTRAIN_STATUS_FG=$white
 export BULLETTRAIN_STATUS_ERROR_BG=$red
 
