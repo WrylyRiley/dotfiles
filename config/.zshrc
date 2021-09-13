@@ -28,7 +28,7 @@ red="#b00000"   # status BG
 eggplants=("#59363C" "#653E45" "#72464E" "#72464E" "#8B555E" $white)
 
 colors=(void fire greys greens pastels eggplants)
-index=$(($RANDOM % ${#colors[@]}))
+index=$(($RANDOM % ${#colors[@]} + 1))
 color=${colors[$index]}
 
 export BULLETTRAIN_CUSTOM_FG=${${(P)color}[6]}
