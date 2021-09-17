@@ -74,15 +74,33 @@ alias y="yarn | pino-pretty"
 alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
 alias t="yarn test | pino-pretty"
+alias b="yarn build | pino-pretty"
+alias pi="pod install"
 
 #################################
 # General development shortcuts #
 #################################
-alias prog="cd ~/programming"
+alias pro="cd ~/code"
+alias df="code ~/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
 alias afk="pmset sleepnow"
+
+#################################
+# Truebill                      #
+#################################
+export GITHUB_PACKAGE_TOKEN="REPLACE_ME"
+alias sdm='DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn sequelize db:migrate'
+alias tdm='TRANSACTIONS_DATABASE_URL="postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable" yarn migrate:transactions up'
+alias tbapi='DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn start'
+genmig() {
+  npx sequelize-cli migration:generate --name $1
+}
+alias .web="cd ~/code/truebill/packages/web"
+alias .ios="cd ~/code/truebill-native/ios"
+alias dockeres=".web && yarn run docker:es"
+alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
 
 # git
 # overwriting zsh alias since we're using main instead of master

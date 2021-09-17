@@ -34,3 +34,4 @@ inform "Backing up zshrc to ~/.zshrc.bak"
 cp ~/.zshrc ~/.zshrc.bak
 inform "Copying new config"
 cp ./config/.zshrc ~/.zshrc
+co ./config/.aws_profile ~/.aws_profile
