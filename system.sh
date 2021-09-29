@@ -153,6 +153,9 @@ cp ./config/karabiner.json ~/.config/karabiner
 
 mkdir -p ~/Library/Application\ Support/Google/Chrome
 
+# A smol command to tell apple to shut it's face. Flipper is fine. Give me my malware
+xattr -d com.apple.quarantine /Applications/Flipper.app
+
 # Kill affected apps
 inform "Resetting affected processes"
 for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done
