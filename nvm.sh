@@ -9,7 +9,7 @@ modules="@vue/cli @angular/cli create-react-app yarn fkill nodemon lerna expo-cl
   inform "Installing NVM"
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 }
-inform "loading NVM" && [[ -s $nvm ]] && . $nvm
-inform "loading NVM bash completion" && [[ -s $nvmbash ]] && . $nvmbash
-inform "loading node 14" && nvm install 14
-inform "Installing global npm modules" && npm i -g $modules
+[[ -s $nvm ]] && . $nvm
+[[ -s $nvmbash ]] && . $nvmbash
+nvm install 14
+npm i -g $modules
