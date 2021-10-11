@@ -6,7 +6,7 @@
 - Installs homebrew
   - Installs casks and formulae I use frequently
 - Activates RSA keys with `ssh-agent`
-  - They have to already be in `~/.ssh`
+  - They have to already be in `$HOME/.ssh`
 - Installs various Mac store apps I use
   - You have to be signed in already, which should be the case since the setup signs you in 
 - Sets iTerm2 preferences

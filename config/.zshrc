@@ -2,7 +2,7 @@
 #################################
 # Path variables                #
 #################################
-export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:~/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:$PATH
+export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:~/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:/opt/homebrew/bin:$PATH
 
 #################################
 # Required oh-my-zsh export     #
@@ -82,8 +82,8 @@ alias pi="pod install"
 #################################
 # General development shortcuts #
 #################################
-alias .code="cd ~/code"
-alias df="code ~/dotfiles"
+alias .code="cd ~/programming"
+alias df="code ~/programming/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
@@ -106,8 +106,8 @@ alias tbapi='DATABASE_URL="postgres://truebill@localhost:25432/truebill_developm
 genmig() {
   npx sequelize-cli migration:generate --name $1
 }
-alias .web="cd ~/code/truebill/packages/web"
-alias .ios="cd ~/code/truebill-native/ios"
+alias .web="cd ~/programming/truebill/packages/web"
+alias .ios="cd ~/programming/truebill-native/ios"
 alias .tb="mrep && code truebill"
 alias .tbn="mrep && code truebill-native"
 alias dockeres=".web && yarn run docker:es"

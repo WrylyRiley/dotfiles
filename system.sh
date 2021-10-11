@@ -99,9 +99,9 @@ defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -i
 defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -int 0
 defaults write com.apple.Spotlight "NSStatusItem Visible Item-0" -int 0
 
-# Show the ~/Library folder
-inform "Unhiding ~/Library"
-chflags nohidden ~/Library
+# Show the $HOME/Library folder
+inform "Unhiding $HOME/Library"
+chflags nohidden $HOME/Library
 
 # Enable app auto-update
 inform "Enable app store auto-updates"
@@ -111,25 +111,19 @@ defaults write com.apple.commerce AutoUpdate -int 1
 inform "ENable subpixel antialiasing in VSCode"
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 
-# Set Vivaldi as the default browser
-inform "Setting Vivaldi as default browser"
-defbro com.vivaldi.Vivaldi
-
 # Set a new location for screenshots
 inform "Setting screnshot directory"
-mkdir -p ~/Screen\ Shots
-defaults write com.apple.screencapture location ~/Screen\ Shots
+mkdir -p $HOME/Screen\ Shots
+defaults write com.apple.screencapture location $HOME/Screen\ Shots
 
 # Change the setting on the touchbar
 inform "Setting touchbar preferences"
-defaults write ~/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.screen-lock, com.apple.system.mute, com.apple.system.volume, com.apple.system.brightness )'
-defaults write ~/Library/Preferences/com.apple.controlstrip FullCustomized '(com.apple.system.airplay, com.apple.system.group.keyboard-brightness, com.apple.system.group.brightness, com.apple.system.group.media, com.apple.system.group.volume, com.apple.system.sleep )'
+defaults write $HOME/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.screen-lock, com.apple.system.mute, com.apple.system.volume, com.apple.system.brightness )'
+defaults write $HOME/Library/Preferences/com.apple.controlstrip FullCustomized '(com.apple.system.airplay, com.apple.system.group.keyboard-brightness, com.apple.system.group.brightness, com.apple.system.group.media, com.apple.system.group.volume, com.apple.system.sleep )'
 
 # Change File Associations
 inform "Setting file associations for VSCode"
 duti -s com.microsoft.VSCode .sh all
-duti -s com.microsoft.VSCode .html all
-duti -s com.microsoft.VSCode .htm all
 duti -s com.microsoft.VSCode .css all
 duti -s com.microsoft.VSCode .js all
 duti -s com.microsoft.VSCode .jsx all
@@ -144,17 +138,14 @@ duti -s com.microsoft.VSCode .txt all
 
 # Karabiner configuration
 inform "Configuring Karabiner"
-mkdir -p ~/.config/Karabiner
-cp ./config/karabiner.json ~/.config/karabiner
+mkdir -p $HOME/.config/Karabiner
+cp ./config/karabiner.json $HOME/.config/karabiner
 
 # Vivaldi configuration
 # Native Messaging needs to be enabled to allow 1Password to find Vivaldi
 # While chrome does this automatically, Vivaldy does not. This is the fix
 
-mkdir -p ~/Library/Application\ Support/Google/Chrome
-
-# A smol command to tell apple to shut it's face. Flipper is fine. Give me my malware
-xattr -d com.apple.quarantine /Applications/Flipper.app
+mkdir -p $HOME/Library/Application\ Support/Google/Chrome
 
 # Kill affected apps
 inform "Resetting affected processes"

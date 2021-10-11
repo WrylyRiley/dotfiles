@@ -2,7 +2,7 @@
 
 { [[ -d "$HOME/.oh-my-zsh" ]] && warn "oh-my-zsh already installed"; } || {
     inform "Installing oh-my-zsh"
-    $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 }
 
 dir="$HOME/.oh-my-zsh/custom/plugins/autoupdate"
@@ -30,8 +30,8 @@ dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 }
 
 # zsh settings
-inform "Backing up zshrc to ~/.zshrc.bak"
-cp ~/.zshrc ~/.zshrc.bak
+inform "Backing up zshrc to $HOME/.zshrc.bak"
+cp $HOME/.zshrc $HOME/.zshrc.bak
 inform "Copying new config"
-cp ./config/.zshrc ~/.zshrc
-co ./config/.aws_profile ~/.aws_profile
+cp ./config/.zshrc $HOME/.zshrc
+cp ./config/.aws_profile $HOME/.aws_profile
