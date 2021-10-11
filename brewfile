@@ -1,0 +1,52 @@
+# specify a directory to install
+cask_args appdir: "/Applications"
+
+# taps
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/cask-drivers"
+
+# install packages
+brew "dockutil" 
+brew "mas" 
+brew "p7zip" 
+brew "python3" 
+brew "shfmt" 
+brew "thefuck" 
+brew "wget" 
+brew "xcv" 
+brew "duti" 
+brew "tldr"
+
+# Casks
+cask "1password"
+cask "1password-cli"
+cask "gimp"
+cask "docker"
+cask "flipper"
+cask "flux"
+cask "font-fira-code"
+cask "font-jetbrains-mono"
+cask "firefox-developer-edition"
+cask "karabiner-elements"
+cask "logitech-camera-settings"
+cask "meetingbar"
+cask "insomnia"
+cask "iterm2"
+cask "pgadmin4"
+cask "sequel-ace"
+cask "slack"
+cask "telegram-desktop"
+cask "tidal"
+cask "tunnelblick"
+cask "visual-studio-code"
+cask "vivaldi"
+cask "zoom"
+
+# Mac apps
+mas "Magnet", id: 937984704
+mas "Amphetamine", id: 441258766
+mas "Giphy", id: 668208984
+mas "Speedtest", id: 1153157709
+mas "Page", id: 409201541

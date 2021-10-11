@@ -15,7 +15,7 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 install_homebrew
 
-. ./homebrew-apps.sh
+brew bundle install --no-lock
 . ./rsa.sh
 . ./mac-apps.sh
 . ./iterm.sh
