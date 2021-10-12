@@ -32,20 +32,31 @@ brew bundle install --no-lock
 #####################################################################
 ####   SSH agent, SSH key, GPG key   ################################
 #####################################################################
-mkdir -p $HOME/.ssh
-warn "Please ensure your SSH keys are located in $HOME/.ssh. Press return to continue"
-read -n 0
-inform "Adding keys to ssh-agent"
-eval "$(ssh-agent -s)"
-touch $HOME/.ssh/config
-chmod 400 $HOME/.ssh/id_ed25519.pub $HOME/.ssh/id_ed25519
-echo "Host *
+inform "Would you like to restore your SSH keys, GPG key, and TrustDB? Please ensure all files are in ~/.ssh (y/n)"
+read -n 1 KEYS
+if [[ KEYS = y ]]; then
+  mkdir -p $HOME/.ssh
+  inform "Adding keys to ssh-agent"
+  eval "$(ssh-agent -s)"
+  touch $HOME/.ssh/config
+  chmod 400 $HOME/.ssh/id_ed25519.pub $HOME/.ssh/id_ed25519
+  echo "Host *
     	AddKeysToAgent yes
     	UseKeychain yes
     	IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
-ssh-add -K $HOME/.ssh/id_ed25519
+  ssh-add -K $HOME/.ssh/id_ed25519
 
-gpg --list-secret-keys --keyid-format=long
+  # https://risanb.com/code/backup-restore-gpg-key/
+  gpg —-import $HOME/.ssh/secret-key-backup.asc
+  rm ~/.gnupg/trustdb.gpg
+  gpg --import-ownertrust <$HOME/.ssh/trustdb-backup.txt
+
+  rm $HOME/.ssh/secret-key-backup.asc
+  rm $HOME/.ssh/trustdb-backup.txt
+else
+  warn "Skipping keys..."
+fi
+
 #####################################################################
 ####   iTerm2 Preferences   #########################################
 #####################################################################
@@ -247,7 +258,7 @@ inform "Enable app store auto-updates"
 defaults write com.apple.commerce AutoUpdate -int 1
 
 # Enable subpixel antialiasing in VSCode
-inform "ENable subpixel antialiasing in VSCode"
+inform "Enable subpixel antialiasing in VSCode"
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 
 # Set a new location for screenshots
