@@ -9,15 +9,16 @@ tap "homebrew/cask-drivers"
 
 # install packages
 brew "dockutil" 
+brew "duti" 
+brew "gnupg"
 brew "mas" 
 brew "p7zip" 
 brew "python3" 
 brew "shfmt" 
+brew "tldr"
 brew "thefuck" 
 brew "wget" 
 brew "xcv" 
-brew "duti" 
-brew "tldr"
 
 # Casks
 cask "1password"
