@@ -74,6 +74,16 @@ git config --global user.name "Riley Bauer"
 git config --global user.email "wryr1ley@gmail.com"
 git config --global core.editor "code --wait"
 git config --global pull.rebase false
+inform "Would you like to set your GPG key in Git?"
+read GITGPG
+if [[ GITGPG = y ]]; then
+  gpg --list-secret-keys --keyid-format=long
+  inform "Enter your key ID"
+  read GPGID
+  git config --global user.signingkey $GPGID
+else
+  warn "skipping GPG in Git"
+fi
 
 #####################################################################
 ####   NVM and global node modules @ node v14   #####################
