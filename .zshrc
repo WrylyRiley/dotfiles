@@ -98,23 +98,32 @@ alias chawsprod='echo "export AWS_PROFILE=truebill-prod-eng-role" > ~/.aws_profi
 alias chawsstg='echo "export AWS_PROFILE=truebill-staging-eng-role" > ~/.aws_profile && zsh'
 alias chawsdev='echo "export AWS_PROFILE=truebill-dev-eng-role" > ~/.aws_profile && zsh'
 
-# Everything else 
-export GITHUB_PACKAGE_TOKEN=""
+# Database management
 alias sdm='DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn sequelize db:migrate'
 alias tdm='TRANSACTIONS_DATABASE_URL="postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable" yarn migrate:transactions up'
-alias tbapi='DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn start'
 genmig() {
   npx sequelize-cli migration:generate --name $1
 }
+
+# Directories
 alias .web="cd ~/programming/truebill/packages/web"
 alias .ios="cd ~/programming/truebill-native/ios"
-alias .tb="mrep && code truebill"
-alias .tbn="mrep && code truebill-native"
-alias dockeres=".web && yarn run docker:es"
-alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
-alias mrep=".code && code ."
 
-# git
+# VSCode shortcuts
+alias tb=".code && code truebill"
+alias tbn=".code && code truebill-native"
+
+# Servers
+alias dockeres=".web && yarn run docker:es"
+alias dockerstd=".web && yarn run docker"
+alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
+alias api='.web && DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn start'
+alias metro=".ios && yarn start"
+alias app=".ios && yarn react-native run-ios"
+
+#################################
+# Git                           #
+#################################
 # overwriting zsh alias since we're using main instead of master
 alias gcm="git checkout master"
 alias sgpm="gsta;gcm;gl;gstp"

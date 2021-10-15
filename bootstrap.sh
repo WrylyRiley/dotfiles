@@ -27,7 +27,7 @@ sudo xcodebuild -license accept
 warn "Please sign into the Mac store before continuing. Press return to continue"
 read -n 0
 inform "Running brew bundle"
-brew bundle install --no-lock
+brew bundle install
 
 #####################################################################
 ####   SSH agent, SSH key, GPG key   ################################
@@ -168,10 +168,13 @@ dockutil --remove all
 dockutil --add '~/Downloads' --view list --display folder
 dockutil --add '~/programming' --view list --display folder
 dockutil --add '/Applications/Visual Studio Code.app'
+dockutil --add '/Applications/Android Studio.app'
 dockutil --add '/Applications/iTerm.app'
 dockutil --add '/Applications/Vivaldi.app'
 dockutil --add '/Applications/Firefox Developer Edition.app'
 dockutil --add '/Applications/Insomnia.app'
+dockutil --add '/Applications/pgAdmin 4.app'
+dockutil --add '/Applications/Flipper.app'
 dockutil --add '/Applications/Slack.app'
 dockutil --add '/Applications/Telegram Desktop.app'
 dockutil --add '/Applications/TIDAL.app'
