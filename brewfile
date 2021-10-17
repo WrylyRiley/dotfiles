@@ -1,7 +1,7 @@
 # specify a directory to install
 cask_args appdir: "/Applications"
 
-# taps #
+# taps ##
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
