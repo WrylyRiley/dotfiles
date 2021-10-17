@@ -32,11 +32,11 @@ brew bundle install
 #####################################################################
 ####   SSH agent, SSH key, GPG key   ################################
 #####################################################################
-inform "Would you like to restore your SSH keys, GPG key, and TrustDB? Please ensure all files are in ~/.ssh (y/n)"
+  mkdir -p $HOME/.ssh
+inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
 read -n 1 KEYS
 if [[ KEYS = y ]]; then
-  mkdir -p $HOME/.ssh
-  inform "Adding keys to ssh-agent"
+  inform "Adding key to ssh-agent"
   eval "$(ssh-agent -s)"
   touch $HOME/.ssh/config
   chmod 400 $HOME/.ssh/id_ed25519.pub $HOME/.ssh/id_ed25519
@@ -45,16 +45,8 @@ if [[ KEYS = y ]]; then
     	UseKeychain yes
     	IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
   ssh-add -K $HOME/.ssh/id_ed25519
-
-  # https://risanb.com/code/backup-restore-gpg-key/
-  gpg —-import $HOME/.ssh/secret-key-backup.asc
-  rm ~/.gnupg/trustdb.gpg
-  gpg --import-ownertrust <$HOME/.ssh/trustdb-backup.txt
-
-  rm $HOME/.ssh/secret-key-backup.asc
-  rm $HOME/.ssh/trustdb-backup.txt
 else
-  warn "Skipping keys..."
+  warn "Skipping key..."
 fi
 
 #####################################################################
@@ -74,16 +66,6 @@ git config --global user.name "Riley Bauer"
 git config --global user.email "wryr1ley@gmail.com"
 git config --global core.editor "code --wait"
 git config --global pull.rebase false
-inform "Would you like to set your GPG key in Git?"
-read GITGPG
-if [[ GITGPG = y ]]; then
-  gpg --list-secret-keys --keyid-format=long
-  inform "Enter your key ID"
-  read GPGID
-  git config --global user.signingkey $GPGID
-else
-  warn "skipping GPG in Git"
-fi
 
 #####################################################################
 ####   NVM and global node modules @ node v14   #####################
