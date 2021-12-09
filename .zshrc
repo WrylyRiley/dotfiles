@@ -2,7 +2,13 @@
 #################################
 # Path variables                #
 #################################
-export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:~/Library/Android/sdk/platform-tools:/usr/local/opt/tcl-tk/bin:/opt/homebrew/bin:$PATH
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/usr/local/opt/tcl-tk/bin:/opt/homebrew/bin:~/.jenv/bin:$PATH
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+eval "$(jenv init -)"
 
 #################################
 # Required oh-my-zsh export     #
@@ -82,12 +88,13 @@ alias pi="pod install"
 #################################
 # General development shortcuts #
 #################################
-alias .code="cd ~/programming"
+alias prog="cd ~/programming"
 alias df="code ~/programming/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
 alias afk="pmset sleepnow"
+export GPG_TTY=$(tty)
 
 #################################
 # Truebill                      #
@@ -99,11 +106,14 @@ alias chawsstg='echo "export AWS_PROFILE=truebill-staging-eng-role" > ~/.aws_pro
 alias chawsdev='echo "export AWS_PROFILE=truebill-dev-eng-role" > ~/.aws_profile && zsh'
 
 # Database management
-alias sdm='DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn sequelize db:migrate'
-alias tdm='TRANSACTIONS_DATABASE_URL="postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable" yarn migrate:transactions up'
+export DATABASE_URL=postgres://truebill@localhost:25432/truebill_development
+export TRANSACTIONS_DATABASE_URL=postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable
+alias sdm='yarn sequelize db:migrate'
+alias tdm='yarn migrate:transactions up'
 genmig() {
   npx sequelize-cli migration:generate --name $1
 }
+alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
 
 # Directories
 alias .web="cd ~/programming/truebill/packages/web"
@@ -117,18 +127,18 @@ alias tbn=".code && code truebill-native"
 alias dockeres=".web && yarn run docker:es"
 alias dockerstd=".web && yarn run docker"
 alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
-alias api='.web && DATABASE_URL="postgres://truebill@localhost:25432/truebill_development" yarn start'
+alias api='.web && yarn start'
+alias apidev='.web && yarn dev'
 alias metro=".ios && yarn start"
 alias app=".ios && yarn react-native run-ios"
+alias andapp=".ios && yarn react-native run-android"
 
 #################################
 # Git                           #
 #################################
-# overwriting zsh alias since we're using main instead of master
-alias gcm="git checkout master"
 alias sgpm="gsta;gcm;gl;gstp"
-pushit() { gcmsg "$1" && gp; }
-pushall() { gaa && gcmsg "$1" && gp }
+pushit() { git commit -S -m "$1" && gp; }
+pushall() { gaa && git commit -S -m "$1" && gp }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
 mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge master; }
  

@@ -32,7 +32,7 @@ brew bundle install
 #####################################################################
 ####   SSH agent, SSH key, GPG key   ################################
 #####################################################################
-  mkdir -p $HOME/.ssh
+mkdir -p $HOME/.ssh
 inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
 read -n 1 KEYS
 if [[ KEYS = y ]]; then
@@ -193,6 +193,7 @@ defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGes
 defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerDoubleTapGesture -int 1
 defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 0
 defaults write com.apple.AppleMultitouchTrackpad USBMouseStopsTrackpad -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -bool false
 
 # Global Settings
 inform "Updating global mac settings"
