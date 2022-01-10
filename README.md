@@ -19,3 +19,7 @@
 ### What it needs
 - An automated system to grab my RSA keys from 1Password
   - This is unlikely since the 1password-cli requires a lot of user input to get going and doesn't automatically sign in the desktop client
+
+## Linux
+
+Make sure you have your keys in place, then run the pi bootstrap script
