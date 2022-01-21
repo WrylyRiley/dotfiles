@@ -11,9 +11,10 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 eval "$(jenv init -)"
 
 #################################
-# Required oh-my-zsh export     #
+# General exports               #
 #################################
 export ZSH=~/.oh-my-zsh
+export LOCAL_IP=$(ifconfig -l | xargs -n1 ipconfig getifaddr)
 
 #################################
 # Theming - Bullet train        #
@@ -116,22 +117,34 @@ genmig() {
 alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
 
 # Directories
-alias .web="cd ~/programming/truebill/packages/web"
 alias .ios="cd ~/programming/truebill-native/ios"
+alias .web="cd ~/programming/truebill/packages/web"
+alias .webclient="cd ~/programming/truebill/packages/web-client"
+alias .www="cd ~/programming/truebill/www"
 
 # VSCode shortcuts
 alias tb=".code && code truebill"
 alias tbn=".code && code truebill-native"
 
 # Servers
+# Dev app                                       : dockerstd, api|apidev, metro, build app in xcode
+# Prod www (www.truebill.com)                   : dockerstd, api|apidev, wwwbuild, wwwserve
+# Dev www (www.truebill.com)                    : dockerstd, api|apidev, wwwdev
+# Dev legacy webclient (app.truebill.com)       : dockerstd, api|apidev, wwwdev, webapi, webclient
 alias dockeres=".web && yarn run docker:es"
 alias dockerstd=".web && yarn run docker"
 alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
 alias api='.web && yarn start'
 alias apidev='.web && yarn dev'
-alias metro=".ios && yarn start"
+alias metro=".ios && LOCAL_IP=$(echo \$LOCAL_IP) yarn start"
+alias webclient=".webclient && yarn dev"
+alias webapi=".web && yarn start:web"
+alias wwwbuild=".www && yarn clean && yarn build"
+alias wwwstart=".www && yarn serve"
+alias wwwdev=".www && yarn start"
 alias app=".ios && yarn react-native run-ios"
 alias andapp=".ios && yarn react-native run-android"
+alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
 
 #################################
 # Git                           #
@@ -139,6 +152,7 @@ alias andapp=".ios && yarn react-native run-android"
 alias sgpm="gsta;gcm;gl;gstp"
 pushit() { git commit -S -m "$1" && gp; }
 pushall() { gaa && git commit -S -m "$1" && gp }
+comall() { gaa && git commit -S -m "$1" }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
-mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge master; }
+mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge $(git_main_branch); }
  
