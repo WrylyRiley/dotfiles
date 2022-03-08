@@ -53,7 +53,7 @@
       "Close Sessions On End": true,
       "Jobs to Ignore": ["rlogin", "ssh", "slogin", "telnet"],
       "Scrollback Lines": 10000,
-      "Draw Powerline Glyphs": false,
+      "Draw Powerline Glyphs": true,
       "Hide After Opening": false,
       "Brighten Bold Text": true,
       "Flashing Bell": false,
@@ -355,7 +355,7 @@
       },
       "AWDS Pane Directory": "",
       "Blur": true,
-      "Normal Font": "FiraCode-Regular 12",
+      "Normal Font": "Fira Code",
       "Vertical Spacing": 1,
       "Ansi 7 Color": {
         "Red Component": 0.6871476769447327,
