@@ -19,6 +19,7 @@
 ### What it needs
 - An automated system to grab my RSA keys from 1Password
   - This is unlikely since the 1password-cli requires a lot of user input to get going and doesn't automatically sign in the desktop client
+- Added automation to set up GPG signing in git
 
 ## Linux
 

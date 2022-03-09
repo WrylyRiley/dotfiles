@@ -8,7 +8,9 @@ tap "homebrew/cask-versions"
 tap "homebrew/cask-drivers"
 
 # install packages
+brew "cloudflared"
 brew "cocoapods" 
+brew "convox" 
 brew "dockutil" 
 brew "duti" 
 brew "gnupg"

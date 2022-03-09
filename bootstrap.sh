@@ -8,7 +8,7 @@ inform() { printf "\x1b[1;32m🟢 $1\x1b[0m\n"; }
 #####################################################################
 ####   Terminal developer tools   ###################################
 #####################################################################
-{ which xcode-select &>/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && xcode-select --install; }
+{ which xcode-select &>/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && sudo xcode-select --install; }
 inform "Enabling xcode-select tooling"
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 sudo xcodebuild -license accept
@@ -34,16 +34,16 @@ brew bundle install
 #####################################################################
 mkdir -p $HOME/.ssh
 inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
-read -n 1 KEYS
+read -n -p KEYS
 if [[ KEYS = y ]]; then
   inform "Adding key to ssh-agent"
   eval "$(ssh-agent -s)"
   touch $HOME/.ssh/config
   chmod 400 $HOME/.ssh/id_ed25519.pub $HOME/.ssh/id_ed25519
   echo "Host *
-    	AddKeysToAgent yes
-    	UseKeychain yes
-    	IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
   ssh-add -K $HOME/.ssh/id_ed25519
 else
   warn "Skipping key..."

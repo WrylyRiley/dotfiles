@@ -143,16 +143,22 @@ alias wwwbuild=".www && yarn clean && yarn build"
 alias wwwstart=".www && yarn serve"
 alias wwwdev=".www && yarn start"
 alias app=".ios && yarn react-native run-ios"
-alias andapp=".ios && yarn react-native run-android"
+alias andapp=".ios && yarn react-native run-android && adb reverse tcp:8081 tcp:8081"
 alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
+
+#################################
+# Rocket                        #
+#################################
+alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo "
+alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew "
 
 #################################
 # Git                           #
 #################################
 alias sgpm="gsta;gcm;gl;gstp"
-pushit() { git commit -S -m "$1" && gp; }
-pushall() { gaa && git commit -S -m "$1" && gp }
-comall() { gaa && git commit -S -m "$1" }
+pushit() { gcsm "$1" && gp; }
+pushall() { gaa && gcsm "$1" && gp }
+comall() { gaa && gcsm "$1" }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
 mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge $(git_main_branch); }
  
