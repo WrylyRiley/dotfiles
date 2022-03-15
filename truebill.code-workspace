@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "path": "~/programming/truebill"
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "workbench.colorCustomizations": {
+      "statusBar.background": "#ad080f",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#de0a13",
+      "statusBarItem.remoteBackground": "#ad080f",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "titleBar.activeBackground": "#ad080f",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#ad080f99",
+      "titleBar.inactiveForeground": "#e7e7e799",
+      "activityBar.activeBackground": "#de0a13",
+      "activityBar.activeBorder": "#053d03",
+      "activityBar.background": "#de0a13",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBar.inactiveForeground": "#e7e7e799",
+      "activityBarBadge.background": "#053d03",
+      "activityBarBadge.foreground": "#e7e7e7"
+    },
+    "peacock.color": "ad080f"
+  }
+}

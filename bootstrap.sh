@@ -297,6 +297,11 @@ cp ./karabiner.json $HOME/.config/karabiner
 inform "Enabling native messaging for Vivaldi 1Password integration"
 mkdir -p $HOME/Library/Application\ Support/Google/Chrome
 
+# Copy workspace files
+cp ./truebill-native.code-workspace ./programming
+cp ./truebill.code-workspace ./programming
+
+#  Hide some login elements
 cp "./.hushlogin" "$HOME/.hushlogin"
 
 # Kill affected apps
