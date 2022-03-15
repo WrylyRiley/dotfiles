@@ -18,7 +18,7 @@ sudo xcodebuild -license accept
 #####################################################################
 { which brew &>/dev/null && warn "Homebrew already installed..."; } || {
   inform "Installing homebrew"
-  echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo | NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 #####################################################################
