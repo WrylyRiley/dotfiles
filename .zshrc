@@ -118,6 +118,7 @@ alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
 
 # Directories
 alias .ios="cd ~/programming/truebill-native/ios"
+alias .android="cd ~/programming/truebill-native/android"
 alias .web="cd ~/programming/truebill/packages/web"
 alias .webclient="cd ~/programming/truebill/packages/web-client"
 alias .www="cd ~/programming/truebill/www"
@@ -136,15 +137,20 @@ alias dockerstd=".web && yarn run docker"
 alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
 alias api='.web && yarn start'
 alias apidev='.web && yarn dev'
-alias metro=".ios && LOCAL_IP=$(echo \$LOCAL_IP) yarn start"
+alias metro=".ios && yarn start"
 alias webclient=".webclient && yarn dev"
 alias webapi=".web && yarn start:web"
 alias wwwbuild=".www && yarn clean && yarn build"
 alias wwwstart=".www && yarn serve"
 alias wwwdev=".www && yarn start"
-alias app=".ios && yarn react-native run-ios"
-alias andapp=".ios && yarn react-native run-android && adb reverse tcp:8081 tcp:8081"
+alias ip13pm=".ios && yarn react-native run-ios --simulator='iPhone 13 Pro Max'"
+alias ip13pro=".ios && yarn react-native run-ios --simulator='iPhone 13 Pro'"
+alias ip13mini=".ios && yarn react-native run-ios --simulator='iPhone 13 mini'"
+alias andapp=".android && yarn android && adbr"
 alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
+
+# Android
+alias adbr="adb reverse tcp:8081 tcp:8081"
 
 #################################
 # Rocket                        #
@@ -156,9 +162,9 @@ alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add 
 # Git                           #
 #################################
 alias sgpm="gsta;gcm;gl;gstp"
-pushit() { gcsm "$1" && gp; }
-pushall() { gaa && gcsm "$1" && gp }
-comall() { gaa && gcsm "$1" }
+pushit() { git commit -S -m "$1" && gp; }
+pushall() { gaa && git commit -S -m "$1" && gp }
+comall() { gaa && git commit -S -m "$1" }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
 mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge $(git_main_branch); }
  
