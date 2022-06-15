@@ -100,6 +100,17 @@ export GPG_TTY=$(tty)
 #################################
 # Truebill                      #
 #################################
+# slack theme
+# #0059D2,#F0F0F0,#1C7AF9,#FFFFFF,#0C356C,#FAFAFA,#00B568,#FB5738,#0C356C,#FFFFFF
+
+# Directories
+alias .ios="cd ~/programming/truebill-native/ios"
+alias .android="cd ~/programming/truebill-native/android"
+alias .web="cd ~/programming/truebill/packages/web"
+alias .legacyweb="cd ~/programming/truebill/packages/web-client"
+alias .webclient="cd ~/programming/truebill/web-client"
+alias .www="cd ~/programming/truebill/www"
+
 # AWS Profile
 . ~/.aws_profile
 alias chawsprod='echo "export AWS_PROFILE=truebill-prod-eng-role" > ~/.aws_profile && zsh'
@@ -111,17 +122,9 @@ export DATABASE_URL=postgres://truebill@localhost:25432/truebill_development
 export TRANSACTIONS_DATABASE_URL=postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable
 alias sdm='yarn sequelize db:migrate'
 alias tdm='yarn migrate:transactions up'
-genmig() {
-  npx sequelize-cli migration:generate --name $1
-}
+genmig() { .web && npx sequelize-cli migration:generate --name $1 }
 alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
-
-# Directories
-alias .ios="cd ~/programming/truebill-native/ios"
-alias .android="cd ~/programming/truebill-native/android"
-alias .web="cd ~/programming/truebill/packages/web"
-alias .webclient="cd ~/programming/truebill/packages/web-client"
-alias .www="cd ~/programming/truebill/www"
+alias monoreleases="convox releases -a truebill-2"  
 
 # VSCode shortcuts
 alias tb=".code && code truebill"
@@ -131,13 +134,14 @@ alias tbn=".code && code truebill-native"
 # Dev app                                       : dockerstd, api|apidev, metro, build app in xcode
 # Prod www (www.truebill.com)                   : dockerstd, api|apidev, wwwbuild, wwwserve
 # Dev www (www.truebill.com)                    : dockerstd, api|apidev, wwwdev
-# Dev legacy webclient (app.truebill.com)       : dockerstd, api|apidev, wwwdev, webapi, webclient
+# Dev legacy web-client (app.truebill.com)      : dockerstd, api|apidev, wwwdev, webapi, legacyweb
+# Dev web-client (app.truebill.com)             : dockerstd, api|apidev, webclient
 alias dockeres=".web && yarn run docker:es"
 alias dockerstd=".web && yarn run docker"
 alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
-alias api='.web && yarn start'
-alias apidev='.web && yarn dev'
+alias api='.web && yarn dev'
 alias metro=".ios && yarn start"
+alias legacyweb=".legacyweb && yarn dev"
 alias webclient=".webclient && yarn dev"
 alias webapi=".web && yarn start:web"
 alias wwwbuild=".www && yarn clean && yarn build"
@@ -151,10 +155,33 @@ alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConf
 
 # Android
 alias adbr="adb reverse tcp:8081 tcp:8081"
+alias adbrapi="adb reverse tcp:3000 tcp:3000"
+alias shake="adb shell input keyevent 82"
+
 
 #################################
 # Rocket                        #
 #################################
+set_rocket_vpn_bash_variables() {
+  echo "Currently connected to Rocket VPN!"
+# update to the following (file path might be different for windows)
+  if [[ -f /etc/ssl/certs/qlcerts.pem ]]; then
+    export AWS_CA_BUNDLE=/etc/ssl/certs/qlcerts.pem
+    export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/qlcerts.pem
+    export QL_SELF_SIGNED_CAFILE=/etc/ssl/certs/qlcerts.pem
+    export cafile=/etc/ssl/certs/qlcerts.pem
+    export cacert=/etc/ssl/certs/qlcerts.pem   # for serverless
+  fi
+}
+
+ROCKET_NETWORK_CIDR="12.165.188.0/24 162.252.136.0/21 143.55.176.0/20"
+CURRENT_IP_ADDRESS=$(dig +short myip.opendns.com @resolver1.opendns.com)
+grepcidr "$ROCKET_NETWORK_CIDR" <(echo "$CURRENT_IP_ADDRESS") >/dev/null && \
+  set_rocket_vpn_bash_variables || \
+  echo "Currently NOT connected to Rocket VPN"
+
+alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
+alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
 alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo "
 alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew "
 
@@ -163,6 +190,7 @@ alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add 
 #################################
 alias sgpm="gsta;gcm;gl;gstp"
 pushit() { git commit -S -m "$1" && gp; }
+comit() { git commit -S -m "$1"; }
 pushall() { gaa && git commit -S -m "$1" && gp }
 comall() { gaa && git commit -S -m "$1" }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
