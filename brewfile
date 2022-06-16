@@ -14,6 +14,8 @@ brew "convox"
 brew "dockutil" 
 brew "duti" 
 brew "gnupg"
+brew "grepcidr"
+brew "jenv"
 brew "mas" 
 brew "p7zip" 
 brew "python3" 
@@ -45,9 +47,10 @@ cask "meetingbar"
 # cask "pgadmin4"
 # cask "sequel-ace"
 cask "slack"
+cask "spotify"
 cask "telegram-desktop"
-cask "tidal"
-cask "tunnelblick"
+# cask "tidal"
+# cask "tunnelblick"
 cask "visual-studio-code"
 cask "vivaldi"
 cask "zoom"
@@ -55,6 +58,8 @@ cask "zoom"
 # Mac apps
 mas "Magnet", id: 937984704
 mas "Amphetamine", id: 441258766
+# Very long running :/ 
+mas "XCode", id:497799835
 # mas "Giphy", id: 668208984
 # mas "Speedtest", id: 1153157709
 # mas "Page", id: 409201541

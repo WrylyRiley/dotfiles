@@ -1,9 +1,15 @@
+#!/bin/zsh
+
 #####################################################################
 ####   Helper Functions   ###########################################
 #####################################################################
 warn() { printf "\x1b[1;34m🟡 $1\x1b[0m\n"; }
 error() { printf "\x1b[1;31m🔴 $1\x1b[0m\n"; }
 inform() { printf "\x1b[1;32m🟢 $1\x1b[0m\n"; }
+ARM = n
+if [[ $(arch) == 'arm64' ]]; then
+  $ARM = y
+fi
 
 #####################################################################
 ####   Terminal developer tools   ###################################
@@ -19,6 +25,11 @@ sudo xcodebuild -license accept
 { which brew &>/dev/null && warn "Homebrew already installed..."; } || {
   inform "Installing homebrew"
   echo | NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  if [[ $ARM == y ]]; then
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>$HOME/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 }
 
 #####################################################################
@@ -34,8 +45,8 @@ brew bundle install
 #####################################################################
 mkdir -p $HOME/.ssh
 inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
-read -n -p KEYS
-if [[ KEYS = y ]]; then
+read -q KEYS
+if [[ $KEYS == y ]]; then
   inform "Adding key to ssh-agent"
   eval "$(ssh-agent -s)"
   touch $HOME/.ssh/config
@@ -44,7 +55,7 @@ if [[ KEYS = y ]]; then
     AddKeysToAgent yes
     UseKeychain yes
     IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
-  ssh-add -K $HOME/.ssh/id_ed25519
+  [[ $ARM == y ]] && ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519 || ssh-add -K $HOME/.ssh/id_ed25519
 else
   warn "Skipping key..."
 fi
@@ -81,8 +92,15 @@ nvmbash="$NVM_DIR/bash_completion"
 inform "loading NVM" && [[ -s $nvm ]] && . $nvm
 inform "loading NVM bash completion" && [[ -s $nvmbash ]] && . $nvmbash
 npm config delete prefix
-inform "loading node 14" && nvm install 14
+inform "loading node 16" && nvm install 16
 inform "Installing global npm modules" && npm i -g @vue/cli @angular/cli create-react-app yarn fkill nodemon lerna expo-cli pino-pretty
+
+#####################################################################
+####   python modules   #############################################
+#####################################################################
+# Needed to do physical device debuging with Flipper
+inform "Installing IDB client for FLipper debugging"
+pip3.6 install fb-idb
 
 #####################################################################
 ####   oh-my-zsh, plugins, zsh settings   ###########################
@@ -160,7 +178,7 @@ dockutil --add '/Applications/Slack.app'
 dockutil --add '/Applications/Spotify.app'
 dockutil --add '/Applications/zoom.us.app'
 dockutil --add '/Applications/Telegram Desktop.app'
-dockutil --add '/Applications/1Password 7.app'
+dockutil --add '/Applications/1Password.app'
 dockutil --add '/Applications/Android Studio.app'
 dockutil --add '/Applications/XCode.app'
 
@@ -298,8 +316,11 @@ inform "Enabling native messaging for Vivaldi 1Password integration"
 mkdir -p $HOME/Library/Application\ Support/Google/Chrome
 
 # Copy workspace files
-cp ./truebill-native.code-workspace ./programming
-cp ./truebill.code-workspace ./programming
+cp ./truebill-native.code-workspace $HOME/programming
+cp ./truebill.code-workspace $HOME/programming
+
+# SOmetimes Apple doesn't register the quarantine approval, and the dialog comes up every time karabiner opens it
+xattr -rd com.apple.quarantine '/Applications/Visual Studio Code.app'
 
 #  Hide some login elements
 cp "./.hushlogin" "$HOME/.hushlogin"
