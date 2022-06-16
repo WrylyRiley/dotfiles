@@ -24,6 +24,7 @@ brew "ruby-build"
 brew "shfmt" 
 brew "tldr"
 brew "thefuck" 
+brew "watchman" 
 brew "wget" 
 brew "xcv" 
 
