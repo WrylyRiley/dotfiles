@@ -138,7 +138,6 @@ inform "Backing up zshrc to ~/.zshrc.bak"
 cp $HOME/.zshrc $HOME/.zshrc.bak
 inform "Copying new config"
 cp ./.zshrc $HOME/.zshrc
-cp ./.aws_profile $HOME/.aws_profile
 
 #####################################################################
 ####   System settings   ############################################

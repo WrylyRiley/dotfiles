@@ -84,7 +84,10 @@ alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
 alias t="yarn test | pino-pretty"
 alias b="yarn build | pino-pretty"
-alias pi="pod install"
+alias pi=".ios; pod install"
+alias pim1=".ios; rm -rf Pods/; pod install"
+alias pix64=".ios; rm -rf Pods/; arch -x86_64 pod install"
+
 
 #################################
 # General development shortcuts #
@@ -110,12 +113,7 @@ alias .web="cd ~/programming/truebill/packages/web"
 alias .legacyweb="cd ~/programming/truebill/packages/web-client"
 alias .webclient="cd ~/programming/truebill/web-client"
 alias .www="cd ~/programming/truebill/www"
-
-# AWS Profile
-. ~/.aws_profile
-alias chawsprod='echo "export AWS_PROFILE=truebill-prod-eng-role" > ~/.aws_profile && zsh'
-alias chawsstg='echo "export AWS_PROFILE=truebill-staging-eng-role" > ~/.aws_profile && zsh'
-alias chawsdev='echo "export AWS_PROFILE=truebill-dev-eng-role" > ~/.aws_profile && zsh'
+alias .ops="cd ~/programming/truebill/scripts/ops"
 
 # Database management
 export DATABASE_URL=postgres://truebill@localhost:25432/truebill_development
@@ -147,11 +145,14 @@ alias webapi=".web && yarn start:web"
 alias wwwbuild=".www && yarn clean && yarn build"
 alias wwwstart=".www && yarn serve"
 alias wwwdev=".www && yarn start"
-alias ip13pm=".ios && yarn react-native run-ios --simulator='iPhone 13 Pro Max'"
-alias ip13pro=".ios && yarn react-native run-ios --simulator='iPhone 13 Pro'"
-alias ip13mini=".ios && yarn react-native run-ios --simulator='iPhone 13 mini'"
+alias ip13pm=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro Max'"
+alias ip13pro=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro'"
+alias ip13mini=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 mini'"
 alias andapp=".android && yarn android && adbr"
 alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
+alias clearxcode="rm -rf ~/Library/Developer/Xcode/DerivedData"
+alias nukenative=".ios; rm -rf ../node_modules/; y; pix64;"
+alias watchdel="watchman watch-del '/Users/RBauer1/programming/truebill-native' ; watchman watch-project '/Users/RBauer1/programming/truebill-native'"
 
 # Android
 alias adbr="adb reverse tcp:8081 tcp:8081"
@@ -165,20 +166,25 @@ alias shake="adb shell input keyevent 82"
 set_rocket_vpn_bash_variables() {
   echo "Currently connected to Rocket VPN!"
 # update to the following (file path might be different for windows)
-  if [[ -f /etc/ssl/certs/qlcerts.pem ]]; then
-    export AWS_CA_BUNDLE=/etc/ssl/certs/qlcerts.pem
-    export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/qlcerts.pem
-    export QL_SELF_SIGNED_CAFILE=/etc/ssl/certs/qlcerts.pem
-    export cafile=/etc/ssl/certs/qlcerts.pem
-    export cacert=/etc/ssl/certs/qlcerts.pem   # for serverless
+  if [[ ! -f /etc/ssl/certs/qlcerts.pem ]]; then
+	  echo "Missing qlcerts.pem - downloading file"
+    echo "Sudo is needed to DL the SSL certificate - please provide your password"
+    sudo curl https://git.rockfin.com/raw/ansible-roles/qlcert/master/files/qlerts.pem -o /etc/ssl/certs/qlcerts.pem
   fi
+
+  export AWS_CA_BUNDLE=/etc/ssl/certs/qlcerts.pem
+  export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/qlcerts.pem
+  export QL_SELF_SIGNED_CAFILE=/etc/ssl/certs/qlcerts.pem
+  export cafile=/etc/ssl/certs/qlcerts.pem
+  export cacert=/etc/ssl/certs/qlcerts.pem   # for serverless
 }
 
-ROCKET_NETWORK_CIDR="12.165.188.0/24 162.252.136.0/21 143.55.176.0/20"
-CURRENT_IP_ADDRESS=$(dig +short myip.opendns.com @resolver1.opendns.com)
-grepcidr "$ROCKET_NETWORK_CIDR" <(echo "$CURRENT_IP_ADDRESS") >/dev/null && \
-  set_rocket_vpn_bash_variables || \
-  echo "Currently NOT connected to Rocket VPN"
+if [ -z "$(scutil --nwi | grep utun)" ]
+then
+    echo "Currently not connected to Rocket VPN"
+else
+    set_rocket_vpn_bash_variables
+fi
 
 alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
 alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
@@ -196,3 +202,14 @@ comall() { gaa && git commit -S -m "$1" }
 gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
 mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge $(git_main_branch); }
  
+#################################
+# Tokens                        #
+#################################
+ 
+#################################
+# Debug                         #
+#################################
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
