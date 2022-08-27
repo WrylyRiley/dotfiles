@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-#####################################################################
-####   Helper Functions   ###########################################
-#####################################################################
+##################################
+####   Helper Functions          #
+##################################
 warn() { printf "\x1b[1;34m🟡 $1\x1b[0m\n"; }
 error() { printf "\x1b[1;31m🔴 $1\x1b[0m\n"; }
 inform() { printf "\x1b[1;32m🟢 $1\x1b[0m\n"; }
@@ -11,17 +11,20 @@ if [[ $(arch) == 'arm64' ]]; then
   $ARM = y
 fi
 
-#####################################################################
-####   Terminal developer tools   ###################################
-#####################################################################
-{ which xcode-select &>/dev/null && error "xcode developer tools already installed"; } || { inform "Installing xcode developer tools" && sudo xcode-select --install; }
-inform "Enabling xcode-select tooling"
-sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-sudo xcodebuild -license accept
+##################################
+# Terminal developer tools       #
+##################################
+{ which xcode-select &>/dev/null && error "xcode developer tools already installed"; } || {
+  inform "Installing xcode developer tools"
+  sudo xcode-select --install
+  inform "Enabling xcode-select tooling"
+  sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+  sudo xcodebuild -license accept
+}
 
-#####################################################################
-####   Homebrew   ###################################################
-#####################################################################
+##################################
+# Homebrew                       #
+##################################
 { which brew &>/dev/null && warn "Homebrew already installed..."; } || {
   inform "Installing homebrew"
   echo | NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -32,17 +35,17 @@ sudo xcodebuild -license accept
   fi
 }
 
-#####################################################################
-####   Brew bundle install   ########################################
-#####################################################################
+##################################
+# Brew bundle                    #
+##################################
 warn "Please sign into the Mac store before continuing. Press return to continue"
 read -n 0
 inform "Running brew bundle"
 brew bundle install
 
-#####################################################################
-####   SSH agent, SSH key, GPG key   ################################
-#####################################################################
+##################################
+# SSH agent, SSH key, GPG key    #
+##################################
 mkdir -p $HOME/.ssh
 inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
 read -q KEYS
@@ -57,91 +60,67 @@ if [[ $KEYS == y ]]; then
     IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
   [[ $ARM == y ]] && ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519 || ssh-add -K $HOME/.ssh/id_ed25519
 else
-  warn "Skipping key..."
+  warn "Skipping SSHkey..."
 fi
 
-#####################################################################
-####   iTerm2 Preferences   #########################################
-#####################################################################
+inform "Would you like to restore your GPG key? Please ensure all files are in ~ (y/n)"
+read -q GPG
+if [[ $KEYS == y ]]; then
+  inform "Importing GPG key and Trust DB"
+  gpg --import $HOME/secret-key-backup.asc
+  gpg --import-ownertrust <$HOME/trustdb-backup.txt
+  rm $HOME/secret-key-backup.asc
+  rm $HOME/trustdb-backup.txt
+else
+  warn "Skipping GPG key..."
+fi
+
+##################################
+# iTerm2 Preferences             #
+##################################
 plistdir=$HOME/Library/Application\ Support/iTerm2/DynamicProfiles
 mkdir -p $plistdir
 inform "Setting iTerm preferences"
 cp -f "./itermProfiles.json" "${plistdir}/profiles.plist"
 warn "Make sure you change your default profile in iTerm"
 
-#####################################################################
-####   Git Preferences   ############################################
-#####################################################################
+##################################
+# Git Preferences                #
+##################################
 inform "Setting git preferences"
-git config --global user.name "Riley Bauer"
-git config --global user.email "wryr1ley@gmail.com"
-git config --global core.editor "code --wait"
-git config --global pull.rebase false
+cp ./.gitconfig $HOME/.gitconfig
 
-#####################################################################
-####   NVM and global node modules @ node v14   #####################
-#####################################################################
-export NVM_DIR="$HOME/.nvm"
-nvm="$NVM_DIR/nvm.sh"
-nvmbash="$NVM_DIR/bash_completion"
-
-{ [[ -s $nvm ]] && inform "NVM already installed..."; } || {
-  inform "Installing NVM"
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-}
-inform "loading NVM" && [[ -s $nvm ]] && . $nvm
-inform "loading NVM bash completion" && [[ -s $nvmbash ]] && . $nvmbash
-npm config delete prefix
-inform "loading node 16" && nvm install 16
-inform "Installing global npm modules" && npm i -g @vue/cli @angular/cli create-react-app yarn fkill nodemon lerna expo-cli pino-pretty
-
-#####################################################################
-####   python modules   #############################################
-#####################################################################
+##################################
+# Python modules                 #
+##################################
 # Needed to do physical device debuging with Flipper
-inform "Installing IDB client for FLipper debugging"
+inform "Installing IDB client for Flipper debugging"
 pip3.6 install fb-idb
 
-#####################################################################
-####   oh-my-zsh, plugins, zsh settings   ###########################
-#####################################################################
-{ [[ -d "$HOME/.oh-my-zsh" ]] && warn "oh-my-zsh already installed"; } || {
-  inform "Installing oh-my-zsh"
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-}
+##################################
+# zsh, plugins, settings         #
+##################################
+export ZSHCONFIG="$HOME/.config/zsh"
+mkdir -p $ZSHCONFIG
+cd $ZSHCONFIG
 
-file="$HOME/.oh-my-zsh/themes/bullet-train.zsh-theme"
-{ [[ -e $file ]] && warn "bullet-train already installed"; } || {
-  inform "Installing bullet-train"
-  curl -L -o $file http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
-}
+inform "Installing zsh syntax highlighting"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+inform "Installing zsh autosuggestions"
+git clone https://github.com/zsh-users/zsh-autosuggestions
+inform "Installing zsh completions"
+git clone https://github.com/zsh-users/zsh-completions.git
+inform "Copying static aliases"
+cp ./static_aliases.sh $ZDOTDIR
 
-dir="$HOME/.oh-my-zsh/custom/plugins/autoupdate"
-{ [[ -d $dir ]] && warn "autoupdate already installed"; } || {
-  inform "Installing autoupdate"
-  git clone -q https://github.com/TamCore/autoupdate-oh-my-zsh-plugins $dir
-}
-
-dir="$HOME/.oh-my-zsh/custom/plugins/zsh-nvm"
-{ [[ -d $dir ]] && warn "zsh-nvm already installed"; } || {
-  inform "Installing zsh-nvm"
-  git clone -q https://github.com/lukechilds/zsh-nvm $dir
-}
-
-dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-{ [[ -d $dir ]] && warn "zsh-syntax-highlighting already installed"; } || {
-  inform "Installing zsh-syntax-highlighting"
-  git clone -q https://github.com/zsh-users/zsh-syntax-highlighting.git $dir
-}
-
-inform "Backing up zshrc to ~/.zshrc.bak"
+inform "Backing up ~/.zshrc to ~/.zshrc.bak"
 cp $HOME/.zshrc $HOME/.zshrc.bak
 inform "Copying new config"
 cp ./.zshrc $HOME/.zshrc
 
-#####################################################################
-####   System settings   ############################################
-#####################################################################
+##################################
+# System settings                #
+##################################
 # These are confirmed to work in Big Sur
 
 # Dock Settings
@@ -267,11 +246,11 @@ inform "Unhiding ~/Library"
 chflags nohidden $HOME/Library
 
 # Enable app auto-update
-inform "Enable app store auto-updates"
+inform "Enabling app store auto-updates"
 defaults write com.apple.commerce AutoUpdate -int 1
 
 # Enable subpixel antialiasing in VSCode
-inform "Enable subpixel antialiasing in VSCode"
+inform "Enabling subpixel antialiasing in VSCode"
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 
 # Set a new location for screenshots
@@ -318,7 +297,7 @@ mkdir -p $HOME/Library/Application\ Support/Google/Chrome
 cp ./truebill-native.code-workspace $HOME/programming
 cp ./truebill.code-workspace $HOME/programming
 
-# SOmetimes Apple doesn't register the quarantine approval, and the dialog comes up every time karabiner opens it
+# Sometimes Apple doesn't register the quarantine approval, and the dialog comes up every time karabiner opens it
 xattr -rd com.apple.quarantine '/Applications/Visual Studio Code.app'
 
 #  Hide some login elements

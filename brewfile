@@ -13,6 +13,7 @@ brew "cocoapods"
 brew "convox" 
 brew "dockutil" 
 brew "duti" 
+brew "fnm"
 brew "gnupg"
 brew "grepcidr"
 brew "jenv"
@@ -60,7 +61,7 @@ cask "zoom"
 mas "Magnet", id: 937984704
 mas "Amphetamine", id: 441258766
 # Very long running :/ 
-mas "XCode", id:497799835
+# mas "XCode", id:497799835
 # mas "Giphy", id: 668208984
 # mas "Speedtest", id: 1153157709
 # mas "Page", id: 409201541

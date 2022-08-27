@@ -1,80 +1,54 @@
-#!/bin/zsh 
+#!/bin/zsh
+#################################
+# Initialization and Prompt     #
+#################################
+autoload -U promptinit
+eval "$(fnm env --use-on-cd)"
+setopt prompt_subst MENU_COMPLETE no_list_ambiguous autocd
+
+git_branch() {
+  raw_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+  if [[ ! $raw_branch == "" ]]; then echo '%F{100}<'$raw_branch'>%f'; fi
+}
+node_ver() { echo "%F{028}"$'\U2B21'"$(fnm current | sed 's/v//')%f"; }
+
+PS1='%F{130}╭─%B%n%f%F{096}@%m%f%b %F{026}(%~)%f $(node_ver) $(git_branch) %f%(?..%F{196}[%?]%f)
+%F{130}╰─'$'\U21A0''%f'
+
 #################################
 # Path variables                #
 #################################
 export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/usr/local/opt/tcl-tk/bin:/opt/homebrew/bin:~/.jenv/bin:$PATH
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-eval "$(jenv init -)"
+export ZSHCONFIG="$HOME/.config/zsh"
+path+=("$ANDROID_HOME/emulator")
+path+=("$ANDROID_HOME/tools")
+path+=("$ANDROID_HOME/tools/bin")
+path+=("$ANDROID_HOME/platform-tools")
+path+=("/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin")
+path+=("/usr/local/opt/tcl-tk/bin")
+path+=("/opt/homebrew/bin")
+path+=("$HOME/.jenv/bin")
+export PATH
+# Ensuring correct tty is used for gpg commit signing
+export GPG_TTY=$(tty)
 
 #################################
-# General exports               #
+# Plugins                       #
 #################################
-export ZSH=~/.oh-my-zsh
-export LOCAL_IP=$(ifconfig -l | xargs -n1 ipconfig getifaddr)
-
-#################################
-# Theming - Bullet train        #
-#################################
-ZSH_THEME="bullet-train"
-export BULLETTRAIN_PROMPT_ORDER=(custom dir status git nvm aws time)
-
-# Logic for random color selection
-# color_key=(custom dir git nvm aws time font_color)
-black="#000000" # font FG
-white="#ffffff" # font FG
-red="#b00000"   # status BG
-     void=("#180303" "#310904" "#4A0F04" "#621405" "#7B1A05" "#942006" $white)
-     fire=("#6A040F" "#9D0208" "#D00000" "#DC2F02" "#E85D04" "#F48C06" $black)
-    greys=("#808080" "#C0C0C0" "#E0E0E0" "#F0F0F0" "#F8F8F8" "#FFFFFF" $black)
-   greens=("#34A0A4" "#52B69A" "#76C893" "#99D98C" "#B5E48C" "#D9ED92" $black)
-  pastels=("#C09CFA" "#BFACFB" "#BEBCFC" "#BCCBFD" "#BBDBFE" "#BAEBFF" $black)
-eggplants=("#4C2F34" "#59363C" "#653E45" "#72464E" "#72464E" "#8B555E" $white)
-
-colors=(void fire greys greens pastels eggplants)
-index=$(($RANDOM % ${#colors[@]} + 1))
-color=${colors[$index]}
-
-export BULLETTRAIN_CUSTOM_FG=${${(P)color}[7]}
-export BULLETTRAIN_CUSTOM_BG=${${(P)color}[1]}
-export BULLETTRAIN_DIR_FG=${${(P)color}[7]}
-export BULLETTRAIN_DIR_BG=${${(P)color}[2]}
-export BULLETTRAIN_GIT_FG=${${(P)color}[7]}
-export BULLETTRAIN_GIT_BG=${${(P)color}[3]}
-export BULLETTRAIN_NVM_FG=${${(P)color}[7]}
-export BULLETTRAIN_NVM_BG=${${(P)color}[4]}
-export BULLETTRAIN_AWS_FG=${${(P)color}[7]}
-export BULLETTRAIN_AWS_BG=${${(P)color}[5]}
-export BULLETTRAIN_TIME_FG=${${(P)color}[7]}
-export BULLETTRAIN_TIME_BG=${${(P)color}[6]}
-export BULLETTRAIN_STATUS_FG=$white
-export BULLETTRAIN_STATUS_ERROR_BG=$red
-
-export BULLETTRAIN_CUSTOM_MSG=𖤐
-export BULLETTRAIN_TIME_12HR=true
-export BULLETTRAIN_GIT_PROMPT_CMD="\$(custom_git_prompt)"
-export BULLETTRAIN_PROMPT_CHAR="ᛒᚢᚾ"
-export BULLETTRAIN_STATUS_EXIT_SHOW=true
-custom_git_prompt() {
-	prompt=$(git_prompt_info)
-	prompt=${prompt//\//\ \ }
-	prompt=${prompt//_/\ }
-	echo ${prompt}
-}
-
-#################################
-# oh-my-zsh plugins             #
-#################################
-plugins=(git zsh-nvm colored-man-pages yarn zsh-syntax-highlighting)
-. $ZSH/oh-my-zsh.sh
-export NVM_DIR="$HOME/.nvm"
-nvm="$NVM_DIR/nvm.sh"
-nvmbash="$NVM_DIR/bash_completion"
-[[ -s $nvm ]] && . $nvm
-[[ -s $nvmbash ]] && . $nvmbash
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu yes select
+source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
+source $ZSHCONFIG/static_aliases.zsh
+fpath=($ZSHCONFIG/fnm_completions $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_git $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_brew $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_brew_cask $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_man $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_pip $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_xcrun $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src/_yarn $fpath)
 
 #################################
 # Yarn / NPM                    #
@@ -83,27 +57,38 @@ alias y="yarn | pino-pretty"
 alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
 alias t="yarn test | pino-pretty"
-alias b="yarn build | pino-pretty"
-alias pi=".ios; pod install"
-alias pim1=".ios; rm -rf Pods/; pod install"
-alias pix64=".ios; rm -rf Pods/; arch -x86_64 pod install"
-
 
 #################################
 # General development shortcuts #
 #################################
 alias prog="cd ~/programming"
-alias df="code ~/programming/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
 alias afk="pmset sleepnow"
-export GPG_TTY=$(tty)
+alias pihole="ssh pi@192.168.50.237"
+alias pi4="ssh pi@rpi4.local"
+
+# git
+alias sgpm="gsta;gcm;gl;gstp"
+pushit() { gcSm "$1" && gp; }
+pushall() { gaa && gcSm "$1" && gp; }
+gcbp() { gcb "$1" && gpsup "$1"; }
+# backwards compatibility
+mmg() { gmom; }
 
 #################################
-# Truebill                      #
+# Debug                         #
 #################################
-# slack theme
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
+
+#################################
+# Rocket General                #
+#################################
+# Truebill slack theme (RIP)
 # #0059D2,#F0F0F0,#1C7AF9,#FFFFFF,#0C356C,#FAFAFA,#00B568,#FB5738,#0C356C,#FFFFFF
 
 # Directories
@@ -116,13 +101,11 @@ alias .www="cd ~/programming/truebill/www"
 alias .ops="cd ~/programming/truebill/scripts/ops"
 
 # Database management
-export DATABASE_URL=postgres://truebill@localhost:25432/truebill_development
-export TRANSACTIONS_DATABASE_URL=postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable
 alias sdm='yarn sequelize db:migrate'
 alias tdm='yarn migrate:transactions up'
-genmig() { .web && npx sequelize-cli migration:generate --name $1 }
+genmig() { .web && npx sequelize-cli migration:generate --name $1; }
 alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
-alias monoreleases="convox releases -a truebill-2"  
+alias monoreleases="convox releases -a truebill-2"
 
 # VSCode shortcuts
 alias tb=".code && code truebill"
@@ -159,31 +142,29 @@ alias adbr="adb reverse tcp:8081 tcp:8081"
 alias adbrapi="adb reverse tcp:3000 tcp:3000"
 alias shake="adb shell input keyevent 82"
 
+#################################
+# Rocket Environment            #
+#################################
+# Rocket Local DB URLs
+export DATABASE_URL=postgres://truebill@localhost:25432/truebill_development
+export TRANSACTIONS_DATABASE_URL=postgres://truebill@localhost:25432/truebill_transactions?sslmode=disable
+
+# Rocket-specific certs
+export AWS_CA_BUNDLE=/etc/ssl/certs/qlcerts.pem
+export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/qlcerts.pem
+export QL_SELF_SIGNED_CAFILE=/etc/ssl/certs/qlcerts.pem
+export cafile=/etc/ssl/certs/qlcerts.pem
+export cacert=/etc/ssl/certs/qlcerts.pem # for serverless
 
 #################################
-# Rocket                        #
+# Rocket Utils                  #
 #################################
-set_rocket_vpn_bash_variables() {
-  echo "Currently connected to Rocket VPN!"
-# update to the following (file path might be different for windows)
+if [[ ! -z "$(scutil --nwi | grep utun)" ]]; then
   if [[ ! -f /etc/ssl/certs/qlcerts.pem ]]; then
-	  echo "Missing qlcerts.pem - downloading file"
+    echo "Missing qlcerts.pem - downloading file"
     echo "Sudo is needed to DL the SSL certificate - please provide your password"
     sudo curl https://git.rockfin.com/raw/ansible-roles/qlcert/master/files/qlerts.pem -o /etc/ssl/certs/qlcerts.pem
   fi
-
-  export AWS_CA_BUNDLE=/etc/ssl/certs/qlcerts.pem
-  export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/qlcerts.pem
-  export QL_SELF_SIGNED_CAFILE=/etc/ssl/certs/qlcerts.pem
-  export cafile=/etc/ssl/certs/qlcerts.pem
-  export cacert=/etc/ssl/certs/qlcerts.pem   # for serverless
-}
-
-if [ -z "$(scutil --nwi | grep utun)" ]
-then
-    echo "Currently not connected to Rocket VPN"
-else
-    set_rocket_vpn_bash_variables
 fi
 
 alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
@@ -192,24 +173,5 @@ alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add 
 alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew "
 
 #################################
-# Git                           #
+# Rocket Tokens                 #
 #################################
-alias sgpm="gsta;gcm;gl;gstp"
-pushit() { git commit -S -m "$1" && gp; }
-comit() { git commit -S -m "$1"; }
-pushall() { gaa && git commit -S -m "$1" && gp }
-comall() { gaa && git commit -S -m "$1" }
-gcbp() { git checkout -B "$1" && git push --set-upstream origin "$1"; }
-mmg() { branch=$(git symbolic-ref --short HEAD) && gcm && gl && gco $branch && git merge $(git_main_branch); }
- 
-#################################
-# Tokens                        #
-#################################
- 
-#################################
-# Debug                         #
-#################################
-timezsh() {
-  shell=${1-$SHELL}
-  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
-}

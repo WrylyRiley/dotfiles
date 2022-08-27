@@ -3,13 +3,13 @@
 #####################################################################
 ####   Tooling   ####################################################
 #####################################################################
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt dist-upgrade -y
+# sudo apt update -y
+# sudo apt upgrade -y
+# sudo apt dist-upgrade -y
 
-sudo apt install git -y
-sudo apt install zsh -y
-sudo chsh -s $(which zsh)
+# sudo apt install git -y
+# sudo apt install zsh -y
+chsh -s /bin/zsh
 
 #####################################################################
 ####   oh-my-zsh, plugins, zsh settings   ###########################
@@ -58,3 +58,5 @@ while true; do
   *) echo "Please answer yes or no." ;;
   esac
 done
+
+exit 0
