@@ -1,10 +1,16 @@
-#!/bin/zsh
 #################################
 # Initialization and Prompt     #
 #################################
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000
+SAVEHIST=1000000
 autoload -U promptinit
+setopt prompt_subst MENU_COMPLETE no_list_ambiguous autocd EXTENDED_HISTORY
+unsetopt BEEP
+zle_highlight=('paste:none')
+unset zle_bracketed_paste
 eval "$(fnm env --use-on-cd)"
-setopt prompt_subst MENU_COMPLETE no_list_ambiguous autocd
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 git_branch() {
   raw_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
@@ -16,19 +22,15 @@ PS1='%F{130}╭─%B%n%f%F{096}@%m%f%b %F{026}(%~)%f $(node_ver) $(git_branch) %
 %F{130}╰─'$'\U21A0''%f'
 
 #################################
-# Path variables                #
+# Exports                       #
 #################################
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ZSHCONFIG="$HOME/.config/zsh"
-path+=("$ANDROID_HOME/emulator")
-path+=("$ANDROID_HOME/tools")
-path+=("$ANDROID_HOME/tools/bin")
-path+=("$ANDROID_HOME/platform-tools")
-path+=("/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin")
-path+=("/usr/local/opt/tcl-tk/bin")
-path+=("/opt/homebrew/bin")
-path+=("$HOME/.jenv/bin")
-export PATH
+export EDITOR="code"
+export HOMEBREW_NO_ENV_HINTS=1
+# Keep path deduped on subshells
+typeset -aU path
+export PATH="/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/opt/homebrew/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 # Ensuring correct tty is used for gpg commit signing
 export GPG_TTY=$(tty)
 
@@ -36,19 +38,19 @@ export GPG_TTY=$(tty)
 # Plugins                       #
 #################################
 autoload -Uz compinit && compinit
+# Keyboard completion selection
 zstyle ':completion:*' menu yes select
-source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
-source $ZSHCONFIG/static_aliases.zsh
+[ -f $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -f $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh ] && source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
+[ -f $ZSHCONFIG/static_aliases.zsh ] && source $ZSHCONFIG/static_aliases.zsh
+
+# asdf initialization
+# source $(brew --prefix asdf)/libexec/asdf.sh
+
+# Completions
 fpath=($ZSHCONFIG/fnm_completions $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_git $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_brew $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_brew_cask $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_man $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_pip $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_xcrun $fpath)
-fpath=($ZSHCONFIG/zsh-completions/src/_yarn $fpath)
+fpath=($ZSHCONFIG/zsh-completions/src $fpath)
 
 #################################
 # Yarn / NPM                    #

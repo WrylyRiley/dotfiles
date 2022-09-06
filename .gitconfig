@@ -2,13 +2,21 @@
 name = Riley Bauer
 email = wryr1ley@gmail.com
 signingkey = A6BB291B87392632
+
 [commit]
 gpgsign = true
+
 [github]
 user = wrylyriley
+
 [core]
 editor = code --wait
+
 [pull]
 rebase = false
+
 [color]
 ui = true
+
+[init]
+defaultBranch = main

@@ -47,10 +47,12 @@ brew bundle install
 # SSH agent, SSH key, GPG key    #
 ##################################
 mkdir -p $HOME/.ssh
-inform "Would you like to restore your SSH key? Please ensure all files are in ~/.ssh (y/n)"
+inform "Would you like to restore your SSH key? Please ensure all files are in ~ (y/n)"
 read -q KEYS
 if [[ $KEYS == y ]]; then
   inform "Adding key to ssh-agent"
+  mv ~/id_ed25519 ~/.ssh/id_ed25519
+  mv ~/id_ed25519.pub ~/.ssh/id_ed25519.pub
   eval "$(ssh-agent -s)"
   touch $HOME/.ssh/config
   chmod 400 $HOME/.ssh/id_ed25519.pub $HOME/.ssh/id_ed25519
@@ -65,7 +67,7 @@ fi
 
 inform "Would you like to restore your GPG key? Please ensure all files are in ~ (y/n)"
 read -q GPG
-if [[ $KEYS == y ]]; then
+if [[ $GPG == y ]]; then
   inform "Importing GPG key and Trust DB"
   gpg --import $HOME/secret-key-backup.asc
   gpg --import-ownertrust <$HOME/trustdb-backup.txt
@@ -83,6 +85,7 @@ mkdir -p $plistdir
 inform "Setting iTerm preferences"
 cp -f "./itermProfiles.json" "${plistdir}/profiles.plist"
 warn "Make sure you change your default profile in iTerm"
+inform "Consider changing non-profile settings like preventing automatic copying on text selection, and natural typing"
 
 ##################################
 # Git Preferences                #
@@ -95,7 +98,7 @@ cp ./.gitconfig $HOME/.gitconfig
 ##################################
 # Needed to do physical device debuging with Flipper
 inform "Installing IDB client for Flipper debugging"
-pip3.6 install fb-idb
+pip3 install fb-idb
 
 ##################################
 # zsh, plugins, settings         #
@@ -142,23 +145,15 @@ defaults write com.apple.dock tilesize -int 50
 
 # Dock shortcuts
 inform "Setting dock shortcuts"
+# Not on homebrew yet for some reason
+curl https://github.com/kcrawford/dockutil/releases/download/3.0.2/dockutil-3.0.2.pkg ~/Downloads
+sudo installer -pkg ~/Downloads/dockutil-3.0.2.pkg -target /
 dockutil --remove all
-dockutil --add '~/Downloads' --view list --display folder
+for app in "Privileges" "Visual Studio Code" "iTerm" "Vivaldi" "Insomnia" "Flipper" "Beekeeper Studio" "Slack" "Discord" "Spotify" "zoom.us" "Cricut Design Space" "Telegram Desktop" "1Password" "Steam" "Android Studio" "XCode"; do
+  [[ -d "/Applications/${app}.app" ]] && dockutil --add "/Applications/${app}.app" --no-restart
+done
+dockutil --add '~/Downloads' --view list --display folder --no-restart
 dockutil --add '~/programming' --view list --display folder
-dockutil --add '/Applications/Privileges.app'
-dockutil --add '/Applications/Visual Studio Code.app'
-dockutil --add '/Applications/iTerm.app'
-dockutil --add '/Applications/Vivaldi.app'
-dockutil --add '/Applications/Insomnia.app'
-dockutil --add '/Applications/Flipper.app'
-dockutil --add '/Applications/Beekeeper Studio.app'
-dockutil --add '/Applications/Slack.app'
-dockutil --add '/Applications/Spotify.app'
-dockutil --add '/Applications/zoom.us.app'
-dockutil --add '/Applications/Telegram Desktop.app'
-dockutil --add '/Applications/1Password.app'
-dockutil --add '/Applications/Android Studio.app'
-dockutil --add '/Applications/XCode.app'
 
 # Mouse Settings
 inform "Updating trackpad settings"

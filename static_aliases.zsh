@@ -132,4 +132,11 @@ alias .......="cd ../../../../../..$@"
 #################################
 # suffix aliases                #
 #################################
-alias -s {js,ts,html,json,md}=code
+alias -s {js,ts,html,json,md}="code"
+
+#################################
+# ...the other stuff            #
+#################################
+# RIP python 2 support on mac
+alias pip="pip3"
+alias python="python3"

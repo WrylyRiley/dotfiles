@@ -1,9 +1,5 @@
 {
-  "folders": [
-    {
-      "path": "~/programming/truebill"
-    }
-  ],
+  "folders": [{ "path": "~/programming/truebill" }],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "workbench.colorCustomizations": {

@@ -7,14 +7,16 @@
   - Installs casks and formulae I use frequently
 - Activates RSA keys with `ssh-agent`
   - They have to already be in `$HOME/.ssh`
+- Restores gpg keys
+  - They have to be in 
 - Installs various Mac store apps I use
   - You have to be signed in already, which should be the case since the setup signs you in 
-- Sets iTerm2 preferences
-- Updates git settings
+- Sets iTerm2 profile and (some) defaults
+- Updates git config
 - Adds shortcuts I use to the dock 
 - Sets a LOT of system preferences with `defaults`
-- Installs global node modules and NVM
-- Installs oh-my-zsh and adds preferences
+- Installs global node modules and fnm
+- Installs zsh config
 
 ### What it needs
 - An automated system to grab my RSA keys from 1Password
