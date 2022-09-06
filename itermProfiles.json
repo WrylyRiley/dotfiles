@@ -52,9 +52,16 @@
       "Non-ASCII Anti Aliased": true,
       "Sync Title": false,
       "Disable Window Resizing": true,
-      "Description": "Riley's main profile",
+      "Description": "Riley's main solarized light profile",
       "Close Sessions On End": true,
-      "Jobs to Ignore": ["rlogin", "ssh", "slogin", "telnet", "zsh"],
+      "Jobs to Ignore": [
+        "rlogin",
+        "ssh",
+        "slogin",
+        "telnet",
+        "zsh",
+        "Job Name"
+      ],
       "Scrollback Lines": 100000,
       "Draw Powerline Glyphs": true,
       "Status Bar Layout": {
@@ -537,11 +544,11 @@
         "Green Component": 0.86147600412368774
       },
       "Ansi 2 Color": {
-        "Red Component": 0.56723690032958984,
+        "Red Component": 0.22352941176470589,
         "Color Space": "sRGB",
-        "Blue Component": 0.24614802002906799,
+        "Blue Component": 0.20392156862745106,
         "Alpha Component": 1,
-        "Green Component": 0.467293381690979
+        "Green Component": 0.72549019607843135
       },
       "Dynamic Profile Parent Name": "Default",
       "Send Code When Idle": false,
@@ -592,18 +599,18 @@
       "Guid": "C40F973A-0E90-4B9B-8363-6B03FCF1259D",
       "Blinking Cursor": false,
       "Ansi 8 Color": {
-        "Red Component": 0.30631864070892334,
+        "Red Component": 0.5,
         "Color Space": "sRGB",
-        "Blue Component": 0.37915268540382385,
+        "Blue Component": 0.5,
         "Alpha Component": 1,
-        "Green Component": 0.29604294896125793
+        "Green Component": 0.5
       },
       "Ansi 10 Color": {
-        "Red Component": 0.84033876657485962,
+        "Red Component": 0.26666666666666666,
         "Color Space": "sRGB",
-        "Blue Component": 0.30724328756332397,
+        "Blue Component": 0.24313725490196078,
         "Alpha Component": 1,
-        "Green Component": 0.69045394659042358
+        "Green Component": 0.85098039215686272
       },
       "Idle Code": 0,
       "Badge Color": {
@@ -617,11 +624,11 @@
       "Blur Radius": 0.10000000000000001,
       "Cursor Type": 1,
       "Ansi 0 Color": {
-        "Red Component": 0.342926025390625,
+        "Red Component": 0.40000000000000002,
         "Color Space": "sRGB",
-        "Blue Component": 0,
+        "Blue Component": 0.40000000000000002,
         "Alpha Component": 1,
-        "Green Component": 0.12811927497386932
+        "Green Component": 0.40000000000000002
       },
       "AWDS Pane Directory": "",
       "Blur": false,
@@ -629,11 +636,11 @@
       "Vertical Spacing": 1.1000000000000001,
       "Use Underline Color": true,
       "Ansi 7 Color": {
-        "Red Component": 0.68714767694473267,
+        "Red Component": 0.69999999999999996,
         "Color Space": "sRGB",
-        "Blue Component": 0.57018667459487915,
+        "Blue Component": 0.69999999999999996,
         "Alpha Component": 1,
-        "Green Component": 0.60412180423736572
+        "Green Component": 0.69999999999999996
       },
       "AWDS Tab Directory": "",
       "AWDS Pane Option": "No",
@@ -652,11 +659,11 @@
       "Blink Allowed": false,
       "Minimum Contrast": 0,
       "Ansi 15 Color": {
-        "Red Component": 0.82172626256942749,
+        "Red Component": 0.90000000000000002,
         "Color Space": "sRGB",
-        "Blue Component": 0.66371840238571167,
+        "Blue Component": 0.90000000000000002,
         "Alpha Component": 1,
-        "Green Component": 0.78160238265991211
+        "Green Component": 0.90000000000000002
       },
       "Open Toolbelt": false,
       "Tab Color": {
