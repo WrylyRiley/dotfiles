@@ -1,5 +1,5 @@
 {
-  "folders": [{ "path": "~/programming/truebill-native" }],
+  "folders": [{ "path": "./truebill-native" }],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "workbench.colorCustomizations": {
@@ -18,7 +18,8 @@
       "titleBar.activeBackground": "#571089",
       "titleBar.activeForeground": "#e7e7e7",
       "titleBar.inactiveBackground": "#57108999",
-      "titleBar.inactiveForeground": "#e7e7e799"
+      "titleBar.inactiveForeground": "#e7e7e799",
+      "commandCenter.border": "#e7e7e799"
     },
     "peacock.color": "571089"
   }

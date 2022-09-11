@@ -50,7 +50,7 @@ mkdir -p $HOME/.ssh
 inform "Would you like to restore your SSH key? Please ensure all files are in ~ (y/n)"
 read -q KEYS
 if [[ $KEYS == y ]]; then
-  inform "Adding key to ssh-agent"
+  inform "\nAdding key to ssh-agent"
   mv ~/id_ed25519 ~/.ssh/id_ed25519
   mv ~/id_ed25519.pub ~/.ssh/id_ed25519.pub
   eval "$(ssh-agent -s)"
@@ -62,19 +62,19 @@ if [[ $KEYS == y ]]; then
     IdentityFile ~/.ssh/id_ed25519" >$HOME/.ssh/config
   [[ $ARM == y ]] && ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519 || ssh-add -K $HOME/.ssh/id_ed25519
 else
-  warn "Skipping SSHkey..."
+  warn "\nSkipping SSHkey..."
 fi
 
 inform "Would you like to restore your GPG key? Please ensure all files are in ~ (y/n)"
 read -q GPG
 if [[ $GPG == y ]]; then
-  inform "Importing GPG key and Trust DB"
+  inform "\nImporting GPG key and Trust DB"
   gpg --import $HOME/secret-key-backup.asc
   gpg --import-ownertrust <$HOME/trustdb-backup.txt
   rm $HOME/secret-key-backup.asc
   rm $HOME/trustdb-backup.txt
 else
-  warn "Skipping GPG key..."
+  warn "\nSkipping GPG key..."
 fi
 
 ##################################
@@ -105,16 +105,18 @@ pip3 install fb-idb
 ##################################
 export ZSHCONFIG="$HOME/.config/zsh"
 mkdir -p $ZSHCONFIG
-cd $ZSHCONFIG
 
 inform "Installing zsh syntax highlighting"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSHCONFIG
 inform "Installing zsh autosuggestions"
-git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSHCONFIG
 inform "Installing zsh completions"
-git clone https://github.com/zsh-users/zsh-completions.git
+git clone https://github.com/zsh-users/zsh-completions.git $ZSHCONFIG
 inform "Copying static aliases"
-cp ./static_aliases.sh $ZDOTDIR
+cp ./static_aliases.zsh $ZSHCONFIG
+inform "installing your themes"
+cp ./rileyb.zsh-theme $ZSHCONFIG
+cp ./agnoster.zsh-theme $ZSHCONFIG
 
 inform "Backing up ~/.zshrc to ~/.zshrc.bak"
 cp $HOME/.zshrc $HOME/.zshrc.bak
@@ -293,7 +295,7 @@ cp ./truebill-native.code-workspace $HOME/programming
 cp ./truebill.code-workspace $HOME/programming
 
 # Sometimes Apple doesn't register the quarantine approval, and the dialog comes up every time karabiner opens it
-xattr -rd com.apple.quarantine '/Applications/Visual Studio Code.app'
+sudo xattr -rd com.apple.quarantine '/Applications/Visual Studio Code.app'
 
 #  Hide some login elements
 cp "./.hushlogin" "$HOME/.hushlogin"

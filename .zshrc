@@ -1,56 +1,59 @@
 #################################
-# Initialization and Prompt     #
-#################################
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=1000000
-SAVEHIST=1000000
-autoload -U promptinit
-setopt prompt_subst MENU_COMPLETE no_list_ambiguous autocd EXTENDED_HISTORY
-unsetopt BEEP
-zle_highlight=('paste:none')
-unset zle_bracketed_paste
-eval "$(fnm env --use-on-cd)"
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-
-git_branch() {
-  raw_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
-  if [[ ! $raw_branch == "" ]]; then echo '%F{100}<'$raw_branch'>%f'; fi
-}
-node_ver() { echo "%F{028}"$'\U2B21'"$(fnm current | sed 's/v//')%f"; }
-
-PS1='%F{130}╭─%B%n%f%F{096}@%m%f%b %F{026}(%~)%f $(node_ver) $(git_branch) %f%(?..%F{196}[%?]%f)
-%F{130}╰─'$'\U21A0''%f'
-
-#################################
 # Exports                       #
 #################################
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ZSHCONFIG="$HOME/.config/zsh"
 export EDITOR="code"
-export HOMEBREW_NO_ENV_HINTS=1
-# Keep path deduped on subshells
-typeset -aU path
-export PATH="/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/opt/homebrew/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+export HOMEBREW_NO_ENV_HINTS=true
+export NO_HELPFUL_DIRENV_MESSAGES=true
+export PATH="/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/opt/homebrew/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$HOME/.asdf/shims:$PATH"
 # Ensuring correct tty is used for gpg commit signing
 export GPG_TTY=$(tty)
+export DIRENV_LOG_FORMAT=
+
+#################################
+# Initialization and Prompt     #
+#################################
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt prompt_subst menu_complete autocd extended_history share_history hist_ignore_dups
+unsetopt BEEP
+unset zle_bracketed_paste
+zstyle ':completion:*' completer _extensions _complete _approximate
+zstyle ':completion:*' menu yes select
+
+# Themes
+source $ZSHCONFIG/rileyb.zsh-theme
+# source $ZSHCONFIG/agnoster.zsh-theme
 
 #################################
 # Plugins                       #
 #################################
-autoload -Uz compinit && compinit
-# Keyboard completion selection
-zstyle ':completion:*' menu yes select
-[ -f $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-[ -f $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -f $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh ] && source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
-[ -f $ZSHCONFIG/static_aliases.zsh ] && source $ZSHCONFIG/static_aliases.zsh
+source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
+source $ZSHCONFIG/static_aliases.zsh
 
-# asdf initialization
-# source $(brew --prefix asdf)/libexec/asdf.sh
+# asdf
+source $HOME/.asdf/asdf.sh
+
+# fzf
+# [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+# direnv
+eval "$(direnv hook zsh)"
 
 # Completions
-fpath=($ZSHCONFIG/fnm_completions $fpath)
 fpath=($ZSHCONFIG/zsh-completions/src $fpath)
+fpath=(${ASDF_DIR}/completions $fpath)
+
+# autoload -Uz compinit
+# # Only reload the compdump once per day at most
+# for dump in ~/.zcompdump(N.mh+24); do
+#   compinit
+# done
+# compinit -C
 
 #################################
 # Yarn / NPM                    #
@@ -59,33 +62,42 @@ alias y="yarn | pino-pretty"
 alias s="yarn start | pino-pretty"
 alias d="yarn debug | pino-pretty"
 alias t="yarn test | pino-pretty"
+alias b="yarn build | pino-pretty"
+alias pi=".ios; pod install"
+alias pim1=".ios; rm -rf Pods/; pod install"
+alias pix64=".ios; rm -rf Pods/; arch -x86_64 pod install"
 
 #################################
 # General development shortcuts #
 #################################
 alias prog="cd ~/programming"
+alias dotf="code ~/programming/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
 alias afk="pmset sleepnow"
-alias pihole="ssh pi@192.168.50.237"
-alias pi4="ssh pi@rpi4.local"
+alias szsh="source ~/.zshrc"
 
 # git
 alias sgpm="gsta;gcm;gl;gstp"
 pushit() { gcSm "$1" && gp; }
 pushall() { gaa && gcSm "$1" && gp; }
-gcbp() { gcb "$1" && gpsup "$1"; }
-# backwards compatibility
-mmg() { gmom; }
+gcbp() { gcb "$1" && gpsup; }
+alias mmg="gmom" # backwards compatibility
 
 #################################
 # Debug                         #
 #################################
+# Enables zsh profiler that can give some insight into long running plugin loads
+zmodload zsh/zprof
+
+# runs 10 subshells and times them to interactivity
 timezsh() {
   shell=${1-$SHELL}
   for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
 }
+
+alias swatches='for x in 0 1 4 5 7 8; do for i in {30..37}; do for a in {40..47}; do echo -ne "\033[$x;$i;$a""m\\\033[$x;$i;$a""m\033[0;37;40m "; done; echo; done; done; echo "";'
 
 #################################
 # Rocket General                #
@@ -109,10 +121,6 @@ genmig() { .web && npx sequelize-cli migration:generate --name $1; }
 alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
 alias monoreleases="convox releases -a truebill-2"
 
-# VSCode shortcuts
-alias tb=".code && code truebill"
-alias tbn=".code && code truebill-native"
-
 # Servers
 # Dev app                                       : dockerstd, api|apidev, metro, build app in xcode
 # Prod www (www.truebill.com)                   : dockerstd, api|apidev, wwwbuild, wwwserve
@@ -133,7 +141,7 @@ alias wwwdev=".www && yarn start"
 alias ip13pm=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro Max'"
 alias ip13pro=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro'"
 alias ip13mini=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 mini'"
-alias andapp=".android && yarn android && adbr"
+alias andapp=".android && yarn android"
 alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
 alias clearxcode="rm -rf ~/Library/Developer/Xcode/DerivedData"
 alias nukenative=".ios; rm -rf ../node_modules/; y; pix64;"
