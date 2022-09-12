@@ -374,3 +374,6 @@ if [[ ! -e $HOME/.hushlogin ]]; then
 else
   inform "~/.hushlogin found"
 fi
+
+for app in "Dock" "Finder" "SystemUIServer" "ControlStrip"; do killall "${app}" >/dev/null 2>&1; done
+success "Restarted affected processes"

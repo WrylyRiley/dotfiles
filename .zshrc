@@ -175,6 +175,7 @@ if [[ ! -z "$(scutil --nwi | grep utun)" ]]; then
   fi
 fi
 
+# We're on a Company laptop
 if [[ -e /Applications/Privileges.app ]]; then
   alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
   alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
