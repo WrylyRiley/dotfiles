@@ -17,7 +17,8 @@ export DIRENV_LOG_FORMAT=
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
-setopt prompt_subst menu_complete autocd extended_history share_history hist_ignore_dups
+setopt PROMPT_SUBST MENU_COMPLETE AUTOCD
+setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS INC_APPEND_HISTORY
 unsetopt BEEP
 unset zle_bracketed_paste
 zstyle ':completion:*' completer _extensions _complete _approximate
@@ -36,7 +37,7 @@ source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
 source $ZSHCONFIG/static_aliases.zsh
 
 # asdf
-source $HOME/.asdf/asdf.sh
+# source $HOME/.asdf/asdf.sh
 
 # fzf
 # [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
@@ -48,12 +49,8 @@ eval "$(direnv hook zsh)"
 fpath=($ZSHCONFIG/zsh-completions/src $fpath)
 fpath=(${ASDF_DIR}/completions $fpath)
 
-# autoload -Uz compinit
-# # Only reload the compdump once per day at most
-# for dump in ~/.zcompdump(N.mh+24); do
-#   compinit
-# done
-# compinit -C
+autoload -Uz compinit && compinit -C
+alias updatePlugins="cd $ZSHCONFIG && find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master \;"
 
 #################################
 # Yarn / NPM                    #
@@ -98,6 +95,7 @@ timezsh() {
 }
 
 alias swatches='for x in 0 1 4 5 7 8; do for i in {30..37}; do for a in {40..47}; do echo -ne "\033[$x;$i;$a""m\\\033[$x;$i;$a""m\033[0;37;40m "; done; echo; done; done; echo "";'
+alias reload='. ~/.zshrc'
 
 #################################
 # Rocket General                #
@@ -177,10 +175,12 @@ if [[ ! -z "$(scutil --nwi | grep utun)" ]]; then
   fi
 fi
 
-alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
-alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
-alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo "
-alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew "
+if [[ -e /Applications/Privileges.app ]]; then
+  alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
+  alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
+  alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo"
+  alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew"
+fi
 
 #################################
 # Rocket Tokens                 #

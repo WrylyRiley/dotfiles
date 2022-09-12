@@ -15,7 +15,7 @@
 - Updates git config
 - Adds shortcuts I use to the dock 
 - Sets a LOT of system preferences with `defaults`
-- Installs global node modules and fnm
+- Installs global node modules and asdf
 - Installs zsh config
 
 ### What it needs
