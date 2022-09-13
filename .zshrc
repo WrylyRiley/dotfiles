@@ -24,6 +24,13 @@ unset zle_bracketed_paste
 zstyle ':completion:*' completer _extensions _complete _approximate
 zstyle ':completion:*' menu yes select
 
+# Allows for using arrow keys to move through history that matches current input. e.g. `gco ^[[A` will match all git checkouts
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
+
 # Themes
 source $ZSHCONFIG/rileyb.zsh-theme
 # source $ZSHCONFIG/agnoster.zsh-theme
