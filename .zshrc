@@ -15,12 +15,13 @@ export DIRENV_LOG_FORMAT=
 # Initialization and Prompt     #
 #################################
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt PROMPT_SUBST MENU_COMPLETE AUTOCD
 setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS INC_APPEND_HISTORY
 unsetopt BEEP
 unset zle_bracketed_paste
+_comp_options+=(globdots)
 zstyle ':completion:*' completer _extensions _complete _approximate
 zstyle ':completion:*' menu yes select
 
@@ -41,13 +42,17 @@ source $ZSHCONFIG/rileyb.zsh-theme
 source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
+source $ZSHCONFIG/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $ZSHCONFIG/static_aliases.zsh
 
-# asdf
-# source $HOME/.asdf/asdf.sh
-
-# fzf
-# [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+# Bind up and down to zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+# only match beginning of command instead of anywhere int he string
+HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+# Remove coloring for matches
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=
 
 # direnv
 eval "$(direnv hook zsh)"
