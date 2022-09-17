@@ -1,10 +1,9 @@
 #!/bin/zsh
 ARM=false
-DARWIN=false
 
 if [[ -e /Applications/Privileges.app ]]; then
-  alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo"
-  alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew"
+  alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add &> /dev/null && sudo"
+  alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add &> /dev/null && brew"
 fi
 
 ##################################
@@ -15,7 +14,6 @@ error() { printf "\x1b[1;31m❌ $1\x1b[0m\n"; }
 inform() { printf "\x1b[1;34m💡 $1\x1b[0m\n"; }
 success() { printf "\x1b[1;32m✅ $1\x1b[0m\n"; }
 [[ $(arch) == 'arm64' ]] && ARM=true
-[[ $(uname) == 'Darwin' ]] && DARWIN=true
 
 ##################################
 # XCode terminal tools           #
@@ -48,7 +46,7 @@ if ! command -v 'brew' &>/dev/null; then
   [[ $ARM == true ]] && PATH="/opt/homebrew/bin/brew:$PATH" || BREW_PATH="/usr/local/bin/brew:$PATH"
   success "Added homebrew to PATH"
 else
-  success "Homebrew found in path"
+  inform "Homebrew found in path"
 fi
 
 # Install 1password first so we can log into the mac app store
@@ -58,21 +56,25 @@ inform "Ensuring 1Password is installed. Use this opportunity to get your SSH an
 # Install the rest of the brew applications
 inform "Running brew installations"
 brew tap homebrew/cask
+success "tapped homebrew/cask"
 brew tap homebrew/cask-fonts
+success "tapped homebrew/cask-fonts"
 brew tap homebrew/cask-versions
+success "tapped homebrew/cask-versions"
 brew tap homebrew/cask-drivers
+success "tapped homebrew/cask-drivers"
 
 brew install --quiet \
   asdf cloudflared convox direnv duti fzf gnupg grepcidr \
   jenv mas p7zip python3 shfmt tldr thefuck watchman wget xcv
+success "installed formulae"
 
 HOMEBREW_NO_AUTO_UPDATE=1 brew install --quiet --cask \
   android-studio beekeeper-studio docker firefox-developer-edition \
   flipper flux font-fira-code font-jetbrains-mono gimp insomnia iterm2 \
   karabiner-elements logitech-camera-settings meetingbar slack spotify \
   telegram-desktop visual-studio-code vivaldi zoom
-
-success "Finished brew installations"
+success "installed casks"
 
 ##################################
 # Mac App Store                  #
@@ -91,7 +93,7 @@ fi
 # SSH agent, SSH key             #
 ##################################
 mkdir -p $HOME/.ssh
-if [[ ! -e ~/.ssh/id_ed25519 ]] && [[ ! -e ~/.ssh/id_ed25519.pub ]] && [[ -e ~/id_ed25519 ]] && [[ -e ~/id_ed25519.pub ]]; then
+if [[ -e ~/id_ed25519 ]] && [[ -e ~/id_ed25519.pub ]]; then
   mv ~/id_ed25519 ~/.ssh/
   mv ~/id_ed25519.pub ~/.ssh/
   eval "$(ssh-agent -s)"
@@ -104,7 +106,7 @@ if [[ ! -e ~/.ssh/id_ed25519 ]] && [[ ! -e ~/.ssh/id_ed25519.pub ]] && [[ -e ~/i
   [[ $ARM == true ]] && ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519 || ssh-add -K $HOME/.ssh/id_ed25519
   success "Added key to ssh-agent"
 else
-  inform "SSH keys found. Skipping..."
+  inform "SSH keys not found in $HOME. Skipping..."
 fi
 ##################################
 # GPG key                        #
@@ -116,7 +118,7 @@ if [[ $(gpg --list-secret-keys --keyid-format=long | grep 392632) ]] && [[ -e ~/
   rm $HOME/trustdb-backup.txt
   success "Imported found GPG key and Trust DB"
 else
-  inform "GPG key not found. Skipping..."
+  inform "GPG key not found in $HOME. Skipping..."
 fi
 
 ##################################
@@ -155,29 +157,33 @@ fi
 ##################################
 export ZSHCONFIG="$HOME/.config/zsh"
 mkdir -p $ZSHCONFIG
-if [[ ! -d $ZSHCONFIG/zsh-syntax-highlighting ]]; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSHCONFIG
+dir=$ZSHCONFIG/zsh-syntax-highlighting
+if [[ ! -d $dir ]]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $dir
   success "Installed zsh syntax highlighting"
 else
   inform "zsh syntax highlighting already installed. Run updatePlugins to pull changes"
 fi
 
-if [[ ! -d $ZSHCONFIG/zsh-autosuggestions ]]; then
-  git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSHCONFIG
+dir=$ZSHCONFIG/zsh-autosuggestions
+if [[ ! -d $dir ]]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions.git $dir
   success "Installed zsh autosuggestions"
 else
   inform "zsh autosuggestions already installed. Run updatePlugins to pull changes"
 fi
 
-if [[ ! -d $ZSHCONFIG/zsh-completions ]]; then
-  git clone https://github.com/zsh-users/zsh-completions.git $ZSHCONFIG
+dir=$ZSHCONFIG/zsh-completions
+if [[ ! -d $dir ]]; then
+  git clone https://github.com/zsh-users/zsh-completions.git $dir
   success "Installed zsh completions"
 else
   inform "zsh completions already installed. Run updatePlugins to pull changes"
 fi
 
-if [[ ! -d $ZSHCONFIG/zsh-history-substring-search ]]; then
-  git clone https://github.com/zsh-users/zsh-history-substring-search.git $ZSHCONFIG
+dir=$ZSHCONFIG/zsh-history-substring-search
+if [[ ! -d $dir ]]; then
+  git clone https://github.com/zsh-users/zsh-history-substring-search.git $dir
   success "Installed zsh history substring search"
 else
   inform "zsh history string subsearch already installed. Run updatePlugins to pull changes"
@@ -222,13 +228,25 @@ if ! $(command -v 'dockutil' &>/dev/null); then
   sudo installer -pkg ~/Downloads/dockutil-3.0.2.pkg -target /
   success "Installed dockutil pkg"
 fi
-dockutil --remove all
 for app in "${dockApps[@]}"; do
-  [[ -d "/Applications/${app}.app" ]] && dockutil --add "/Applications/${app}.app"
+  [[ -d "/Applications/${app}.app" ]] && dockutil --add "/Applications/${app}.app" --no-restart --replacing "${app}" &>/dev/null
 done
-dockutil --add '~/Downloads' --view list --display folder
-dockutil --add '~/programming' --view list --display folder
+dockutil --add '~/Downloads' --view list --display folder --replacing "Downloads" &>/dev/null
+dockutil --add '~/programming' --view list --display folder --replacing "programming" &>/dev/null
 success "Set dock shortcuts"
+
+for app in "${dockApps[@]}"; do
+  appDir="/Applications/${app}.app"
+  if [[ -e $appDir ]]; then
+    quarantine=$(xattr "${appDir}" | grep com.apple.quarantine)
+    if [[ $quarantine = "com.apple.quarantine" ]]; then
+      sudo xattr -rd com.apple.quarantine "${appDir}"
+      success "${app} successfully unquarantined"
+    else
+      inform "${app} is already unquarantined"
+    fi
+  fi
+done
 
 dockSettings=("autohide -int 1" "autohide-time-modifier -float 0.5"
   "autohide-delay -float 0" "magnification -int 0" "mineffect -string scale"
@@ -317,12 +335,14 @@ success "Enabled app store auto-updates"
 defaults write com.microsoft.VSCode CGFontRenderingFontSmoothingDisabled -int 0
 success "Enabled subpixel antialiasing in VSCode"
 
-if [[ ! -d $HOME/Screen\ Shots ]]; then
+screenshotDir=$(defaults read com.apple.screencapture location | grep "Screen Shots")
+if [[ ! screenshotDir = "" ]]; then
+  inform "Screenshot directory arleady set to ${screenshotDir}"
+else
   mkdir -p $HOME/Screen\ Shots
+  defaults write com.apple.screencapture location $HOME/Screen\ Shots
+  success "Set screnshot directory to ~/Screen Shots"
 fi
-
-defaults write com.apple.screencapture location $HOME/Screen\ Shots
-success "Set screnshot directory to ~/Screenshots"
 
 if [[ ! -e $HOME/programming ]]; then
   mkdir -p $HOME/programming
@@ -335,9 +355,8 @@ defaults write $HOME/Library/Preferences/com.apple.controlstrip MiniCustomized '
 defaults write $HOME/Library/Preferences/com.apple.controlstrip FullCustomized '(com.apple.system.airplay, com.apple.system.group.keyboard-brightness, com.apple.system.group.brightness, com.apple.system.group.media, com.apple.system.group.volume, com.apple.system.sleep )'
 inform "Set touchbar preferences"
 
-inform "Setting file associations for VSCode"
 vscodeExt=(".sh" ".css" ".js" ".jsx" ".ts" ".tsx" ".xml" ".yaml" ".json" ".md" ".py" ".txt")
-for action in $vscodeExt; do
+for action in ${vscodeExt[@]}; do
   $(duti -s com.microsoft.VSCode $action all &>/dev/null &)
 done
 success "Set file associations for VSCode"
@@ -347,6 +366,8 @@ mkdir -p $karabiner
 if [[ ! -e $karabiner/karabiner.json ]]; then
   cp ./karabiner.json $HOME/.config/karabiner
   success "Configured Karabiner Elements"
+else
+  inform "Karabiner config found"
 fi
 
 # Native Messaging needs to be enabled to allow 1Password to find Vivaldi
@@ -371,9 +392,6 @@ if [[ ! -e $HOME/programming/truebill.code-workspace ]]; then
 else
   inform "Found truebill workspace file to ~/programming"
 fi
-
-sudo xattr -rd com.apple.quarantine '/Applications/Visual Studio Code.app'
-success "Unquarantined VSCode via Karabiner"
 
 if [[ ! -e $HOME/.hushlogin ]]; then
   cp "./.hushlogin" "$HOME/.hushlogin"

@@ -18,7 +18,7 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt PROMPT_SUBST MENU_COMPLETE AUTOCD
-setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 unsetopt BEEP
 unset zle_bracketed_paste
 _comp_options+=(globdots)
@@ -50,6 +50,8 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 # only match beginning of command instead of anywhere int he string
 HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+# Ensure no duplicates
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 # Remove coloring for matches
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=
@@ -191,8 +193,8 @@ fi
 if [[ -e /Applications/Privileges.app ]]; then
   alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
   alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
-  alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && sudo"
-  alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add && brew"
+  alias sudo="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add  &> /dev/null && sudo"
+  alias brew="/Applications/Privileges.app/Contents/Resources/PrivilegesCLI --add  &> /dev/null && brew"
 fi
 
 #################################
