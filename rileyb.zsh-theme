@@ -22,4 +22,4 @@ git_branch() {
 PS1='${NAME}${HOSTNAME} $CURRENT_TIME $CURRENT_PATH $(node_ver) $(git_branch) $ERR_STATE
 $PROMPT_BOTTOM'
 
-PS2=PROMPT_BOTTOM="%F{130}─$ARROW%f"
+PS2="%F{130}─$ARROW%f"

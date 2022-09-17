@@ -176,6 +176,13 @@ else
   inform "zsh completions already installed. Run updatePlugins to pull changes"
 fi
 
+if [[ ! -d $ZSHCONFIG/zsh-history-substring-search ]]; then
+  git clone https://github.com/zsh-users/zsh-history-substring-search.git $ZSHCONFIG
+  success "Installed zsh history substring search"
+else
+  inform "zsh history string subsearch already installed. Run updatePlugins to pull changes"
+fi
+
 if [[ ! -e $ZSHCONFIG/static_aliases.zsh ]]; then
   cp ./static_aliases.zsh $ZSHCONFIG
   success "Copied static aliases"
@@ -193,8 +200,8 @@ if [[ ! -e $ZSHCONFIG/agnoster.zsh-theme ]]; then
   success "installed agnoster theme"
 fi
 
-cp $HOME/.zshrc $HOME/.zshrc.bak
-success "Backed up ~/.zshrc to ~/.zshrc.bak"
+cp $HOME/.zshrc "$ZSHCONFIG/.zshrc_$(date "+ %a_%b_%Y_%e_%H:%M:%S")"
+success "Backed up ~/.zshrc to ~/.config/.zsh/.zshrc[DATE]"
 cp ./.zshrc $HOME/.zshrc
 success "Copied new .zshrc config"
 
