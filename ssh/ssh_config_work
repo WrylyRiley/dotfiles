@@ -1,0 +1,16 @@
+Host personal
+  HostName github.com
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  IdentityFile ~/.ssh/id_25519
+  IdentitiesOnly yes
+
+Host rocketmoney
+  HostName github.com
+  IdentityFile ~/.ssh/rocketmoney_id_25519
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/rocketmoney_id_25519
+  IdentitiesOnly yes

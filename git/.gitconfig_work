@@ -1,0 +1,28 @@
+[user]
+name = Riley Bauer
+email = riley@rocketmoney.com
+signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBh+d5AsyaVthqrJ8H51OYKUJUWC18Bd54UXGjJWuCt
+
+[commit]
+gpgsign = true
+
+[gpg]
+format = ssh
+
+[gpg "ssh"]
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[github]
+user = wrylyriley
+
+[core]
+editor = code --wait
+
+[pull]
+rebase = false
+
+[color]
+ui = true
+
+[init]
+defaultBranch = main

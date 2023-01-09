@@ -1,5 +1,5 @@
 {
-  "folders": [{ "path": "./truebill" }],
+  "folders": [{ "path": "./rocketmoney" }],
   "settings": {
     "typescript.tsdk": "node_modules/typescript/lib",
     "workbench.colorCustomizations": {

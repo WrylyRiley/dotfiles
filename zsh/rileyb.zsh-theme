@@ -2,6 +2,8 @@ autoload -Uz promptinit
 HEXAGON=$'\u2b21'
 ARROW=$'\u21a0'
 
+export TZ=America/New_York
+
 NAME="%F{130}╭─%B%n%f%b"
 HOSTNAME="%B%F{096}@%m%f%b"
 CURRENT_TIME="%F{026}%*%f"

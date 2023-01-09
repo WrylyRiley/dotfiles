@@ -1,0 +1,41 @@
+{
+  "folders": [{ "path": "./dotfiles" }],
+  "settings": {
+    "peacock.color": "F6AE2D",
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#f8c15e",
+      "activityBar.background": "#f8c15e",
+      "statusBar.background": "#f6ae2d",
+      "statusBarItem.hoverBackground": "#e6970a",
+      "statusBarItem.remoteBackground": "#f6ae2d",
+      "statusBar.debuggingBackground": "#2d75f6",
+      "panel.border": "#f8c15e",
+      "statusBar.border": "#f6ae2d",
+      "statusBar.debuggingBorder": "#2d75f6",
+      "sideBar.border": "#f8c15e",
+      "titleBar.activeBackground": "#f6ae2d",
+      "titleBar.border": "#f6ae2d",
+      "titleBar.inactiveBackground": "#f6ae2d99",
+      "tab.activeBorder": "#f8c15e",
+      "activityBarBadge.background": "#079965",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "commandCenter.border": "#15202b99",
+      "statusBar.debuggingForeground": "#e7e7e7",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.affectTitleBar": true,
+    "peacock.affectDebuggingStatusBar": true,
+    "peacock.affectPanelBorder": true,
+    "peacock.affectStatusAndTitleBorders": true,
+    "peacock.affectSideBarBorder": true,
+    "peacock.affectTabActiveBorder": true,
+    "peacock.keepBadgeColor": false,
+    "peacock.keepForegroundColor": false,
+    "peacock.squigglyBeGone": false
+  }
+}

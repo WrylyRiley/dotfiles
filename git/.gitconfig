@@ -1,10 +1,16 @@
 [user]
 name = Riley Bauer
 email = wryr1ley@gmail.com
-signingkey = A6BB291B87392632
+signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINmRtrzArWn1Zn5H/Iw08SAMe/mtyDQY1QFSND/zgiq6
 
 [commit]
 gpgsign = true
+
+[gpg]
+format = ssh
+
+[gpg "ssh"]
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [github]
 user = wrylyriley

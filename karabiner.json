@@ -104,7 +104,7 @@
           },
           "to": [
             {
-              "shell_command": "open -a 'Visual Studio Code.app' ~/programming/truebill-native.code-workspace"
+              "shell_command": "open -a 'Visual Studio Code.app' ~/programming/rocketmoney-mobile.code-workspace"
             }
           ]
         },
@@ -114,7 +114,7 @@
           },
           "to": [
             {
-              "shell_command": "open -a 'Visual Studio Code.app' ~/programming/truebill.code-workspace"
+              "shell_command": "open -a 'Visual Studio Code.app' ~/programming/rocketmoney.code-workspace"
             }
           ]
         },
