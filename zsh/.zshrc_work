@@ -5,32 +5,34 @@
 # #0059D2,#F0F0F0,#1C7AF9,#FFFFFF,#0C356C,#FAFAFA,#00B568,#FB5738,#0C356C,#FFFFFF
 
 # Directories
-alias .ios="cd ~/programming/truebill-native/ios"
-alias .android="cd ~/programming/truebill-native/android"
-alias .web="cd ~/programming/truebill/packages/web"
-alias .legacyweb="cd ~/programming/truebill/packages/web-client"
-alias .webclient="cd ~/programming/truebill/web-client"
-alias .www="cd ~/programming/truebill/www"
-alias .ops="cd ~/programming/truebill/scripts/ops"
+alias .ios="cd ~/programming/rocketmoney-mobile/ios"
+alias .android="cd ~/programming/rocketmoney-mobile/android"
+alias .web="cd ~/programming/rocketmoney/packages/web"
+alias .legacyweb="cd ~/programming/rocketmoney/packages/web-client"
+alias .webclient="cd ~/programming/rocketmoney/web-client"
+alias .www="cd ~/programming/rocketmoney/www"
+alias .ops="cd ~/programming/rocketmoney/scripts/ops"
+alias .ssoproxy="cd ~/programming/local-sso-api-gateway"
 
 # iOS package management
-alias pi=".ios; pod install"
-alias pim1=".ios; rm -rf Pods/; pod install"
-alias pix64=".ios; rm -rf Pods/; arch -x86_64 pod install"
+alias pi=".ios && pod install"
+alias pim1=".ios && rm -rf Pods/ && pod install"
+alias pix64=".ios && rm -rf Pods/ && arch -x86_64 pod install"
 
 # Database management
-alias sdm='yarn sequelize db:migrate'
-alias tdm='yarn migrate:transactions up'
+alias sdm='.web && yarn sequelize db:migrate && api'
+alias tdm='.web && yarn migrate:transactions up && api'
 genmig() { .web && npx sequelize-cli migration:generate --name $1; }
 alias flushredis="docker exec -it truebill-web-redis redis-cli FLUSHALL"
 alias monoreleases="convox releases -a truebill-2"
 
 # Servers
 # Dev app                                       : dockerstd, api|apidev, metro, build app in xcode
-# Prod www (www.truebill.com)                   : dockerstd, api|apidev, wwwbuild, wwwserve
-# Dev www (www.truebill.com)                    : dockerstd, api|apidev, wwwdev
-# Dev legacy web-client (app.truebill.com)      : dockerstd, api|apidev, wwwdev, webapi, legacyweb
-# Dev web-client (app.truebill.com)             : dockerstd, api|apidev, webclient
+# Prod www (www.rocketmoney.com)                   : dockerstd, api|apidev, wwwbuild, wwwserve
+# Dev www (www.rocketmoney.com)                    : dockerstd, api|apidev, wwwdev
+# Dev legacy web-client (app.rocketmoney.com)      : dockerstd, api|apidev, wwwdev, webapi, legacyweb
+# Dev web-client (app.rocketmoney.com)             : dockerstd, api|apidev, webclient
+# Dev web-client with SSO (app.rocketmoney.com)    : dockerstd, api|apidev, webclient
 alias dockeres=".web && yarn run docker:es"
 alias dockerstd=".web && yarn run docker"
 alias indexes=".web && yarn run indexInstitutionsToElasticsearch"
@@ -38,23 +40,34 @@ alias api='.web && yarn dev'
 alias metro=".ios && yarn start"
 alias legacyweb=".legacyweb && yarn dev"
 alias webclient=".webclient && yarn dev"
+alias webclientsso=".webclient && \
+NEXT_PUBLIC_API_HOST=http://localhost:3003 \
+NEXT_PUBLIC_SECURE_API_HOST=http://localhost:3003 \
+NEXT_PUBLIC_ROCKET_ACCOUNT_URL=http://localhost:3004 \
+NEXT_PUBLIC_ROCKET_ACCOUNT_API_URL=http://localhost:3004 \
+yarn dev"
+alias ssoproxy=".ssoproxy && yarn start"
 alias webapi=".web && yarn start:web"
 alias wwwbuild=".www && yarn clean && yarn build"
 alias wwwstart=".www && yarn serve"
 alias wwwdev=".www && yarn start"
-alias ip13pm=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro Max'"
-alias ip13pro=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 Pro'"
-alias ip13mini=".ios; ..; arch -x86_64 npx react-native run-ios --simulator='iPhone 13 mini'"
+alias ip14pm=".ios && .. && arch -x86_64 npx react-native run-ios --simulator='iPhone 14 Pro Max'"
+alias ip14pro=".ios && .. && arch -x86_64 npx react-native run-ios --simulator='iPhone 14 Pro'"
+alias ipse=".ios && .. && arch -x86_64 npx react-native run-ios --simulator='iPhone SE (3rd generation)'"
 alias andapp=".android && yarn android"
+alias andappact=".android && yarn android --active-arch-only"
 alias syncexp=".web && yarn syncCohortsAndExperiments ~/Downloads/experimentConfig.json"
 alias clearxcode="rm -rf ~/Library/Developer/Xcode/DerivedData"
-alias nukenative=".ios; rm -rf ../node_modules/; y; pix64;"
-alias watchdel="watchman watch-del '/Users/RBauer1/programming/truebill-native' ; watchman watch-project '/Users/RBauer1/programming/truebill-native'"
+alias watchdel="watchman watch-del '/Users/RBauer1/programming/rocketmoney-mobile'  && watchman watch-project '/Users/RBauer1/programming/rocketmoney-mobile'"
+alias nukenative="clearxcode && watchdel && .ios && rm -rf ../node_modules/ && yarn && pod install;"
 
 # Android
 alias adbr="adb reverse tcp:8081 tcp:8081"
 alias adbrapi="adb reverse tcp:3000 tcp:3000"
 alias shake="adb shell input keyevent 82"
+
+# Misc
+alias schema=".web && yarn update-schema && .ios && yarn graphql"
 
 #################################
 # Rocket Environment            #
@@ -81,7 +94,7 @@ if [[ ! -z "$(scutil --nwi | grep utun)" ]]; then
   fi
 fi
 
-# We're on a Company laptop
+# We're on a Rocket laptop
 if [[ -e /Applications/Privileges.app ]]; then
   alias vpnoff="open 'jamfselfservice://content?id=13546&action=execute&entity=policy'"
   alias vpnon="open 'jamfselfservice://content?id=13548&action=execute&entity=policy'"
@@ -92,3 +105,5 @@ fi
 #################################
 # Rocket Tokens                 #
 #################################
+
+export APPCENTER_ACCESS_TOKEN=
