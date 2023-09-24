@@ -1,0 +1,18 @@
+[user]
+name = Riley Bauer
+email = wryr1ley@gmail.com
+
+[github]
+user = wrylyriley
+
+[core]
+editor = code --wait
+
+[pull]
+rebase = false
+
+[color]
+ui = true
+
+[init]
+defaultBranch = main

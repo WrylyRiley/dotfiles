@@ -1,0 +1,21 @@
+##################################
+# mac-specific tooling           #
+##################################
+source $HOME/.config/op/plugins.sh
+# direnv
+eval "$(direnv hook zsh)"
+
+# asdf java (much more performant than jenv)
+. ~/.asdf/plugins/java/set-java-home.zsh
+
+# Completions
+fpath=(${ASDF_DIR}/completions $fpath)
+
+alias afk="pmset sleepnow"
+
+export HOMEBREW_NO_ENV_HINTS=true
+export NO_HELPFUL_DIRENV_MESSAGES=true
+export PATH="usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/opt/homebrew/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$HOME/.asdf/shims:/opt/homebrew/opt/ccache/libexec:$PATH"
+# Ensuring correct tty is used for gpg commit signing
+export GPG_TTY=$(tty)
+export DIRENV_LOG_FORMAT=

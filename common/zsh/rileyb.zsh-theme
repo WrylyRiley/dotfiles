@@ -12,7 +12,13 @@ ERR_STATE="%f%(?..%F{196}[%?]%f)"
 PROMPT_BOTTOM="%F{130}╰─$ARROW%f"
 
 node_ver() {
-  raw_node_ver=$(asdf current nodejs | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+  if command -v asdf &>/dev/null; then
+    raw_node_ver=$(asdf current nodejs | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+  elif command -v nvm &>/dev/null; then
+    raw_node_ver=$(nvm current)
+  elif command -v node &>/dev/null; then
+    raw_node_ver=$(node -v)
+  fi
   if [[ ! $raw_node_ver == "" ]]; then echo "%F{028}${HEXAGON}${raw_node_ver}%f"; fi
 }
 

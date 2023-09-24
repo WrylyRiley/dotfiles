@@ -19,12 +19,6 @@ alias reload='. ~/.zshrc'
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export ZSHCONFIG="$HOME/.config/zsh"
 export EDITOR="code"
-export HOMEBREW_NO_ENV_HINTS=true
-export NO_HELPFUL_DIRENV_MESSAGES=true
-export PATH="usr/local/bin:/Applications/Visual\ Studio\ Code.app/Contents/Re.s/app/bin:/opt/homebrew/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$HOME/.asdf/shims:/opt/homebrew/opt/ccache/libexec:$PATH"
-# Ensuring correct tty is used for gpg commit signing
-export GPG_TTY=$(tty)
-export DIRENV_LOG_FORMAT=
 
 #################################
 # Initialization and Prompt     #
@@ -47,7 +41,6 @@ source $ZSHCONFIG/rileyb.zsh-theme
 #################################
 # Plugins                       #
 #################################
-source /Users/RBauer1/.config/op/plugins.sh
 source $ZSHCONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSHCONFIG/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSHCONFIG/zsh-completions/zsh-completions.plugin.zsh
@@ -65,15 +58,8 @@ HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=
 
-# direnv
-eval "$(direnv hook zsh)"
-
-# asdf java (much more performant than jenv)
-. ~/.asdf/plugins/java/set-java-home.zsh
-
 # Completions
 fpath=($ZSHCONFIG/zsh-completions/src $fpath)
-fpath=(${ASDF_DIR}/completions $fpath)
 
 autoload -Uz compinit && compinit -C
 alias updatePlugins="cd $ZSHCONFIG && find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master \;"
@@ -95,11 +81,10 @@ alias dotf="code ~/programming/dotfiles"
 alias zshrc="code ~/.zshrc"
 alias ll="ls -lhaG"
 alias c="clear"
-alias afk="pmset sleepnow"
 
 # git
 alias sgpm="gsta;gcm;gl;gstp"
 pushit() { gcSm "$1" && gp; }
-pushall() { gaa && gcSm "$1" && gp; }
+pushall() { gaa && gcmsg "$1" && gp; }
 gcbp() { gcb "$1" && gpsup; }
-comall() { gaa && gcSm "$1"; }
+comall() { gaa && gcmsg "$1"; }
